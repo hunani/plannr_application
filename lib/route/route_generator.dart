@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:plannr_app/main_screen.dart';
 import 'package:plannr_app/ui/screen/categories/categories_screen.dart';
 import 'package:plannr_app/ui/screen/events/events_screen.dart';
 import 'package:plannr_app/ui/screen/forget/forgot_verification.dart';
@@ -35,6 +36,7 @@ import '../ui/screen/sign_up/signup_screen.dart';
 import '../ui/screen/splash/splash_screen.dart';
 
 final List<GetPage<dynamic>> routes = [
+  GetPage(name: MainScreen.routeName, page: () => const MainScreen()),
   GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
   GetPage(name: SignUpScreen.routeName, page: () => const SignUpScreen()),
   GetPage(name: LoginScreen.routeName, page: () => const LoginScreen()),

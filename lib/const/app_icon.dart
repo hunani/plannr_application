@@ -11,6 +11,7 @@ class AppAssets {
   static const String doneImage = "assets/image/done.png";
   static const String appNameImage = "assets/image/logo.png";
   static const String orImage = "assets/image/or.png";
+  static const String home1 = "assets/image/home_b.png";
 
   /// Dashboad Screen
   static const String homeImage = "assets/icon/home.png";
@@ -51,7 +52,7 @@ class AppAssets {
 
   /// Preview Screen
   static const String peparImage = "assets/icon/pepar.png";
-  static const String calanderImage = "assets/icon/calander.png";
+  static const String calanderImage = "assets/icon/clendar3.png";
   static const String capImage = "assets/icon/cap.png";
   static const String moreImage = "assets/icon/more.png";
   static const String circalImage = "assets/icon/circal.png";

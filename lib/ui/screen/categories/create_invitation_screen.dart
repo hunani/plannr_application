@@ -145,9 +145,11 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                       child: Container(
                         height: 400,
                         width: double.infinity,
-                        color: Colors.transparent,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(10)),
                         child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(10),
                             child: Image.asset(AppAssets.happy4,
                                 fit: BoxFit.cover)),
                       ),
