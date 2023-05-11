@@ -97,7 +97,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                       children: [
                         Container(
                           width: 160,
-                          height: 150,
+                          height: 160,
                           decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
@@ -154,7 +154,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                         ),
                         SizedBox(width: 15),
                         Container(
-                          height: 150,
+                          height: 160,
                           width: 160,
                           decoration: BoxDecoration(
                               color: Colors.white,

@@ -122,7 +122,7 @@ class CategoriesScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Divider(thickness: 1.5),
+                            Divider(thickness: 1, color: Colors.black38),
                           ],
                         )),
                 SizedBox(height: 35),

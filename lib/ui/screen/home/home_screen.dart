@@ -80,6 +80,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+                  Image.asset(AppAssets.homeImage4),
+                  SizedBox(height: 25),
                   CarouselWithIndicator(),
                   SizedBox(height: 20),
                   Row(
@@ -223,8 +225,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 35),
-                  Image.asset(AppAssets.homeImage4),
                   SizedBox(height: 25),
                   Row(
                     children: [

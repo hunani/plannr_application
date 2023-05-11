@@ -73,7 +73,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 index: selectIndex,
                 children: [
                   Upcoming(),
-                  Upcoming(),
+                  Past(),
                 ],
               ),
             ),
@@ -123,8 +123,8 @@ class Upcoming extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(AppAssets.eventsImage1,
-                              fit: BoxFit.cover),
+                          child:
+                              Image.asset(AppAssets.happy2, fit: BoxFit.cover),
                         ),
                       ),
                       SizedBox(width: 20),
@@ -149,6 +149,86 @@ class Upcoming extends StatelessWidget {
                           SizedBox(height: 10),
                           Text(
                             "Hosted By : heather",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Past extends StatelessWidget {
+  const Past({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            ...List.generate(
+              2,
+              (index) => GestureDetector(
+                onTap: () {
+                  Get.toNamed(EventOverviewScreen.routeName);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset("assets/image/events3.png",
+                              fit: BoxFit.cover),
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Wedding",
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "6 April 2023     8:00Pm",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Hosted By : DR. Bruse",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,

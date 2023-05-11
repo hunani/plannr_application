@@ -16,9 +16,9 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   CarouselController carouselController = CarouselController();
 
   List<String> imgList = [
-    "assets/image/home1.png",
-    "assets/image/home1.png",
-    "assets/image/home1.png",
+    "assets/image/home_b.png",
+    "assets/image/home_b.png",
+    "assets/image/home_b.png",
   ];
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,11 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             _current = index;
           });
         },
-        viewportFraction: 1,
+        viewportFraction: 0.9,
         initialPage: 1,
         autoPlay: true,
+        clipBehavior: Clip.none,
+        enableInfiniteScroll: true,
       ),
     );
   }

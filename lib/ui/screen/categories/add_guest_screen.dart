@@ -14,6 +14,17 @@ class AddGuestScreen extends StatefulWidget {
 
 class _AddGuestScreenState extends State<AddGuestScreen> {
   int select = 0;
+  List<String> list2 = [];
+  List<String> list = [
+    "Addai",
+    "Boampong",
+    "Akua",
+    "Amponsah",
+    "Boampong1",
+    "Bisa K Dei",
+    "Akua1",
+    "Amponsah1",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,14 +129,18 @@ class _AddGuestScreenState extends State<AddGuestScreen> {
                     ),
                     SizedBox(height: 30),
                     ...List.generate(
-                      10,
+                      list.length,
                       (index) => Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Row(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                select = index;
+                                if (list2.contains(list[index])) {
+                                  list2.remove(list[index]);
+                                } else {
+                                  list2.add(list[index]);
+                                }
                                 setState(() {});
                               },
                               child: Container(
@@ -133,15 +148,15 @@ class _AddGuestScreenState extends State<AddGuestScreen> {
                                 width: 32,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: select == index
+                                  color: list2.contains(list[index])
                                       ? AppColor.kIndigo
                                       : Colors.white,
                                   border: Border.all(
-                                      color: select == index
+                                      color: list2.contains(list[index])
                                           ? AppColor.kIndigo
                                           : Colors.black),
                                 ),
-                                child: select == index
+                                child: list2.contains(list[index])
                                     ? Center(
                                         child: Icon(Icons.done,
                                             color: Colors.white))
@@ -165,7 +180,7 @@ class _AddGuestScreenState extends State<AddGuestScreen> {
                             ),
                             SizedBox(width: 30),
                             Text(
-                              "Addai",
+                              list[index],
                               style: TextStyle(
                                   fontWeight: FontWeight.w400, fontSize: 18),
                             ),
