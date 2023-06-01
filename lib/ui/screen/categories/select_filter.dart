@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../../const/app_color.dart';
 import '../../../const/app_icon.dart';
+import 'controller/cart_controller.dart';
 import 'create_invitation_screen.dart';
 
 class SelectFilter extends StatefulWidget {
@@ -17,185 +18,212 @@ class SelectFilter extends StatefulWidget {
 
 class _SelectFilterState extends State<SelectFilter> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  CartController cartController = Get.find<CartController>();
+  @override
+  void initState() {
+    cartController.fitter(
+      cartController.fillIndex.toString(),
+      cartController.id.toString(),
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: drawer(),
+      //drawer: drawer(),
       backgroundColor: AppColor.kScreenColor,
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              Center(
-                child: Container(
-                    height: 100,
-                    width: 200,
-                    color: Colors.transparent,
-                    child: Center(
-                        child: Image.asset(
-                      AppAssets.appNameImage,
-                      fit: BoxFit.cover,
-                    ))),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.4), blurRadius: 4),
-                    ]),
-                child: TextFormField(
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                  textAlignVertical: TextAlignVertical.center,
-                  validator: (val) =>
-                      val!.trim().isEmpty ? "field required" : null,
-                  decoration: InputDecoration(
-                      errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColor.kIndigo)),
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: AppColor.kIndigo)),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: AppColor.kIndigo),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintStyle: TextStyle(color: Colors.black38),
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.only(top: 20, left: 15),
-                      hintText: "Enter your city",
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Image.asset(
-                          AppAssets.searchImage,
-                          height: 20,
-                        ),
-                      )),
-                ),
-              ),
-              SizedBox(height: 20),
-              Row(
+      body: GetBuilder(
+        builder: (CartController controller) {
+          // if (controller.isLoading) {
+          //   return Center(child: CircularProgressIndicator());
+          // }
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      _scaffoldKey.currentState?.openDrawer();
-                    },
-                    child: Image.asset(
-                      AppAssets.filters,
-                      height: 30,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "100 items",
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Container(
-                    height: 30,
-                    width: 90,
-                    color: Colors.brown.shade50,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Free",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 17),
-                          ),
-                          Spacer(),
-                          Image.asset(AppAssets.remove, height: 10),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Container(
-                    height: 30,
-                    width: 100,
-                    color: Colors.white,
-                    child: Text(
-                      "Clear All",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 17),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              ...List.generate(
-                6,
-                (index) => GestureDetector(
-                  onTap: () {
-                    Get.toNamed(CreateInvitationScreen.routeName);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                  Center(
                     child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
-                                blurRadius: 4)
-                          ]),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 5, right: 5, top: 5),
-                            child: Container(
-                              height: 220,
-                              width: double.infinity,
-                              child: Image.asset(AppAssets.happy2,
-                                  fit: BoxFit.cover),
-                            ),
+                        height: 100,
+                        width: 200,
+                        color: Colors.transparent,
+                        child: Center(
+                            child: Image.asset(
+                          AppAssets.appNameImage,
+                          fit: BoxFit.cover,
+                        ))),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.4),
+                              blurRadius: 4),
+                        ]),
+                    child: TextFormField(
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
+                      textAlignVertical: TextAlignVertical.center,
+                      validator: (val) =>
+                          val!.trim().isEmpty ? "field required" : null,
+                      decoration: InputDecoration(
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: AppColor.kIndigo)),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: AppColor.kIndigo)),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: AppColor.kIndigo),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          hintStyle: TextStyle(color: Colors.black38),
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.only(top: 20, left: 15),
+                          hintText: "Enter your city",
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Image.asset(
+                              AppAssets.searchImage,
+                              height: 20,
+                            ),
+                          )),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        child: Image.asset(
+                          AppAssets.filters,
+                          height: 30,
+                        ),
+                      ),
+                      Spacer(),
+                      Text(
+                        "100 items",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 17),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 90,
+                        color: Colors.brown.shade50,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
                             children: [
-                              Image.asset(AppAssets.hero, height: 14),
-                              SizedBox(width: 10),
                               Text(
-                                "Premium Invitation",
+                                "Free",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 14),
+                                    fontWeight: FontWeight.w500, fontSize: 17),
                               ),
+                              Spacer(),
+                              Image.asset(AppAssets.remove, height: 10),
                             ],
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Princess Olivia 1st Birthday",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 14),
-                          ),
-                          SizedBox(height: 10),
-                        ],
+                        ),
                       ),
-                    ),
+                      SizedBox(width: 20),
+                      Container(
+                        height: 30,
+                        width: 100,
+                        color: Colors.white,
+                        child: Text(
+                          "Clear All",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 17),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  SizedBox(height: 20),
+                  ...controller.fitterList
+                      .asMap()
+                      .map((index, value) => MapEntry(
+                            index,
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(CreateInvitationScreen.routeName);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                            blurRadius: 4)
+                                      ]),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 5, right: 5, top: 5),
+                                        child: Container(
+                                          height: 220,
+                                          child: Image.network(value.image),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(AppAssets.hero,
+                                              height: 14),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            value.productTitle,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      // Text(
+                                      //   value.categoryName,
+                                      //   style: TextStyle(
+                                      //       fontWeight: FontWeight.w500,
+                                      //       fontSize: 14),
+                                      // ),
+                                      SizedBox(height: 10),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ))
+                      .values
+                      .toList(),
+                  SizedBox(height: 20),
+                ],
               ),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../const/app_color.dart';
 import '../../../const/app_icon.dart';
+import '../../../widget/app_prefs.dart';
 import '../sign_up/signup_screen.dart';
 
-class SplashModel {
+class OnBoardingModel {
   final String image;
   final String description;
   final String title;
   final String title2;
   final String button;
 
-  SplashModel(
+  OnBoardingModel(
       {required this.image,
       required this.description,
       required this.title,
@@ -21,33 +23,34 @@ class SplashModel {
       required this.button});
 }
 
-class SplashScreen extends StatefulWidget {
-  static const String routeName = '/SplashScreen';
-  const SplashScreen({Key? key}) : super(key: key);
+class OnBoardingScreen extends StatefulWidget {
+  static const String routeName = '/onBoardingScreen';
+  const OnBoardingScreen({Key? key}) : super(key: key);
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
+  final appPref = GetIt.I.get<AppPrefs>();
   ValueNotifier<int> valueNotifier = ValueNotifier(0);
   PageController pageController = PageController();
-  List<SplashModel> onBoardingData = [
-    SplashModel(
+  List<OnBoardingModel> onBoardingData = [
+    OnBoardingModel(
         image: AppAssets.splashImage1,
         description:
             "An elegant invitation is a great way to set the tone for a memorable event. Choosing between premium or free invitations is a personal choice",
         title: "1000's of",
         title2: 'Planner Options',
         button: 'Next'),
-    SplashModel(
+    OnBoardingModel(
         image: AppAssets.splashImage2,
         description:
             "Inviting guests for any event can be an exciting yet stressful experience. That's why it's important to make sure you set the tone from your very first invite.",
         title: "Text & Email",
         title2: 'Notification',
         button: 'Next'),
-    SplashModel(
+    OnBoardingModel(
         image: AppAssets.splashImage3,
         description:
             "Keeping track of who is attending your events and making sure all the invitations are out for other peoples' events can be a headache.",
@@ -64,8 +67,8 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Positioned(
               top: 20,
-              left: 0,
-              right: 0,
+              left: 10,
+              right: 10,
               child: ValueListenableBuilder(
                 valueListenable: valueNotifier,
                 builder: (BuildContext context, int value, Widget? child) {
@@ -73,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: onBoardingData.asMap().entries.map((entry) {
                       return Container(
-                        width: 120,
+                        width: 110,
                         height: 7,
                         decoration: BoxDecoration(
                             color: AppColor.kTextColor
@@ -96,7 +99,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 100),
+                    Spacer(),
                     Center(
                       child: Text(
                         e.title,
@@ -153,6 +156,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           GestureDetector(
                             onTap: () {
                               if (pageController.page == 2) {
+                                appPref.setOnBoardingStatus = true;
                                 Get.offAllNamed(SignUpScreen.routeName);
                               } else {
                                 pageController.nextPage(
