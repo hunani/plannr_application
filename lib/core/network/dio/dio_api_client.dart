@@ -44,7 +44,6 @@ class DioApiClient extends ApiClient {
           String? authToken;
           try {
             authToken = GetIt.I.get<AppPrefs>().getUser?.token;
-            //log("Auth Token=================> $authToken");
           } catch (e) {
             authToken = null;
           }
