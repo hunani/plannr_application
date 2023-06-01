@@ -48,10 +48,10 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
   String? soilSelect2;
 
   List<String> yesNoList = ["Yes", "No"];
-  int yesNoIndex = 0;
-  int yesNoIndex2 = 0;
-  int yesNoIndex3 = 0;
-  int yesNoIndex4 = 0;
+  int? yesNoIndex;
+  int? yesNoIndex2;
+  int? yesNoIndex3;
+  int? yesNoIndex4;
 
   @override
   Widget build(BuildContext context) {

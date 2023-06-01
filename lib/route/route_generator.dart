@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:plannr_app/main_screen.dart';
 import 'package:plannr_app/ui/screen/categories/categories_screen.dart';
 import 'package:plannr_app/ui/screen/events/events_screen.dart';
 import 'package:plannr_app/ui/screen/forget/forgot_verification.dart';
@@ -27,17 +26,18 @@ import '../ui/screen/forget/password_done.dart';
 import '../ui/screen/login/login_screen.dart';
 import '../ui/screen/login/login_verification.dart';
 import '../ui/screen/login/properties_screen.dart';
+import '../ui/screen/onBoarding_and_splash/onBoarding_screen.dart';
+import '../ui/screen/onBoarding_and_splash/splash_screen.dart';
 import '../ui/screen/profile/contact_screen.dart';
 import '../ui/screen/profile/edit_profile.dart';
 import '../ui/screen/profile/faq_screen.dart';
 import '../ui/screen/sign_up/sign_up_done.dart';
 import '../ui/screen/sign_up/sign_up_verification.dart';
 import '../ui/screen/sign_up/signup_screen.dart';
-import '../ui/screen/splash/splash_screen.dart';
 
 final List<GetPage<dynamic>> routes = [
-  GetPage(name: MainScreen.routeName, page: () => const MainScreen()),
-  GetPage(name: SplashScreen.routeName, page: () => const SplashScreen()),
+  GetPage(name: Splash.routeName, page: () => const Splash()),
+  GetPage(name: OnBoardingScreen.routeName, page: () => const OnBoardingScreen()),
   GetPage(name: SignUpScreen.routeName, page: () => const SignUpScreen()),
   GetPage(name: LoginScreen.routeName, page: () => const LoginScreen()),
   GetPage(name: SignUpDone.routeName, page: () => const SignUpDone()),

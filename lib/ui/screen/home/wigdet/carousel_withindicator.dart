@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:plannr_app/ui/screen/home/controller/home_controller.dart';
 
 class CarouselWithIndicator extends StatefulWidget {
   const CarouselWithIndicator({Key? key}) : super(key: key);
@@ -22,37 +23,42 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   ];
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      carouselController: carouselController,
-      items: imgList
-          .asMap()
-          .map((index, value) => MapEntry(
-              index,
-              ClipRRect(
-                child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Image.asset(value, fit: BoxFit.cover)),
-              )))
-          .values
-          .toList(),
-      options: CarouselOptions(
-        height: 170,
-        onPageChanged: (index, reason) {
-          setState(() {
-            _current = index;
-          });
-        },
-        viewportFraction: 0.9,
-        initialPage: 1,
-        autoPlay: true,
-        clipBehavior: Clip.none,
-        enableInfiniteScroll: true,
-      ),
+    return GetBuilder(
+      builder: (HomeController controller) {
+        return CarouselSlider(
+          carouselController: carouselController,
+          items: controller.bannerDataList
+              .asMap()
+              .map((index, value) => MapEntry(
+                  index,
+                  ClipRRect(
+                    child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child:
+                            Image.network(value.imagePath, fit: BoxFit.cover)),
+                  )))
+              .values
+              .toList(),
+          options: CarouselOptions(
+            height: 170,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            },
+            viewportFraction: 0.9,
+            initialPage: 1,
+            autoPlay: true,
+            clipBehavior: Clip.none,
+            enableInfiniteScroll: true,
+          ),
+        );
+      },
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:get_it/get_it.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/const/app_icon.dart';
 
+import '../../../widget/app_prefs.dart';
+import '../../../widget/global.dart';
+import '../sign_up/signup_screen.dart';
 import 'contact_screen.dart';
 import 'edit_profile.dart';
 import 'faq_screen.dart';
@@ -156,31 +159,80 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 30),
-                Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColor.kIndigo,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Sign Out",
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => AlertDialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        title: Text(
+                          "Log Out",
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 18,
-                              color: Colors.white),
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20),
                         ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          size: 18,
-                          color: Colors.white,
+                        content: Text(
+                          "Are You Sure..",
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
                         ),
-                      ],
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              appController.loginModel = null;
+                              GetIt.I.get<AppPrefs>().clear();
+                              GetIt.I.get<AppPrefs>().setOnBoardingStatus =
+                                  true;
+                              print("=====> ${appController.loginModel}");
+                              Get.offAllNamed(SignUpScreen.routeName);
+                            },
+                            child: const Text(
+                              "Yes",
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text(
+                              "No",
+                              style: TextStyle(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColor.kIndigo,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Sign Out",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18,
+                                color: Colors.white),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
