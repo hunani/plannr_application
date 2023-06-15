@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_it/get_it.dart';
@@ -10,6 +10,7 @@ import '../../../../core/utils/error_util.dart';
 class CategoriesController extends GetxController {
   final userRepo = GetIt.I.get<UserRepository>();
 
+  UiFailure? uiFailure;
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
@@ -19,11 +20,20 @@ class CategoriesController extends GetxController {
     update();
   }
 
-  UiFailure? uiFailure;
-
   List<CategoriesList> categoriesDataList = [];
+
+  File? _imagePath;
+
+  File? get imagePath => _imagePath;
+
+  set imagePath(File? value) {
+    _imagePath = value;
+    update();
+  }
+
   Future<UiResult<bool>> categoriesData() async {
     try {
+      isLoading = true;
       EasyLoading.show();
       final response = await userRepo.categories();
       categoriesDataList = response;
@@ -31,6 +41,7 @@ class CategoriesController extends GetxController {
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
     } finally {
+      isLoading = false;
       EasyLoading.dismiss();
       update();
     }

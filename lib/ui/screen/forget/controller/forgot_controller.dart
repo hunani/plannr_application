@@ -39,13 +39,22 @@ class ForgotController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
-  Future<UiResult<bool>> reset() async {
+  Future<UiResult<bool>> resetPasswordData() async {
     try {
       await userRepo.resetPassword(
         emailController.text.trim(),
         passwordController.text.trim(),
         confirmPasswordController.text.trim(),
       );
+      return UiSuccess(true);
+    } catch (error, stackTrace) {
+      return ErrorUtil.getUiFailureFromException(error, stackTrace);
+    }
+  }
+
+  Future<UiResult<bool>> resendOtp() async {
+    try {
+      await userRepo.resend(emailController.text.trim());
       return UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);

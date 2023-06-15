@@ -78,8 +78,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
                         TextFormField(
-                          validator: (val) =>
-                              val!.trim().isEmpty ? "field required" : null,
+                          validator: (val) => val!.trim().isEmpty
+                              ? "Please Enter password"
+                              : null,
                           controller: controller.passwordController,
                           obscureText: hidePassword,
                           decoration: InputDecoration(
@@ -112,7 +113,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                         TextFormField(
                           validator: (val) => val!.trim().isEmpty
-                              ? "field required"
+                              ? "Please Enter your confirmation password"
                               : val.trim() ==
                                       controller.passwordController.text.trim()
                                   ? null
@@ -149,14 +150,15 @@ class _ChangePasswordState extends State<ChangePassword> {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
                               EasyLoading.show();
-                              final response = await controller.forgot();
+                              final response =
+                                  await controller.resetPasswordData();
                               EasyLoading.dismiss();
                               response.when(
                                 success: (data) {
                                   Get.toNamed(PasswordDone.routeName);
                                 },
                                 failure: (ErrorType type, String? message) {
-                                  showToast(getMessageFromErrorType(type));
+                                  showToast(message!, Colors.red);
                                 },
                               );
                             }

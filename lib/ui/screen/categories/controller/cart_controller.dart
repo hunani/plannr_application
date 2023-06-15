@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_it/get_it.dart';
 import 'package:plannr_app/ui/screen/categories/model/cart_model.dart';
@@ -13,6 +15,7 @@ import '../model/fitter_model.dart';
 class CartController extends GetxController {
   final userRepo = GetIt.I.get<UserRepository>();
 
+  UiFailure? uiFailure;
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
@@ -22,18 +25,18 @@ class CartController extends GetxController {
     update();
   }
 
-  UiFailure? uiFailure;
-
-  List<CartList> cartDataList = [];
-  Future<UiResult<bool>> cart() async {
+  CartList? cartDataList;
+  Future<UiResult<bool>> cart(int id) async {
     try {
+      isLoading = true;
       EasyLoading.show();
-      final response = await userRepo.cartData();
+      final response = await userRepo.cartData(id);
       cartDataList = response;
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
     } finally {
+      isLoading = false;
       EasyLoading.dismiss();
       update();
     }
@@ -44,6 +47,7 @@ class CartController extends GetxController {
   int? id;
   Future<UiResult<bool>> color() async {
     try {
+      isLoading = true;
       EasyLoading.show();
       final response = await userRepo.colorData();
       colorDataList = response;
@@ -51,6 +55,7 @@ class CartController extends GetxController {
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
     } finally {
+      isLoading = false;
       EasyLoading.dismiss();
       update();
     }
@@ -58,7 +63,7 @@ class CartController extends GetxController {
 
   List<String> list = ["Free", "Premium"];
   int? fillIndex;
-  List<FitterDataList> fitterList = [];
+  FitterModel? fitterList;
   Future<UiResult<bool>> fitter(String premium, String colorId) async {
     try {
       final response = await userRepo.fitter(premium, colorId);
@@ -66,12 +71,14 @@ class CartController extends GetxController {
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
+    } finally {
+      update();
     }
   }
 
   @override
   void onInit() {
-    cart();
+    cart(Get.arguments);
     color();
     super.onInit();
   }

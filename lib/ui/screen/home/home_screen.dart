@@ -4,9 +4,15 @@ import 'package:get/get.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/const/dispose_keyboard.dart';
 import 'package:plannr_app/ui/screen/home/controller/home_controller.dart';
+import 'package:plannr_app/ui/screen/home/trending_now_view_screen.dart';
 import 'package:plannr_app/ui/screen/home/wigdet/carousel_withindicator.dart';
 
 import '../../../const/app_icon.dart';
+import '../categories/card_screen.dart';
+import '../categories/upload_screen.dart';
+import 'birtdayParty_view_screen.dart';
+import 'bridalShower_view_screen.dart';
+import 'categories_view_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/homeScreen';
@@ -23,7 +29,7 @@ class HomeScreen extends StatelessWidget {
         body: GetBuilder(
           builder: (HomeController controller) {
             if (controller.isLoading) {
-              return Center(child: CircularProgressIndicator());
+              return Container();
             }
             return SafeArea(
               child: SingleChildScrollView(
@@ -89,7 +95,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Image.asset(AppAssets.homeImage4),
+                      GestureDetector(
+                          onTap: () {
+                            Get.toNamed(UploadScreen.routeName);
+                          },
+                          child: Image.asset(AppAssets.homeImage4)),
                       SizedBox(height: 25),
                       CarouselWithIndicator(),
                       SizedBox(height: 20),
@@ -101,19 +111,24 @@ class HomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w600, fontSize: 19),
                           ),
                           Spacer(),
-                          Container(
-                            height: 30,
-                            width: 90,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.black),
-                            child: Center(
-                              child: Text(
-                                "View More",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(CategoriesViewScreen.routeName);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black),
+                              child: Center(
+                                child: Text(
+                                  "View More",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
@@ -128,45 +143,50 @@ class HomeScreen extends StatelessWidget {
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: controller.categoriesDataList.length,
                           itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: Color(0xffB3A1A1),
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(CardScreen.routeName,
+                                    arguments: controller
+                                        .categoriesDataList[index].id);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: Color(0xffB3A1A1),
+                                  ),
                                 ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left: 7, right: 7, top: 7),
-                                    height: 100,
-                                    width: 180,
-                                    decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(10),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          left: 7, right: 7, top: 7),
+                                      height: 100,
+                                      width: 180,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                            controller.categoriesDataList[index]
+                                                .imagePath,
+                                            fit: BoxFit.cover),
+                                      ),
                                     ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                          controller.categoriesDataList[index]
-                                              .imagePath,
-                                          fit: BoxFit.cover),
-                                      // child: Image.asset(AppAssets.homeImage2,
-                                      //     fit: BoxFit.cover),
+                                    SizedBox(height: 7),
+                                    Text(
+                                      controller.categoriesDataList[index].name,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
                                     ),
-                                  ),
-                                  SizedBox(height: 7),
-                                  Text(
-                                    controller.categoriesDataList[index].name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
-                                  ),
-                                  SizedBox(height: 10),
-                                ],
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
                               ),
                             );
                           }),
@@ -179,19 +199,24 @@ class HomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w600, fontSize: 19),
                           ),
                           Spacer(),
-                          Container(
-                            height: 30,
-                            width: 90,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.black),
-                            child: Center(
-                              child: Text(
-                                "View More",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(TrendingNowViewScreen.routeName);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black),
+                              child: Center(
+                                child: Text(
+                                  "View More",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
@@ -203,65 +228,78 @@ class HomeScreen extends StatelessWidget {
                         clipBehavior: Clip.none,
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: List.generate(
-                            5,
-                            (index) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  //margin: EdgeInsets.only(right: 15),
-                                  height: 250,
-                                  width: 330,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(AppAssets.happy,
-                                          fit: BoxFit.cover)),
-                                ),
-                                SizedBox(height: 7),
-                                SizedBox(
-                                  width: 365,
-                                  child: Text(
-                                    "Plain Birthday Wallpapers - Wallpaper Cave",
-                                    maxLines: 2,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
+                          children: controller.trendingBannerDataList
+                              .asMap()
+                              .map((key, value) => MapEntry(
+                                    key,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          //margin: EdgeInsets.only(right: 15),
+                                          height: 250,
+                                          width: 330,
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.network(
+                                                  value.imagePath,
+                                                  fit: BoxFit.cover)),
+                                        ),
+                                        SizedBox(height: 7),
+                                        SizedBox(
+                                          width: 365,
+                                          child: Text(
+                                            value.title,
+                                            maxLines: 2,
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              overflow: TextOverflow.ellipsis,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                  ))
+                              .values
+                              .toList(),
                         ),
                       ),
                       SizedBox(height: 25),
                       Row(
                         children: [
                           Text(
-                            "Engagement Party",
+                            "Birtday Party",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 19),
                           ),
                           Spacer(),
-                          Container(
-                            height: 30,
-                            width: 90,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.black),
-                            child: Center(
-                              child: Text(
-                                "View More",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(BirtDayPartyViewScreen.routeName);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black),
+                              child: Center(
+                                child: Text(
+                                  "View More",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
@@ -273,41 +311,59 @@ class HomeScreen extends StatelessWidget {
                         clipBehavior: Clip.none,
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: List.generate(
-                            5,
-                            (index) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  //margin: EdgeInsets.only(right: 15),
-                                  height: 250,
-                                  width: 330,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(AppAssets.happy2,
-                                          fit: BoxFit.cover)),
-                                ),
-                                SizedBox(height: 7),
-                                SizedBox(
-                                  width: 365,
-                                  child: Text(
-                                    "Score Birthday Freebies With These Retailers",
-                                    maxLines: 2,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
+                          children: controller
+                              .birtdayPartyDataList[0].catProduct
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                    index,
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            //margin: EdgeInsets.only(right: 15),
+                                            height: 250,
+                                            width: 330,
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.network(
+                                                    value.imagePath,
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          SizedBox(height: 7),
+                                          Container(
+                                            width: 330,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Text(
+                                                value.productTitle,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                  ))
+                              .values
+                              .toList(),
                         ),
                       ),
                       SizedBox(height: 25),
@@ -319,19 +375,24 @@ class HomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w600, fontSize: 19),
                           ),
                           Spacer(),
-                          Container(
-                            height: 30,
-                            width: 90,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.black),
-                            child: Center(
-                              child: Text(
-                                "View More",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 15),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(BridalViewScreen.routeName);
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.black),
+                              child: Center(
+                                child: Text(
+                                  "View More",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15),
+                                ),
                               ),
                             ),
                           ),
@@ -343,41 +404,59 @@ class HomeScreen extends StatelessWidget {
                         clipBehavior: Clip.none,
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: List.generate(
-                            5,
-                            (index) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  //margin: EdgeInsets.only(right: 15),
-                                  height: 250,
-                                  width: 330,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(AppAssets.show,
-                                          fit: BoxFit.cover)),
-                                ),
-                                SizedBox(height: 7),
-                                SizedBox(
-                                  width: 365,
-                                  child: Text(
-                                    "Score Birthday Freebies With These Retailers",
-                                    maxLines: 2,
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      overflow: TextOverflow.ellipsis,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
+                          children: controller
+                              .birtdayPartyDataList[1].catProduct
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                    index,
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            //margin: EdgeInsets.only(right: 15),
+                                            height: 250,
+                                            width: 330,
+                                            decoration: BoxDecoration(
+                                              color: Colors.red,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.network(
+                                                    value.imagePath,
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          SizedBox(height: 7),
+                                          SizedBox(
+                                            width: 330,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15),
+                                              child: Text(
+                                                value.productTitle,
+                                                maxLines: 2,
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                  ))
+                              .values
+                              .toList(),
                         ),
                       ),
                       SizedBox(height: 40),

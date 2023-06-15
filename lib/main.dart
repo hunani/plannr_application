@@ -4,16 +4,22 @@ import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:plannr_app/route/route_generator.dart';
+import 'package:plannr_app/ui/screen/categories/contact_select_screen.dart';
+import 'package:plannr_app/ui/screen/categories/create_contact_page.dart';
 import 'package:plannr_app/widget/app_controller.dart';
 import 'package:plannr_app/widget/app_prefs.dart';
 import 'package:plannr_app/widget/global.dart';
+import 'package:plannr_app/widget/image_picker.dart';
 import 'const/app_bindings.dart';
 import 'core/network/api_client.dart';
 import 'core/network/dio/dio_api_client.dart';
 import 'core/repository/user_repository.dart';
 import 'core/repository/user_repository_impl.dart';
 
+late final AppImagePicker appImagePicker;
+
 void main() async {
+  appImagePicker = AppImagePicker();
   WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingletonAsync(() => AppPrefs.getInstance());
   GetIt.I.registerSingletonAsync<ApiClient>(() => DioApiClient.getInstance());
@@ -25,7 +31,6 @@ void main() async {
   Get.put(AppController());
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -54,5 +59,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-

@@ -31,7 +31,7 @@ class _CardScreenState extends State<CardScreen> {
       body: GetBuilder(
         builder: (CartController controller) {
           if (controller.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Container();
           }
           return SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -107,85 +107,205 @@ class _CardScreenState extends State<CardScreen> {
                       ),
                       Spacer(),
                       Text(
-                        "100 items",
+                        controller.cartDataList == null
+                            ? "0 items"
+                            : "${controller.cartDataList!.item} items",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 17),
                       ),
                     ],
                   ),
                   SizedBox(height: 20),
-                  ...controller.cartDataList
-                      .asMap()
-                      .map((index, value) => MapEntry(
-                            index,
-                            GestureDetector(
-                              onTap: () {},
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(7),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.5),
-                                            blurRadius: 4)
-                                      ]),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5, right: 5, top: 5),
+                  controller.cartDataList!.cartData.isNotEmpty
+                      ? Column(
+                          children: controller.cartDataList!.cartData
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                    index,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            CreateInvitationScreen.routeName,
+                                            arguments: value.id);
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20),
                                         child: Container(
-                                          height: 220,
                                           width: double.infinity,
                                           decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            child: Image.network(
-                                                value.imagePath,
-                                                fit: BoxFit.cover),
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    blurRadius: 4)
+                                              ]),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5, right: 5, top: 5),
+                                                child: Container(
+                                                  height: 220,
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    child: Image.network(
+                                                        value.imagePath,
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(AppAssets.hero,
+                                                      height: 14),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    value.freeOrPremium == 0
+                                                        ? "Free Invitation"
+                                                        : "Premium Invitation",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                value.productTitle,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              SizedBox(height: 10),
+                                            ],
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(AppAssets.hero,
-                                              height: 14),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            value.productTitle,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        value.categoryName,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14),
-                                      ),
-                                      SizedBox(height: 10),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))
-                      .values
-                      .toList(),
+                                    ),
+                                  ))
+                              .values
+                              .toList(),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Center(
+                              child: Text(
+                            "No Data",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          )),
+                        ),
+                  // controller.cartDataList!.cartData.isEmpty
+                  //     ? Padding(
+                  //         padding: const EdgeInsets.only(top: 100),
+                  //         child: Center(
+                  //             child: Text(
+                  //           "No Data",
+                  //           style: TextStyle(
+                  //               fontSize: 30, fontWeight: FontWeight.w600),
+                  //         )),
+                  //       )
+                  //     : Column(
+                  //         children: controller.cartDataList!.cartData
+                  //             .asMap()
+                  //             .map((index, value) => MapEntry(
+                  //                   index,
+                  //                   GestureDetector(
+                  //                     onTap: () {
+                  //                       Get.toNamed(
+                  //                           CreateInvitationScreen.routeName,
+                  //                           arguments: value.id);
+                  //                     },
+                  //                     child: Padding(
+                  //                       padding:
+                  //                           const EdgeInsets.only(bottom: 20),
+                  //                       child: Container(
+                  //                         width: double.infinity,
+                  //                         decoration: BoxDecoration(
+                  //                             borderRadius:
+                  //                                 BorderRadius.circular(7),
+                  //                             color: Colors.white,
+                  //                             boxShadow: [
+                  //                               BoxShadow(
+                  //                                   color: Colors.black
+                  //                                       .withOpacity(0.5),
+                  //                                   blurRadius: 4)
+                  //                             ]),
+                  //                         child: Column(
+                  //                           children: [
+                  //                             Padding(
+                  //                               padding: const EdgeInsets.only(
+                  //                                   left: 5, right: 5, top: 5),
+                  //                               child: Container(
+                  //                                 height: 220,
+                  //                                 width: double.infinity,
+                  //                                 decoration: BoxDecoration(
+                  //                                   borderRadius:
+                  //                                       BorderRadius.circular(
+                  //                                           5),
+                  //                                 ),
+                  //                                 child: ClipRRect(
+                  //                                   borderRadius:
+                  //                                       BorderRadius.circular(
+                  //                                           5),
+                  //                                   child: Image.network(
+                  //                                       value.imagePath,
+                  //                                       fit: BoxFit.cover),
+                  //                                 ),
+                  //                               ),
+                  //                             ),
+                  //                             SizedBox(height: 10),
+                  //                             Row(
+                  //                               mainAxisAlignment:
+                  //                                   MainAxisAlignment.center,
+                  //                               children: [
+                  //                                 Image.asset(AppAssets.hero,
+                  //                                     height: 14),
+                  //                                 SizedBox(width: 10),
+                  //                                 Text(
+                  //                                   value.freeOrPremium == 0
+                  //                                       ? "Free Invitation"
+                  //                                       : "Premium Invitation",
+                  //                                   style: TextStyle(
+                  //                                       fontWeight:
+                  //                                           FontWeight.w400,
+                  //                                       fontSize: 14),
+                  //                                 ),
+                  //                               ],
+                  //                             ),
+                  //                             SizedBox(height: 10),
+                  //                             Text(
+                  //                               value.productTitle,
+                  //                               style: TextStyle(
+                  //                                   fontWeight: FontWeight.w500,
+                  //                                   fontSize: 14),
+                  //                             ),
+                  //                             SizedBox(height: 10),
+                  //                           ],
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   ),
+                  //                 ))
+                  //             .values
+                  //             .toList(),
+                  //       ),
                   SizedBox(height: 20),
                 ],
               ),
@@ -355,8 +475,10 @@ class _CardScreenState extends State<CardScreen> {
                   onTap: () async {
                     EasyLoading.show();
                     final response = await controller.fitter(
-                      controller.fillIndex.toString(),
-                      controller.id.toString(),
+                      controller.fillIndex == null
+                          ? "0"
+                          : controller.fillIndex.toString(),
+                      controller.id == null ? "0" : controller.id.toString(),
                     );
                     EasyLoading.dismiss();
                     response.when(
@@ -364,7 +486,7 @@ class _CardScreenState extends State<CardScreen> {
                         Get.toNamed(SelectFilter.routeName);
                       },
                       failure: (ErrorType type, String? message) {
-                        showToast(getMessageFromErrorType(type));
+                        showToast(getMessageFromErrorType(type), Colors.red);
                       },
                     );
                   },

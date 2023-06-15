@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
-
 import '../../utils/base_response.dart';
 
 extension DioEx on Dio {

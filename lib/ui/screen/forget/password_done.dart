@@ -5,10 +5,15 @@ import 'package:plannr_app/ui/screen/login/login_screen.dart';
 import '../../../const/app_color.dart';
 import '../../../const/app_icon.dart';
 
-class PasswordDone extends StatelessWidget {
+class PasswordDone extends StatefulWidget {
   static const String routeName = '/passwordDone';
   const PasswordDone({Key? key}) : super(key: key);
 
+  @override
+  State<PasswordDone> createState() => _PasswordDoneState();
+}
+
+class _PasswordDoneState extends State<PasswordDone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
