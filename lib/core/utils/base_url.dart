@@ -7,10 +7,22 @@ class UrlPath {
   static const registerApi = "register";
   static const otpApi = "otp-verification";
   static const forgetApi = "forget-password";
-  static const resetApi = "reset-password";
+  static const resetPasswordApi = "reset-password";
   static const categoryApi = "category";
   static const bannerApi = "banner";
   static const productApi = "product";
   static const colorApi = "color";
   static const fitterApi = "search-fitter";
+  static const resendOtpApi = "resend-otp";
+  static const birtdayApi = "category-wise-product-banner";
+  static const bridalShowerApi = "category-wise-product-banner";
+  static const createApi = "create-invitation-product";
+  static const createSubmitApi = "create-invitation";
+  static const createInvitationApi = "category-wise-product";
+  static const createInvitationSubmitDataApi = "create-invitation-view";
+  static const trendingApi = "trending-banner";
+  static const createContactApi = "create-contact-list";
+  static const createListApi = "contact-list";
+  static const eventUpcomingApi = "event-upcoming";
+  static const eventPastApi = "event-past";
 }

@@ -66,7 +66,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
               SizedBox(height: 30),
               GestureDetector(
                 onTap: () {
-                  //Get.toNamed(DashboadScreen.routeName);
+                  view = !view;
+                  view2 = false;
+                  view3 = false;
+                  setState(() {});
                   paymentBottomSheet();
                 },
                 child: Container(
@@ -94,10 +97,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {
-                                view = !view;
-                                setState(() {});
-                              },
+                              onTap: () {},
                               child: Container(
                                 height: 35,
                                 width: 35,
@@ -214,6 +214,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
               SizedBox(height: 30),
               GestureDetector(
                 onTap: () {
+                  view2 = !view2;
+                  view = false;
+                  view3 = false;
+                  setState(() {});
                   paymentBottomSheet();
                 },
                 child: Container(
@@ -241,10 +245,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {
-                                view2 = !view2;
-                                setState(() {});
-                              },
+                              onTap: () {},
                               child: Container(
                                 height: 35,
                                 width: 35,
@@ -386,6 +387,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
               SizedBox(height: 30),
               GestureDetector(
                 onTap: () {
+                  view3 = !view3;
+                  view = false;
+                  view2 = false;
+                  setState(() {});
                   paymentBottomSheet();
                 },
                 child: Container(
@@ -414,10 +419,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {
-                                view3 = !view3;
-                                setState(() {});
-                              },
+                              onTap: () {},
                               child: Container(
                                 height: 35,
                                 width: 35,
@@ -554,3 +556,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
     );
   }
 }
+
+// class BottomTabModel {
+//   final String name;
+//   final String price;
+//
+//   const BottomTabModel(this.icon, this.label);
+// }

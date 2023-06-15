@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:plannr_app/const/dispose_keyboard.dart';
 import 'package:plannr_app/ui/screen/forget/forgot_screen.dart';
@@ -22,6 +23,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool hidePassword = true;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    Get.delete<LoginController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 30),
                       text("Email"),
                       TextFormField(
-                        validator: (val) =>
-                            val!.trim().isEmpty ? "field required" : null,
+                        validator: (val) => val!.trim().isEmpty
+                            ? "Please Enter Valid E-Mail"
+                            : null,
                         controller: controller.emailController,
                         decoration: InputDecoration(
                             hintText: "Enter your email",
@@ -73,8 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 15),
                       text("Password"),
                       TextFormField(
-                        validator: (val) =>
-                            val!.trim().isEmpty ? "field required" : null,
+                        validator: (val) => val!.trim().isEmpty
+                            ? "Please Enter Correct Password"
+                            : null,
                         controller: controller.passwordController,
                         obscureText: hidePassword,
                         decoration: InputDecoration(
@@ -142,7 +150,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Get.toNamed(PropertiesScreen.routeName);
                               },
                               failure: (ErrorType type, String? message) {
-                                showToast(getMessageFromErrorType(type));
+                                print("fdsfdsf");
+                                showToast(message!, Colors.red);
+
+                                // Fluttertoast.showToast(
+                                //     msg: message!, backgroundColor: Colors.red);
                               },
                             );
                           }

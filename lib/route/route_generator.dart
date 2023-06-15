@@ -9,6 +9,7 @@ import '../ui/screen/categories/card_screen.dart';
 import '../ui/screen/categories/contact_select_screen.dart';
 import '../ui/screen/categories/create_contact_page.dart';
 import '../ui/screen/categories/create_invitation_screen.dart';
+import '../ui/screen/categories/create_submit_details_screen.dart';
 import '../ui/screen/categories/select_filter.dart';
 import '../ui/screen/categories/sync_contact_page.dart';
 import '../ui/screen/categories/upload_screen.dart';
@@ -23,6 +24,10 @@ import '../ui/screen/events/preview_screen.dart';
 import '../ui/screen/forget/change_password.dart';
 import '../ui/screen/forget/forgot_screen.dart';
 import '../ui/screen/forget/password_done.dart';
+import '../ui/screen/home/birtdayParty_view_screen.dart';
+import '../ui/screen/home/bridalShower_view_screen.dart';
+import '../ui/screen/home/categories_view_screen.dart';
+import '../ui/screen/home/trending_now_view_screen.dart';
 import '../ui/screen/login/login_screen.dart';
 import '../ui/screen/login/login_verification.dart';
 import '../ui/screen/login/properties_screen.dart';
@@ -37,7 +42,8 @@ import '../ui/screen/sign_up/signup_screen.dart';
 
 final List<GetPage<dynamic>> routes = [
   GetPage(name: Splash.routeName, page: () => const Splash()),
-  GetPage(name: OnBoardingScreen.routeName, page: () => const OnBoardingScreen()),
+  GetPage(
+      name: OnBoardingScreen.routeName, page: () => const OnBoardingScreen()),
   GetPage(name: SignUpScreen.routeName, page: () => const SignUpScreen()),
   GetPage(name: LoginScreen.routeName, page: () => const LoginScreen()),
   GetPage(name: SignUpDone.routeName, page: () => const SignUpDone()),
@@ -74,6 +80,17 @@ final List<GetPage<dynamic>> routes = [
   GetPage(name: MenuScreen.routeName, page: () => const MenuScreen()),
   GetPage(name: SyncContactPage.routeName, page: () => const SyncContactPage()),
   GetPage(
+      name: CreateSubmitDetailsScreen.routeName,
+      page: () => const CreateSubmitDetailsScreen()),
+  GetPage(
+      name: BridalViewScreen.routeName, page: () => const BridalViewScreen()),
+  GetPage(
+      name: BirtDayPartyViewScreen.routeName,
+      page: () => const BirtDayPartyViewScreen()),
+  GetPage(
+      name: CategoriesViewScreen.routeName,
+      page: () => const CategoriesViewScreen()),
+  GetPage(
       name: ContactSelectScreen.routeName,
       page: () => const ContactSelectScreen()),
   GetPage(
@@ -90,4 +107,7 @@ final List<GetPage<dynamic>> routes = [
   GetPage(
       name: ForgotVerificationScreen.routeName,
       page: () => const ForgotVerificationScreen()),
+  GetPage(
+      name: TrendingNowViewScreen.routeName,
+      page: () => const TrendingNowViewScreen()),
 ];

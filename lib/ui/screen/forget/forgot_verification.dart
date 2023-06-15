@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -22,6 +24,11 @@ class ForgotVerificationScreen extends StatefulWidget {
 }
 
 class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
+  @override
+  void dispose() {
+    Get.delete<ForgotController>();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +99,6 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                             const EdgeInsets.symmetric(horizontal: 5),
                         fieldWidth: 60,
                       ),
-                      animationDuration: const Duration(milliseconds: 300),
                       controller: controller.otpController,
                       onChanged: (otp) {},
                       keyboardType: TextInputType.number,
@@ -100,42 +106,38 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                     ),
                   ),
                   SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Code expires in : ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 15),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "00 : 56 ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                            color: Colors.red),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Didn’t receive code? ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 15),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "Resend Code",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
-                            color: Colors.red),
-                      ),
-                    ],
+                  InkWell(
+                    onTap: () async {
+                      EasyLoading.show();
+                      final response = await controller.resendOtp();
+                      EasyLoading.dismiss();
+                      response.when(
+                        success: (data) {
+                          showToast("Resend OTP Send Successfully", Colors.red);
+                        },
+                        failure: (ErrorType type, String? message) {
+                          showToast(message!, Colors.red);
+                        },
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Didn’t receive code? ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 15),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          "Resend Code",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                              color: Colors.red),
+                        ),
+                      ],
+                    ),
                   ),
                   Spacer(),
                   GestureDetector(
@@ -149,11 +151,11 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                             Get.toNamed(ChangePassword.routeName);
                           },
                           failure: (ErrorType type, String? message) {
-                            showToast("invalid otp");
+                            showToast("Invalid otp", Colors.red);
                           },
                         );
                       } else {
-                        showToast("enter otp");
+                        showToast("Please Enter Otp", Colors.red);
                       }
                     },
                     child: Container(

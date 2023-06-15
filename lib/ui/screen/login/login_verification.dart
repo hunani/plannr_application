@@ -20,6 +20,7 @@ class LoginVerificationScreen extends StatefulWidget {
 
 class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
   TextEditingController otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

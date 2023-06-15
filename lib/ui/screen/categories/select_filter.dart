@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../const/app_color.dart';
 import '../../../const/app_icon.dart';
+import '../../../core/utils/base_response.dart';
+import '../../../core/utils/flitter_toast.dart';
 import 'controller/cart_controller.dart';
 import 'create_invitation_screen.dart';
 
@@ -21,18 +24,24 @@ class _SelectFilterState extends State<SelectFilter> {
   CartController cartController = Get.find<CartController>();
   @override
   void initState() {
+    // EasyLoading.show();
     cartController.fitter(
-      cartController.fillIndex.toString(),
-      cartController.id.toString(),
+      cartController.fillIndex == null
+          ? "0"
+          : cartController.fillIndex.toString(),
+      cartController.id == null ? "0" : cartController.id.toString(),
     );
+    // EasyLoading.dismiss();
     super.initState();
   }
+
+  bool view = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      //drawer: drawer(),
+      drawer: drawer(),
       backgroundColor: AppColor.kScreenColor,
       body: GetBuilder(
         builder: (CartController controller) {
@@ -113,7 +122,9 @@ class _SelectFilterState extends State<SelectFilter> {
                       ),
                       Spacer(),
                       Text(
-                        "100 items",
+                        controller.fitterList == null
+                            ? "0 items"
+                            : "${controller.cartDataList!.item} items",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 17),
                       ),
@@ -122,102 +133,136 @@ class _SelectFilterState extends State<SelectFilter> {
                   SizedBox(height: 20),
                   Row(
                     children: [
-                      Container(
-                        height: 30,
-                        width: 90,
-                        color: Colors.brown.shade50,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Free",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 17),
+                      view == false
+                          ? Container(
+                              height: 30,
+                              width: 90,
+                              color: Colors.brown.shade50,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Free",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 17),
+                                    ),
+                                    Spacer(),
+                                    InkWell(
+                                        onTap: () {
+                                          view = true;
+                                          setState(() {});
+                                        },
+                                        child: Image.asset(AppAssets.remove,
+                                            height: 10)),
+                                  ],
+                                ),
                               ),
-                              Spacer(),
-                              Image.asset(AppAssets.remove, height: 10),
-                            ],
-                          ),
-                        ),
-                      ),
+                            )
+                          : Container(),
                       SizedBox(width: 20),
-                      Container(
-                        height: 30,
-                        width: 100,
-                        color: Colors.white,
-                        child: Text(
-                          "Clear All",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 17),
+                      InkWell(
+                        onTap: () {},
+                        child: Container(
+                          height: 30,
+                          width: 100,
+                          color: Colors.white,
+                          child: Text(
+                            "Clear All",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 17),
+                          ),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 20),
-                  ...controller.fitterList
-                      .asMap()
-                      .map((index, value) => MapEntry(
-                            index,
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(CreateInvitationScreen.routeName);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(7),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.5),
-                                            blurRadius: 4)
-                                      ]),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5, right: 5, top: 5),
+                  controller.fitterList!.fitter.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 100),
+                          child: Center(
+                              child: Text(
+                            "No Data",
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.w600),
+                          )),
+                        )
+                      : Column(
+                          children: controller.fitterList!.fitter
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                    index,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            CreateInvitationScreen.routeName,
+                                            arguments: value.id);
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20),
                                         child: Container(
-                                          height: 220,
-                                          child: Image.network(value.image),
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    blurRadius: 4)
+                                              ]),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5, right: 5, top: 5),
+                                                child: Container(
+                                                  height: 220,
+                                                  child: Image.network(
+                                                      value.imagePath,
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(AppAssets.hero,
+                                                      height: 14),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    value.freeOrPremium == 0
+                                                        ? "Free Invitation"
+                                                        : "Premium Invitation",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                value.productTitle,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              SizedBox(height: 10),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.asset(AppAssets.hero,
-                                              height: 14),
-                                          SizedBox(width: 10),
-                                          Text(
-                                            value.productTitle,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 10),
-                                      // Text(
-                                      //   value.categoryName,
-                                      //   style: TextStyle(
-                                      //       fontWeight: FontWeight.w500,
-                                      //       fontSize: 14),
-                                      // ),
-                                      SizedBox(height: 10),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ))
-                      .values
-                      .toList(),
+                                    ),
+                                  ))
+                              .values
+                              .toList(),
+                        ),
                   SizedBox(height: 20),
                 ],
               ),
@@ -229,150 +274,221 @@ class _SelectFilterState extends State<SelectFilter> {
   }
 
   Widget? drawer() {
-    return Container(
-      width: 300,
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return GetBuilder(
+      builder: (CartController controller) {
+        return Container(
+          width: 300,
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Container(
-                    height: 35,
-                    width: 35,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.4), blurRadius: 3)
-                      ],
-                      color: AppColor.kScreenColor,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Center(
-                      child: Icon(Icons.arrow_back),
-                    ),
-                  ),
-                ),
-                Text(
-                  "Filter",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
-                ),
-                Text(
-                  "Filter",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            Container(
-              height: 100,
-              width: 240,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.4), blurRadius: 4)
-                  ]),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                child: Column(
+                const SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.check_box_outline_blank,
-                          size: 27,
-                          color: Colors.black38,
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.4),
+                                blurRadius: 3)
+                          ],
+                          color: AppColor.kScreenColor,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        SizedBox(width: 15),
-                        Text(
-                          "Free",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
+                        child: Center(
+                          child: Icon(Icons.arrow_back),
                         ),
-                      ],
+                      ),
                     ),
-                    Divider(thickness: 1.5),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.check_box_outline_blank,
-                          size: 27,
-                          color: Colors.black38,
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          "Premium",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "Filter",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 22),
+                    ),
+                    Text(
+                      "Filter",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22,
+                          color: Colors.white),
                     ),
                   ],
                 ),
-              ),
-            ),
-            SizedBox(height: 10),
-            Image.asset(
-              AppAssets.colorImage,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 30),
-            Container(
-              height: 50,
-              width: 240,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: AppColor.kIndigo,
-              ),
-              child: Center(
-                child: Text(
-                  "Apply",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
-                      color: Colors.white),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              height: 47,
-              width: 240,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColor.kIndigo),
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              child: Center(
-                child: Text(
-                  "Clear",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22,
+                SizedBox(height: 30),
+                Container(
+                  width: 240,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.4), blurRadius: 4)
+                      ]),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, top: 15),
+                    child: Column(
+                      children: List.generate(
+                          controller.list.length,
+                          (index) => Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          controller.fillIndex = index;
+                                          setState(() {});
+                                        },
+                                        child: controller.fillIndex == index
+                                            ? Icon(
+                                                Icons.check_box_rounded,
+                                                size: 27,
+                                                color: Colors.black38,
+                                              )
+                                            : Icon(
+                                                Icons.check_box_outline_blank,
+                                                size: 27,
+                                                color: Colors.black38,
+                                              ),
+                                      ),
+                                      SizedBox(width: 15),
+                                      Text(
+                                        controller.list[index],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(thickness: 1.5),
+                                ],
+                              )),
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(height: 20),
+                Container(
+                  width: 240,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.4), blurRadius: 4)
+                      ]),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                    child: Wrap(
+                      children: controller.colorDataList
+                          .asMap()
+                          .map((index, value) => MapEntry(
+                              index,
+                              InkWell(
+                                onTap: () {
+                                  controller.selectIndex = index;
+                                  // controller.selectIndex = value.id;
+                                  controller.id = value.id;
+                                  // print("=======${controller.id}");
+                                  setState(() {});
+                                  // print("=");
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.all(3),
+                                  height: 17,
+                                  width: 17,
+                                  decoration: BoxDecoration(
+                                    color: Color(
+                                        int.parse("0xff${value.colorCode}")),
+                                  ),
+                                  child: controller.selectIndex == index
+                                      ? Center(
+                                          child: Icon(Icons.done,
+                                              color: Colors.white, size: 12),
+                                        )
+                                      : Container(),
+                                ),
+                              )))
+                          .values
+                          .toList(),
+                    ),
+                  ),
+                ),
+                // Image.asset(
+                //   AppAssets.colorImage,
+                //   fit: BoxFit.cover,
+                // ),
+                SizedBox(height: 30),
+                GestureDetector(
+                  onTap: () async {
+                    EasyLoading.show();
+                    final response = await controller.fitter(
+                      controller.fillIndex == null
+                          ? "0"
+                          : controller.fillIndex.toString(),
+                      controller.id == null ? "0" : controller.id.toString(),
+                    );
+                    EasyLoading.dismiss();
+                    response.when(
+                      success: (data) {
+                        Get.toNamed(SelectFilter.routeName);
+                      },
+                      failure: (ErrorType type, String? message) {
+                        showToast(getMessageFromErrorType(type), Colors.red);
+                      },
+                    );
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 240,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColor.kIndigo,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Apply",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  height: 47,
+                  width: 240,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.kIndigo),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Clear",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

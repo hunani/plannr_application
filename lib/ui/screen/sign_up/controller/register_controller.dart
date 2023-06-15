@@ -44,4 +44,13 @@ class RegisterController extends GetxController {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
     }
   }
+
+  Future<UiResult<bool>> resendOtp() async {
+    try {
+      await userRepo.resend(emailController.text.trim());
+      return UiSuccess(true);
+    } catch (error, stackTrace) {
+      return ErrorUtil.getUiFailureFromException(error, stackTrace);
+    }
+  }
 }

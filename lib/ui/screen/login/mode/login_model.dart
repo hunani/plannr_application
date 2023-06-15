@@ -17,6 +17,7 @@ class LoginModel2 {
 class LoginModel {
   String token;
   String firstName;
+  int userId;
   String lastName;
   String phoneNumber;
   String email;
@@ -25,6 +26,7 @@ class LoginModel {
   LoginModel({
     required this.token,
     required this.firstName,
+    required this.userId,
     required this.lastName,
     required this.phoneNumber,
     required this.email,
@@ -34,6 +36,7 @@ class LoginModel {
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         token: json["token"],
         firstName: json["first_name"],
+        userId: json["user_id"],
         lastName: json["last_name"],
         phoneNumber: json["phone_number"],
         email: json["email"],
@@ -43,6 +46,7 @@ class LoginModel {
   Map<String, dynamic> toJson() => {
         "token": token,
         "first_name": firstName,
+        "user_id": userId,
         "last_name": lastName,
         "phone_number": phoneNumber,
         "email": email,

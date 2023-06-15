@@ -4,8 +4,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/ui/screen/categories/controller/cart_controller.dart';
 import 'package:plannr_app/ui/screen/categories/controller/categories_controller.dart';
+import 'package:plannr_app/ui/screen/categories/upload_screen.dart';
 
 import '../../../const/app_icon.dart';
+import '../../../const/dispose_keyboard.dart';
+import '../../../main.dart';
+import '../../../widget/image_picker.dart';
 import 'card_screen.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -17,6 +21,9 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  CategoriesController categoriesController = Get.find<CategoriesController>();
+  ImagePickerController imagePickerController =
+      Get.find<ImagePickerController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +31,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       body: GetBuilder(
         builder: (CategoriesController controller) {
           if (controller.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Container();
           }
           return SafeArea(
             child: SingleChildScrollView(
@@ -98,7 +105,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(CardScreen.routeName);
+                                    Get.toNamed(CardScreen.routeName,
+                                        arguments: value.id);
                                   },
                                   child: Container(
                                     color: Colors.transparent,
@@ -148,7 +156,127 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         .values
                         .toList(),
                     SizedBox(height: 35),
-                    Image.asset(AppAssets.homeImage4),
+                    // Container(
+                    //   width: double.infinity,
+                    //   decoration: BoxDecoration(
+                    //     color: Color(0xffB3A1A1),
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.symmetric(
+                    //         horizontal: 20, vertical: 20),
+                    //     child: Column(
+                    //       children: [
+                    //         Row(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             Column(
+                    //               crossAxisAlignment: CrossAxisAlignment.start,
+                    //               children: [
+                    //                 Text(
+                    //                   "Upload Your\nDesign",
+                    //                   style: TextStyle(
+                    //                       fontWeight: FontWeight.w700,
+                    //                       fontSize: 20),
+                    //                 ),
+                    //                 SizedBox(height: 10),
+                    //                 Text(
+                    //                   "Send a One-of-a-kind \ninvitation featuring your\nown design.",
+                    //                   style: TextStyle(
+                    //                       fontWeight: FontWeight.w500,
+                    //                       fontSize: 11),
+                    //                 ),
+                    //                 SizedBox(height: 10),
+                    //                 Container(
+                    //                   height: 20,
+                    //                   padding:
+                    //                       EdgeInsets.symmetric(horizontal: 10),
+                    //                   decoration: BoxDecoration(
+                    //                     borderRadius: BorderRadius.circular(4),
+                    //                     color: Colors.black,
+                    //                   ),
+                    //                   child: Center(
+                    //                     child: Text(
+                    //                       "Create Now",
+                    //                       style: TextStyle(
+                    //                           fontSize: 11,
+                    //                           color: Colors.white),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //             Spacer(),
+                    //             // GetBuilder(
+                    //             //   builder: (ImagePickerController
+                    //             //       imagePickerController) {
+                    //             //     return GestureDetector(
+                    //             //       // onTap: () {
+                    //             //       //   disposeKeyboard();
+                    //             //       //   appImagePicker
+                    //             //       //       .openBottomSheet()
+                    //             //       //       .then((value) {
+                    //             //       //     if (appImagePicker
+                    //             //       //             .imagePickerController
+                    //             //       //             .image !=
+                    //             //       //         null) {
+                    //             //       //       controller.imagePath =
+                    //             //       //           appImagePicker
+                    //             //       //               .imagePickerController
+                    //             //       //               .image;
+                    //             //       //       imagePickerController.resetImage();
+                    //             //       //       controller.update();
+                    //             //       //     }
+                    //             //       //   });
+                    //             //       // },
+                    //             //       child: controller.imagePath != null
+                    //             //           ? Center(
+                    //             //               child: Container(
+                    //             //                 height: 140,
+                    //             //                 width: 160,
+                    //             //                 decoration: BoxDecoration(
+                    //             //                   borderRadius:
+                    //             //                       BorderRadius.circular(5),
+                    //             //                   color: Colors.white,
+                    //             //                   image: DecorationImage(
+                    //             //                       image: FileImage(
+                    //             //                           controller
+                    //             //                               .imagePath!),
+                    //             //                       fit: BoxFit.cover),
+                    //             //                 ),
+                    //             //               ),
+                    //             //             )
+                    //             //           : Container(
+                    //             //               height: 140,
+                    //             //               width: 160,
+                    //             //               decoration: BoxDecoration(
+                    //             //                 borderRadius:
+                    //             //                     BorderRadius.circular(5),
+                    //             //                 color: Colors.white,
+                    //             //               ),
+                    //             //               child: Padding(
+                    //             //                 padding:
+                    //             //                     const EdgeInsets.symmetric(
+                    //             //                         horizontal: 15),
+                    //             //                 child: Image.asset(
+                    //             //                     AppAssets.upload3),
+                    //             //               )),
+                    //             //     );
+                    //             //   },
+                    //             // ),
+                    //
+                    //           ],
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    //Image.asset(AppAssets.homeImage4),
+                    GestureDetector(
+                        onTap: () {
+                          Get.toNamed(UploadScreen.routeName);
+                        },
+                        child: Image.asset(AppAssets.homeImage4)),
                     SizedBox(height: 25),
                   ],
                 ),

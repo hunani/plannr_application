@@ -86,4 +86,5 @@ class AppAssets {
   static const String logoBox = "assets/image/logo_box.png";
   static const String googlePay = "assets/image/google.png";
   static const String apply = "assets/image/payA.png";
+  static const String upload3 = "assets/image/upload3.png";
 }

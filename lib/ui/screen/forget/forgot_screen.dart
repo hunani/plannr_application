@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:plannr_app/ui/screen/forget/controller/forgot_controller.dart';
@@ -20,6 +21,13 @@ class ForgotScreen extends StatefulWidget {
 
 class _ForgotScreenState extends State<ForgotScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    Get.delete<ForgotController>();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -73,8 +81,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
                             fontWeight: FontWeight.w500, fontSize: 16),
                       ),
                       TextFormField(
-                        validator: (val) =>
-                            val!.trim().isEmpty ? "field required" : null,
+                        validator: (val) => val!.trim().isEmpty
+                            ? "Please Enter Valid Email"
+                            : null,
                         controller: controller.emailController,
                         decoration: InputDecoration(
                             hintText: "Enter your Email",
@@ -94,11 +103,18 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                 Get.toNamed(ForgotVerificationScreen.routeName);
                               },
                               failure: (ErrorType type, String? message) {
-                                showToast(getMessageFromErrorType(type));
+                                showToast(message!, Colors.red);
                               },
                             );
                           } else {
-                            showToast("field required");
+                            showToast("field required", Colors.red);
+                            // Fluttertoast.showToast(
+                            //   msg: "field required",
+                            //   toastLength: Toast.LENGTH_SHORT,
+                            //   gravity: ToastGravity.CENTER,
+                            //   timeInSecForIosWeb: 1,
+                            //   textColor: Colors.red,
+                            // );
                           }
                         },
                         child: Container(

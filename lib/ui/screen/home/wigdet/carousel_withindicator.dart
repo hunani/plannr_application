@@ -33,6 +33,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
                   index,
                   ClipRRect(
                     child: Container(
+                        margin: EdgeInsets.only(right: 10),
                         height: double.infinity,
                         width: double.infinity,
                         decoration: BoxDecoration(

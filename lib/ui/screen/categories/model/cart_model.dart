@@ -1,56 +1,62 @@
-class CartModel {
-  List<CartList> data;
-
-  CartModel({
-    required this.data,
-  });
-
-  factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
-        data:
-            List<CartList>.from(json["data"].map((x) => CartList.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-      };
-}
-
 class CartList {
-  int id;
-  String productTitle;
-  int freeOrPremium;
-  String categoryName;
-  String image;
-  String colorName;
-  String imagePath;
+  int item;
+  List<CartData> cartData;
 
   CartList({
-    required this.id,
-    required this.productTitle,
-    required this.freeOrPremium,
-    required this.categoryName,
-    required this.image,
-    required this.colorName,
-    required this.imagePath,
+    required this.item,
+    required this.cartData,
   });
 
   factory CartList.fromJson(Map<String, dynamic> json) => CartList(
+        item: json["item"] ?? 0,
+        cartData: json["data"] == null
+            ? []
+            : List<CartData>.from(
+                json["data"].map((x) => CartData.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "item": item,
+        "data": List<dynamic>.from(cartData.map((x) => x.toJson())),
+      };
+}
+
+class CartData {
+  int id;
+  int categoryId;
+  int colorId;
+  int freeOrPremium;
+  String productTitle;
+  String image;
+  String imagePath;
+
+  CartData({
+    required this.id,
+    required this.categoryId,
+    required this.colorId,
+    required this.freeOrPremium,
+    required this.productTitle,
+    required this.image,
+    required this.imagePath,
+  });
+
+  factory CartData.fromJson(Map<String, dynamic> json) => CartData(
         id: json["id"],
-        productTitle: json["product_title"],
+        categoryId: json["category_id"],
+        colorId: json["color_id"],
         freeOrPremium: json["free_or_premium"],
-        categoryName: json["category_name"],
+        productTitle: json["product_title"],
         image: json["image"],
-        colorName: json["color_name"],
         imagePath: json["image_path"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "product_title": productTitle,
+        "category_id": categoryId,
+        "color_id": colorId,
         "free_or_premium": freeOrPremium,
-        "category_name": categoryName,
+        "product_title": productTitle,
         "image": image,
-        "color_name": colorName,
         "image_path": imagePath,
       };
 }

@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:plannr_app/const/app_icon.dart';
@@ -25,6 +29,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool retypePassword = true;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool view = false;
+  @override
+  void dispose() {
+    Get.delete<RegisterController>();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Expanded(
                               child: TextFormField(
                                 validator: (val) => val!.trim().isEmpty
-                                    ? "field_required".tr
+                                    ? "Please Enter correct First Name".tr
                                     : null,
                                 controller: controller.nameController,
                                 decoration: InputDecoration(
@@ -93,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Expanded(
                               child: TextFormField(
                                 validator: (val) => val!.trim().isEmpty
-                                    ? "field_required".tr
+                                    ? "Please Enter correct Last Name".tr
                                     : null,
                                 controller: controller.lastController,
                                 decoration: InputDecoration(
@@ -107,8 +116,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 15),
                         text("Phone Number"),
                         TextFormField(
-                          validator: (val) =>
-                              val!.trim().isEmpty ? "field_required".tr : null,
+                          validator: (val) => val!.trim().isEmpty
+                              ? "Please Enter Valid Phone Number".tr
+                              : null,
                           controller: controller.phoneController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
@@ -118,8 +128,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         text("Email"),
                         TextFormField(
-                          validator: (val) =>
-                              val!.trim().isEmpty ? "field_required".tr : null,
+                          validator: (val) => val!.trim().isEmpty
+                              ? "Please Enter Valid Email".tr
+                              : null,
                           controller: controller.emailController,
                           decoration: InputDecoration(
                               hintText: "Enter your email",
@@ -128,8 +139,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 15),
                         text("Password"),
                         TextFormField(
-                          validator: (val) =>
-                              val!.trim().isEmpty ? "field_required".tr : null,
+                          validator: (val) => val!.trim().isEmpty
+                              ? "Please Enter Password".tr
+                              : null,
                           controller: controller.passwordController,
                           obscureText: hidePassword,
                           decoration: InputDecoration(
@@ -158,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         text("Re-type"),
                         TextFormField(
                           validator: (val) => val!.trim().isEmpty
-                              ? "field required"
+                              ? "Please Enter your confirmation password"
                               : val.trim() ==
                                       controller.passwordController.text.trim()
                                   ? null
@@ -225,18 +237,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onTap: () async {
                             if (formKey.currentState!.validate()) {
                               formKey.currentState!.save();
-                              EasyLoading.show();
-                              final response = await controller.signUp();
-                              EasyLoading.dismiss();
-                              response.when(
-                                success: (data) {
-                                  Get.toNamed(
-                                      SignUpVerificationScreen.routeName);
-                                },
-                                failure: (ErrorType type, String? message) {
-                                  showToast(getMessageFromErrorType(type));
-                                },
-                              );
+                              if (view == true) {
+                                EasyLoading.show();
+                                final response = await controller.signUp();
+                                EasyLoading.dismiss();
+                                response.when(
+                                  success: (data) {
+                                    Get.toNamed(
+                                        SignUpVerificationScreen.routeName);
+                                  },
+                                  failure: (ErrorType type, String? message) {
+                                    showToast(message!, Colors.red);
+                                  },
+                                );
+                              } else {
+                                showToast(
+                                    "Please check the terms and conditions box to continue",
+                                    Colors.red);
+                              }
                             }
                           },
                           child: Container(

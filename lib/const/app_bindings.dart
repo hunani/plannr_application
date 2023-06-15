@@ -1,11 +1,17 @@
 import 'package:get/get.dart';
 import '../ui/screen/categories/controller/cart_controller.dart';
 import '../ui/screen/categories/controller/categories_controller.dart';
+import '../ui/screen/categories/controller/create_contact_controller.dart';
+import '../ui/screen/categories/controller/create_controller.dart';
+import '../ui/screen/categories/controller/create_list_controller.dart';
+import '../ui/screen/categories/controller/upload_controller.dart';
+import '../ui/screen/events/controller/upcoming_controller.dart';
 import '../ui/screen/forget/controller/forgot_controller.dart';
 import '../ui/screen/home/controller/home_controller.dart';
 import '../ui/screen/login/controller/login_controller.dart';
 import '../ui/screen/sign_up/controller/register_controller.dart';
 import '../widget/app_controller.dart';
+import '../widget/image_picker.dart';
 
 class AppBindings extends Bindings {
   @override
@@ -18,5 +24,15 @@ class AppBindings extends Bindings {
     Get.lazyPut<CategoriesController>(() => CategoriesController(),
         fenix: true);
     Get.lazyPut<CartController>(() => CartController(), fenix: true);
+    Get.lazyPut<CreateController>(() => CreateController(), fenix: true);
+    Get.lazyPut<UploadController>(() => UploadController(), fenix: true);
+    Get.lazyPut<UpcomingController>(() => UpcomingController(), fenix: true);
+    Get.lazyPut<CreateContactDataController>(
+        () => CreateContactDataController(),
+        fenix: true);
+    Get.lazyPut<CreateContactController>(() => CreateContactController(),
+        fenix: true);
+    Get.lazyPut<ImagePickerController>(() => ImagePickerController(),
+        fenix: true);
   }
 }

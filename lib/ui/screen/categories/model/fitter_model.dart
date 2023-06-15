@@ -1,53 +1,53 @@
 class FitterModel {
-  List<FitterDataList> data;
+  int item;
+  List<FitterList> fitter;
 
   FitterModel({
-    required this.data,
+    required this.item,
+    required this.fitter,
   });
 
   factory FitterModel.fromJson(Map<String, dynamic> json) => FitterModel(
-        data: List<FitterDataList>.from(
-            json["data"].map((x) => FitterDataList.fromJson(x))),
+        item: json["item"] ?? 0,
+        fitter: json["data"] == null
+            ? []
+            : List<FitterList>.from(
+                json["data"].map((x) => FitterList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "item": item,
+        "data": List<dynamic>.from(fitter.map((x) => x.toJson())),
       };
 }
 
-class FitterDataList {
+class FitterList {
   int id;
   int categoryId;
   int colorId;
   int freeOrPremium;
   String productTitle;
   String image;
-  int status;
-  DateTime createdAt;
-  DateTime updatedAt;
+  String imagePath;
 
-  FitterDataList({
+  FitterList({
     required this.id,
     required this.categoryId,
     required this.colorId,
     required this.freeOrPremium,
     required this.productTitle,
     required this.image,
-    required this.status,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.imagePath,
   });
 
-  factory FitterDataList.fromJson(Map<String, dynamic> json) => FitterDataList(
+  factory FitterList.fromJson(Map<String, dynamic> json) => FitterList(
         id: json["id"],
         categoryId: json["category_id"],
         colorId: json["color_id"],
         freeOrPremium: json["free_or_premium"],
         productTitle: json["product_title"],
         image: json["image"],
-        status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        imagePath: json["image_path"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,8 +57,6 @@ class FitterDataList {
         "free_or_premium": freeOrPremium,
         "product_title": productTitle,
         "image": image,
-        "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "image_path": imagePath,
       };
 }
