@@ -50,7 +50,7 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
 
   List<String> list = ["50", "100", "150", "200"];
   List<String> list2 = ["50", "190", "120", "230"];
-  CategoriesList? soilSelect;
+  String? soilSelect;
 
   List<String> yesNoList = ["Yes", "No"];
   int? yesNoIndex;
@@ -69,7 +69,8 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
     response.map(
       success: (value) {
         print(
-            "===meet dhameliya===> ${uploadController.createInvitationSubmit?.eventTime}");
+            "===meet dhameliya===> ${uploadController.createInvitationSubmit?.typeOfEvent}");
+
         nameController.text =
             uploadController.createInvitationSubmit!.eventTitle;
         dateController.text =
@@ -84,7 +85,7 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
             uploadController.createInvitationSubmit!.location;
         messgeController.text =
             uploadController.createInvitationSubmit!.message;
-        soilSelect?.name = uploadController.createInvitationSubmit!.typeOfEvent;
+        soilSelect = uploadController.createInvitationSubmit!.typeOfEvent;
         dressController.text =
             uploadController.createInvitationSubmit!.dressCode;
         foodController.text =
@@ -135,16 +136,14 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    Center(
-                      child: Container(
-                          height: 100,
-                          width: 200,
-                          color: Colors.transparent,
-                          child: Center(
-                              child: Image.asset(
-                            AppAssets.appNameImage,
-                            fit: BoxFit.cover,
-                          ))),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Center(
+                          child: Image.asset(
+                        AppAssets.appNameImage,
+                        fit: BoxFit.cover,
+                        height: 70,
+                      )),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
@@ -677,9 +676,8 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
                                       ),
                                       items: controller.categoriesDataList
                                           .map(
-                                            (item) => DropdownMenuItem<
-                                                CategoriesList>(
-                                              value: item,
+                                            (item) => DropdownMenuItem<String>(
+                                              value: item.name,
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -706,7 +704,7 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
                                       onChanged: (value) {
                                         print("====================> ${value}");
                                         soilSelect = value;
-                                        print("=====.> ${soilSelect!.name}");
+
                                         setState(() {});
                                       },
                                     ),
@@ -1098,6 +1096,7 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
                                         yesNoIndex2 == 0 ? "Yes" : "No",
                                         yesNoIndex3 == 0 ? "Yes" : "No",
                                         yesNoIndex4 == 0 ? "Yes" : "No",
+                                        "Continue",
                                       );
                                       EasyLoading.dismiss();
                                       response.when(

@@ -13,6 +13,7 @@ import '../home/model/categories_model.dart';
 import 'contact_select_screen.dart';
 import 'controller/create_controller.dart';
 import 'controller/upload_controller.dart';
+import 'controller/upload_image_controller.dart';
 
 class UploadScreen extends StatefulWidget {
   static const String routeName = '/uploadScreen';
@@ -80,21 +81,19 @@ class _UploadScreenState extends State<UploadScreen> {
         child: Scaffold(
           backgroundColor: AppColor.kScreenColor,
           body: GetBuilder(
-            builder: (UploadController controller) {
+            builder: (UploadImagesController controller) {
               return SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    Center(
-                      child: Container(
-                          height: 100,
-                          width: 200,
-                          color: Colors.transparent,
-                          child: Center(
-                              child: Image.asset(
-                            AppAssets.appNameImage,
-                            fit: BoxFit.cover,
-                          ))),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Center(
+                          child: Image.asset(
+                        AppAssets.appNameImage,
+                        fit: BoxFit.cover,
+                        height: 70,
+                      )),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
@@ -1067,6 +1066,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                       EasyLoading.dismiss();
                                       response.when(
                                         success: (data) {
+                                          Get.back();
                                           showToast(
                                               "Submit Data", Colors.black);
                                         },

@@ -6,7 +6,9 @@ import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_model.dart';
 import '../../ui/screen/categories/model/create_submit_data_model.dart';
 import '../../ui/screen/categories/model/fitter_model.dart';
+import '../../ui/screen/events/model/edit_contact_model.dart';
 import '../../ui/screen/events/model/upcoming_model.dart';
+import '../../ui/screen/events/model/view_invitation_model.dart';
 import '../../ui/screen/home/model/banner_model.dart';
 import '../../ui/screen/home/model/birtday_party_model.dart';
 import '../../ui/screen/home/model/bridal_shower_model.dart';
@@ -94,23 +96,23 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<void> createInvitationProduct(
-    int id,
-    String name,
-    String date,
-    String time,
-    String timeZone,
-    String hostedBy,
-    String location,
-    String phone,
-    String message,
-    String typeEvents,
-    String dressCode,
-    String food,
-    String addInfo,
-    String addAdmin,
-    String addChatRoom,
-    String inviteMore,
-  ) async {
+      int id,
+      String name,
+      String date,
+      String time,
+      String timeZone,
+      String hostedBy,
+      String location,
+      String phone,
+      String message,
+      String typeEvents,
+      String dressCode,
+      String food,
+      String addInfo,
+      String addAdmin,
+      String addChatRoom,
+      String inviteMore,
+      String draft) async {
     return await repo.createInvitationProduct(
         id,
         name,
@@ -127,7 +129,8 @@ class UserRepositoryImpl extends UserRepository {
         addInfo,
         addAdmin,
         addChatRoom,
-        inviteMore);
+        inviteMore,
+        draft);
   }
 
   @override
@@ -197,5 +200,15 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<List<UpcomingList>> pastDataList(int userId) async {
     return await repo.pastDataList(userId);
+  }
+
+  @override
+  Future<List<EventOverviewList>> editOverview(int id) async {
+    return await repo.editOverview(id);
+  }
+
+  @override
+  Future<ViewInvitatioData> viewInvitation(int id, int userId) async {
+    return await repo.viewInvitation(id, userId);
   }
 }

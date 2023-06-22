@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,16 +49,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Container(
-                            height: 100,
-                            width: 200,
-                            color: Colors.transparent,
-                            child: Center(
-                                child: Image.asset(
-                              AppAssets.appNameImage,
-                              fit: BoxFit.cover,
-                            ))),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Center(
+                            child: Image.asset(
+                          AppAssets.appNameImage,
+                          fit: BoxFit.cover,
+                          height: 70,
+                        )),
                       ),
                       Center(
                         child: Text(
@@ -69,9 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 30),
                       text("Email"),
                       TextFormField(
-                        validator: (val) => val!.trim().isEmpty
-                            ? "Please Enter Valid E-Mail"
-                            : null,
+                        validator: (val) => EmailValidator.validate(val!)
+                            ? null
+                            : "Please Enter Valid E-Mail",
                         controller: controller.emailController,
                         decoration: InputDecoration(
                             hintText: "Enter your email",
@@ -118,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text(
                               'Forgot Password?',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 16),
+                                  fontWeight: FontWeight.w800, fontSize: 16),
                             ),
                           ),
                         ],
@@ -140,21 +139,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           disposeKeyboard();
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
-                            // context.loaderOverlay.show();
                             EasyLoading.show();
                             final response = await controller.signIn();
-                            //context.loaderOverlay.hide();
                             EasyLoading.dismiss();
                             response.when(
                               success: (data) {
                                 Get.toNamed(PropertiesScreen.routeName);
                               },
                               failure: (ErrorType type, String? message) {
-                                print("fdsfdsf");
-                                showToast(message!, Colors.red);
-
-                                // Fluttertoast.showToast(
-                                //     msg: message!, backgroundColor: Colors.red);
+                                Fluttertoast.showToast(
+                                  msg: message!,
+                                  gravity: ToastGravity.CENTER,
+                                  textColor: Colors.red,
+                                  backgroundColor: Colors.black38,
+                                );
                               },
                             );
                           }

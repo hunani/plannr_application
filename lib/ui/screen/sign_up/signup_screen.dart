@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -29,10 +31,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool retypePassword = true;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool view = false;
+  bool view2 = true;
   @override
   void dispose() {
     Get.delete<RegisterController>();
     super.dispose();
+  }
+
+  RegisterController controller = Get.find<RegisterController>();
+
+  bool _isPsaaword = false;
+  bool _hasPsaaword = false;
+
+  onPassword(String password) {
+    final numericRegex = RegExp(r'^[a-zA-Z0-9]+$');
+    setState(() {
+      _isPsaaword = false;
+      if (password.length >= 8) _isPsaaword = true;
+
+      _hasPsaaword = false;
+      if (numericRegex.hasMatch(password)) _hasPsaaword = true;
+    });
+  }
+
+  String? validatePassword(String value) {
+    RegExp regex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if (value.isEmpty) {
+      return 'Please enter password';
+    } else {
+      if (!regex.hasMatch(value)) {
+        return 'Include both lower and upper case characters \nat least 8 characters long \ninclude at least one number or symbol ';
+      } else {
+        return null;
+      }
+    }
   }
 
   @override
@@ -55,16 +88,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Container(
-                              height: 100,
-                              width: 200,
-                              color: Colors.transparent,
-                              child: Center(
-                                  child: Image.asset(
-                                AppAssets.appNameImage,
-                                fit: BoxFit.cover,
-                              ))),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Center(
+                              child: Image.asset(
+                            AppAssets.appNameImage,
+                            fit: BoxFit.cover,
+                            height: 70,
+                          )),
                         ),
                         Center(
                           child: Text(
@@ -88,8 +119,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           children: [
                             Expanded(
                               child: TextFormField(
-                                validator: (val) => val!.trim().isEmpty
-                                    ? "Please Enter correct First Name".tr
+                                validator: (val) => val!.trim().isEmpty ||
+                                        controller.lastController.text.isEmpty
+                                    ? "Please add You First Name \nand Last Name"
                                     : null,
                                 controller: controller.nameController,
                                 decoration: InputDecoration(
@@ -101,9 +133,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(width: 20),
                             Expanded(
                               child: TextFormField(
-                                validator: (val) => val!.trim().isEmpty
-                                    ? "Please Enter correct Last Name".tr
-                                    : null,
+                                validator: (val) =>
+                                    val!.trim().isEmpty ? "\n" : null,
                                 controller: controller.lastController,
                                 decoration: InputDecoration(
                                     hintText: "Last Name",
@@ -113,12 +144,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ],
                         ),
+                        // controller.nameController.text == "" &&
+                        //         controller.lastController.text == ""
+                        //     ? Text("Please add You First Name and Last Name")
+                        //     : Container(),
+                        // controller.nameController.text == "" &&
+                        //         controller.lastController.text == ""
+                        //     ? Text("Please add You First Name and Last Name")
+                        //     : Container(),
                         SizedBox(height: 15),
                         text("Phone Number"),
                         TextFormField(
-                          validator: (val) => val!.trim().isEmpty
-                              ? "Please Enter Valid Phone Number".tr
-                              : null,
+                          validator: (val) =>
+                              controller.phoneController.text.length != 10
+                                  ? "Please Enter Valid Phone Number"
+                                  : null,
                           controller: controller.phoneController,
                           keyboardType: TextInputType.number,
                           maxLength: 10,
@@ -128,9 +168,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         text("Email"),
                         TextFormField(
-                          validator: (val) => val!.trim().isEmpty
-                              ? "Please Enter Valid Email".tr
-                              : null,
+                          validator: (val) => EmailValidator.validate(val!)
+                              ? null
+                              : "Please Enter Valid Email",
                           controller: controller.emailController,
                           decoration: InputDecoration(
                               hintText: "Enter your email",
@@ -139,10 +179,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 15),
                         text("Password"),
                         TextFormField(
-                          validator: (val) => val!.trim().isEmpty
-                              ? "Please Enter Password".tr
-                              : null,
+                          validator: (val) => validatePassword(val!),
                           controller: controller.passwordController,
+                          onChanged: (password) => onPassword(password),
                           obscureText: hidePassword,
                           decoration: InputDecoration(
                               suffixIcon: IconButton(
@@ -166,6 +205,61 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               hintText: "Enter your password",
                               hintStyle: TextStyle(color: Color(0xffABB3BB))),
                         ),
+                        // SizedBox(height: 15),
+                        // Row(
+                        //   children: [
+                        //     AnimatedContainer(
+                        //       duration: Duration(milliseconds: 500),
+                        //       width: 20,
+                        //       height: 20,
+                        //       decoration: BoxDecoration(
+                        //         color: _isPsaaword
+                        //             ? Colors.green
+                        //             : Colors.transparent,
+                        //         border: _isPsaaword
+                        //             ? Border.all(color: Colors.transparent)
+                        //             : Border.all(color: Colors.black),
+                        //         borderRadius: BorderRadius.circular(50),
+                        //       ),
+                        //       child: Center(
+                        //           child: Icon(
+                        //         Icons.check,
+                        //         color: Colors.white,
+                        //         size: 15,
+                        //       )),
+                        //     ),
+                        //     SizedBox(width: 10),
+                        //     text("be at least 8 characters long."),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 10),
+                        // Row(
+                        //   children: [
+                        //     AnimatedContainer(
+                        //       duration: Duration(milliseconds: 500),
+                        //       width: 20,
+                        //       height: 20,
+                        //       decoration: BoxDecoration(
+                        //         color: _hasPsaaword
+                        //             ? Colors.green
+                        //             : Colors.transparent,
+                        //         border: _hasPsaaword
+                        //             ? Border.all(color: Colors.transparent)
+                        //             : Border.all(color: Colors.black),
+                        //         borderRadius: BorderRadius.circular(50),
+                        //       ),
+                        //       child: Center(
+                        //           child: Icon(
+                        //         Icons.check,
+                        //         color: Colors.white,
+                        //         size: 15,
+                        //       )),
+                        //     ),
+                        //     SizedBox(width: 10),
+                        //     text(
+                        //         "Include both lower and upper case characters."),
+                        //   ],
+                        // ),
                         SizedBox(height: 15),
                         text("Re-type"),
                         TextFormField(
@@ -206,17 +300,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             InkWell(
                                 onTap: () {
                                   view = !view;
+                                  view2 = true;
                                   setState(() {});
                                 },
                                 child: view == true
                                     ? Icon(Icons.check_box)
-                                    : Icon(Icons.check_box_outline_blank)),
+                                    : Icon(
+                                        Icons.check_box_outline_blank,
+                                        color: view2 == false
+                                            ? Colors.red
+                                            : Colors.black,
+                                      )),
                             SizedBox(width: 10),
                             Expanded(
                               child: Text(
                                 "By creating an account you agree to our Terms of Service and Privacy Policy",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 16),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: view2 == false
+                                        ? Colors.red
+                                        : Colors.black),
                               ),
                             ),
                           ],
@@ -247,13 +351,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         SignUpVerificationScreen.routeName);
                                   },
                                   failure: (ErrorType type, String? message) {
-                                    showToast(message!, Colors.red);
+                                    Fluttertoast.showToast(
+                                      msg: message!,
+                                      gravity: ToastGravity.CENTER,
+                                      textColor: Colors.red,
+                                      backgroundColor: Colors.black38,
+                                    );
                                   },
                                 );
                               } else {
-                                showToast(
-                                    "Please check the terms and conditions box to continue",
-                                    Colors.red);
+                                view2 = false;
+                                setState(() {});
                               }
                             }
                           },

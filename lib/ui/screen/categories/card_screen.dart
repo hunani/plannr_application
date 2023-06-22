@@ -10,6 +10,7 @@ import 'package:plannr_app/ui/screen/categories/select_filter.dart';
 import '../../../const/app_icon.dart';
 import '../../../core/utils/base_response.dart';
 import '../../../core/utils/flitter_toast.dart';
+import 'categories_screen.dart';
 import 'create_invitation_screen.dart';
 
 class CardScreen extends StatefulWidget {
@@ -22,6 +23,16 @@ class CardScreen extends StatefulWidget {
 
 class _CardScreenState extends State<CardScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  String? name;
+  @override
+  void initState() {
+    CategoriesModel2 categoriesModel2 = Get.arguments as CategoriesModel2;
+    print("============> ${categoriesModel2.name}");
+    print("============> ${categoriesModel2.id}");
+    name = categoriesModel2.name;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,66 +46,81 @@ class _CardScreenState extends State<CardScreen> {
           }
           return SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                children: [
-                  Center(
-                    child: Container(
-                        height: 100,
-                        width: 200,
-                        color: Colors.transparent,
-                        child: Center(
-                            child: Image.asset(
-                          AppAssets.appNameImage,
-                          fit: BoxFit.cover,
-                        ))),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              blurRadius: 4),
-                        ]),
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black,
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                      validator: (val) =>
-                          val!.trim().isEmpty ? "field required" : null,
-                      decoration: InputDecoration(
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColor.kIndigo)),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColor.kIndigo)),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.kIndigo),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintStyle: TextStyle(color: Colors.black38),
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding:
-                              const EdgeInsets.only(top: 20, left: 15),
-                          hintText: "Enter your city",
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Image.asset(
-                              AppAssets.searchImage,
-                              height: 20,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Center(
+                      child: Image.asset(
+                    AppAssets.appNameImage,
+                    fit: BoxFit.cover,
+                    height: 70,
+                  )),
+                ),
+                Row(
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Image.asset(AppAssets.back, height: 60)),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.4),
+                                    blurRadius: 4),
+                              ]),
+                          child: TextFormField(
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black,
                             ),
-                          )),
+                            textAlignVertical: TextAlignVertical.center,
+                            validator: (val) =>
+                                val!.trim().isEmpty ? "field required" : null,
+                            decoration: InputDecoration(
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColor.kIndigo),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                hintStyle: TextStyle(color: Colors.black38),
+                                fillColor: Colors.white,
+                                filled: true,
+                                contentPadding:
+                                    const EdgeInsets.only(top: 20, left: 15),
+                                hintText: "Enter your city",
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Image.asset(
+                                    AppAssets.searchImage,
+                                    height: 20,
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
+                  ],
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -115,9 +141,12 @@ class _CardScreenState extends State<CardScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  controller.cartDataList!.cartData.isNotEmpty
-                      ? Column(
+                ),
+                SizedBox(height: 20),
+                controller.cartDataList!.cartData.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
                           children: controller.cartDataList!.cartData
                               .asMap()
                               .map((index, value) => MapEntry(
@@ -152,6 +181,7 @@ class _CardScreenState extends State<CardScreen> {
                                                   height: 220,
                                                   width: double.infinity,
                                                   decoration: BoxDecoration(
+                                                    color: Colors.black12,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             5),
@@ -201,114 +231,115 @@ class _CardScreenState extends State<CardScreen> {
                                   ))
                               .values
                               .toList(),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 100),
-                          child: Center(
-                              child: Text(
-                            "No Data",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.w600),
-                          )),
                         ),
-                  // controller.cartDataList!.cartData.isEmpty
-                  //     ? Padding(
-                  //         padding: const EdgeInsets.only(top: 100),
-                  //         child: Center(
-                  //             child: Text(
-                  //           "No Data",
-                  //           style: TextStyle(
-                  //               fontSize: 30, fontWeight: FontWeight.w600),
-                  //         )),
-                  //       )
-                  //     : Column(
-                  //         children: controller.cartDataList!.cartData
-                  //             .asMap()
-                  //             .map((index, value) => MapEntry(
-                  //                   index,
-                  //                   GestureDetector(
-                  //                     onTap: () {
-                  //                       Get.toNamed(
-                  //                           CreateInvitationScreen.routeName,
-                  //                           arguments: value.id);
-                  //                     },
-                  //                     child: Padding(
-                  //                       padding:
-                  //                           const EdgeInsets.only(bottom: 20),
-                  //                       child: Container(
-                  //                         width: double.infinity,
-                  //                         decoration: BoxDecoration(
-                  //                             borderRadius:
-                  //                                 BorderRadius.circular(7),
-                  //                             color: Colors.white,
-                  //                             boxShadow: [
-                  //                               BoxShadow(
-                  //                                   color: Colors.black
-                  //                                       .withOpacity(0.5),
-                  //                                   blurRadius: 4)
-                  //                             ]),
-                  //                         child: Column(
-                  //                           children: [
-                  //                             Padding(
-                  //                               padding: const EdgeInsets.only(
-                  //                                   left: 5, right: 5, top: 5),
-                  //                               child: Container(
-                  //                                 height: 220,
-                  //                                 width: double.infinity,
-                  //                                 decoration: BoxDecoration(
-                  //                                   borderRadius:
-                  //                                       BorderRadius.circular(
-                  //                                           5),
-                  //                                 ),
-                  //                                 child: ClipRRect(
-                  //                                   borderRadius:
-                  //                                       BorderRadius.circular(
-                  //                                           5),
-                  //                                   child: Image.network(
-                  //                                       value.imagePath,
-                  //                                       fit: BoxFit.cover),
-                  //                                 ),
-                  //                               ),
-                  //                             ),
-                  //                             SizedBox(height: 10),
-                  //                             Row(
-                  //                               mainAxisAlignment:
-                  //                                   MainAxisAlignment.center,
-                  //                               children: [
-                  //                                 Image.asset(AppAssets.hero,
-                  //                                     height: 14),
-                  //                                 SizedBox(width: 10),
-                  //                                 Text(
-                  //                                   value.freeOrPremium == 0
-                  //                                       ? "Free Invitation"
-                  //                                       : "Premium Invitation",
-                  //                                   style: TextStyle(
-                  //                                       fontWeight:
-                  //                                           FontWeight.w400,
-                  //                                       fontSize: 14),
-                  //                                 ),
-                  //                               ],
-                  //                             ),
-                  //                             SizedBox(height: 10),
-                  //                             Text(
-                  //                               value.productTitle,
-                  //                               style: TextStyle(
-                  //                                   fontWeight: FontWeight.w500,
-                  //                                   fontSize: 14),
-                  //                             ),
-                  //                             SizedBox(height: 10),
-                  //                           ],
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   ),
-                  //                 ))
-                  //             .values
-                  //             .toList(),
-                  //       ),
-                  SizedBox(height: 20),
-                ],
-              ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 100),
+                        child: Center(
+                            child: Text(
+                          "We don't have Pre-Made template available for ${name} We will add soon. Thank you",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 26, fontWeight: FontWeight.w600),
+                        )),
+                      ),
+                // controller.cartDataList!.cartData.isEmpty
+                //     ? Padding(
+                //         padding: const EdgeInsets.only(top: 100),
+                //         child: Center(
+                //             child: Text(
+                //           "No Data",
+                //           style: TextStyle(
+                //               fontSize: 30, fontWeight: FontWeight.w600),
+                //         )),
+                //       )
+                //     : Column(
+                //         children: controller.cartDataList!.cartData
+                //             .asMap()
+                //             .map((index, value) => MapEntry(
+                //                   index,
+                //                   GestureDetector(
+                //                     onTap: () {
+                //                       Get.toNamed(
+                //                           CreateInvitationScreen.routeName,
+                //                           arguments: value.id);
+                //                     },
+                //                     child: Padding(
+                //                       padding:
+                //                           const EdgeInsets.only(bottom: 20),
+                //                       child: Container(
+                //                         width: double.infinity,
+                //                         decoration: BoxDecoration(
+                //                             borderRadius:
+                //                                 BorderRadius.circular(7),
+                //                             color: Colors.white,
+                //                             boxShadow: [
+                //                               BoxShadow(
+                //                                   color: Colors.black
+                //                                       .withOpacity(0.5),
+                //                                   blurRadius: 4)
+                //                             ]),
+                //                         child: Column(
+                //                           children: [
+                //                             Padding(
+                //                               padding: const EdgeInsets.only(
+                //                                   left: 5, right: 5, top: 5),
+                //                               child: Container(
+                //                                 height: 220,
+                //                                 width: double.infinity,
+                //                                 decoration: BoxDecoration(
+                //                                   borderRadius:
+                //                                       BorderRadius.circular(
+                //                                           5),
+                //                                 ),
+                //                                 child: ClipRRect(
+                //                                   borderRadius:
+                //                                       BorderRadius.circular(
+                //                                           5),
+                //                                   child: Image.network(
+                //                                       value.imagePath,
+                //                                       fit: BoxFit.cover),
+                //                                 ),
+                //                               ),
+                //                             ),
+                //                             SizedBox(height: 10),
+                //                             Row(
+                //                               mainAxisAlignment:
+                //                                   MainAxisAlignment.center,
+                //                               children: [
+                //                                 Image.asset(AppAssets.hero,
+                //                                     height: 14),
+                //                                 SizedBox(width: 10),
+                //                                 Text(
+                //                                   value.freeOrPremium == 0
+                //                                       ? "Free Invitation"
+                //                                       : "Premium Invitation",
+                //                                   style: TextStyle(
+                //                                       fontWeight:
+                //                                           FontWeight.w400,
+                //                                       fontSize: 14),
+                //                                 ),
+                //                               ],
+                //                             ),
+                //                             SizedBox(height: 10),
+                //                             Text(
+                //                               value.productTitle,
+                //                               style: TextStyle(
+                //                                   fontWeight: FontWeight.w500,
+                //                                   fontSize: 14),
+                //                             ),
+                //                             SizedBox(height: 10),
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     ),
+                //                   ),
+                //                 ))
+                //             .values
+                //             .toList(),
+                //       ),
+                SizedBox(height: 20),
+              ],
             ),
           );
         },
@@ -509,20 +540,27 @@ class _CardScreenState extends State<CardScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Container(
-                  height: 47,
-                  width: 240,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.kIndigo),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Clear",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 22,
+                GestureDetector(
+                  onTap: () {
+                    controller.fillIndex = null;
+                    controller.selectIndex = null;
+                    Get.back();
+                  },
+                  child: Container(
+                    height: 47,
+                    width: 240,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.kIndigo),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Clear",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22,
+                        ),
                       ),
                     ),
                   ),

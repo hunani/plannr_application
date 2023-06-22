@@ -1,18 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
-import 'package:plannr_app/ui/screen/categories/model/create_submit_data_model.dart';
 import 'package:plannr_app/ui/screen/home/model/categories_model.dart';
-import 'package:plannr_app/widget/global.dart';
 import '../../../../core/repository/user_repository.dart';
 import '../../../../core/ui_failure/ui_result.dart';
 import '../../../../core/utils/error_util.dart';
-import '../model/create_model.dart';
 
-class UploadController extends GetxController {
+class UploadImagesController extends GetxController {
   final userRepo = GetIt.I.get<UserRepository>();
 
   UiFailure? uiFailure;
@@ -23,15 +18,6 @@ class UploadController extends GetxController {
 
   set imagePath(File? value) {
     _imagePath = value;
-    update();
-  }
-
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-
-  set isLoading(bool value) {
-    _isLoading = value;
     update();
   }
 
@@ -84,49 +70,6 @@ class UploadController extends GetxController {
     }
   }
 
-  Future<UiResult<bool>> createInvitation(
-      int id,
-      String name,
-      String date,
-      String time,
-      String timeZone,
-      String hostedBy,
-      String location,
-      String phone,
-      String message,
-      String typeEvents,
-      String dressCode,
-      String food,
-      String addInfo,
-      String addAdmin,
-      String addChatRoom,
-      String inviteMore,
-      String draft) async {
-    try {
-      await userRepo.createInvitationProduct(
-          id,
-          name,
-          date,
-          time,
-          timeZone,
-          hostedBy,
-          location,
-          phone,
-          message,
-          typeEvents,
-          dressCode,
-          food,
-          addInfo,
-          addAdmin,
-          addChatRoom,
-          inviteMore,
-          draft);
-      return UiSuccess(true);
-    } catch (error, stackTrace) {
-      return ErrorUtil.getUiFailureFromException(error, stackTrace);
-    }
-  }
-
   List<CategoriesList> categoriesDataList = [];
   Future<UiResult<bool>> categoriesData() async {
     try {
@@ -145,31 +88,9 @@ class UploadController extends GetxController {
     }
   }
 
-  CreateInvitationSubmitData? createInvitationSubmit;
-  Future<UiResult<bool>> createInvitationSubmitList(int id) async {
-    try {
-      isLoading = true;
-      EasyLoading.show();
-      final response = await userRepo.createInvitationSubmitData(id);
-      createInvitationSubmit = response;
-      return const UiSuccess(true);
-    } catch (error, stackTrace) {
-      return ErrorUtil.getUiFailureFromException(error, stackTrace);
-    } finally {
-      isLoading = false;
-      EasyLoading.dismiss();
-      update();
-    }
-  }
-
-  getData() async {
-    await categoriesData();
-    await createInvitationSubmitList(appController.loginModel!.userId);
-  }
-
   @override
   void onInit() {
-    getData();
+    categoriesData();
     super.onInit();
   }
 }

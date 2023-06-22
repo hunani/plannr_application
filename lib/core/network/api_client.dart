@@ -7,6 +7,8 @@ import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
 import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_submit_data_model.dart';
 import '../../ui/screen/categories/model/fitter_model.dart';
+import '../../ui/screen/events/model/edit_contact_model.dart';
+import '../../ui/screen/events/model/view_invitation_model.dart';
 import '../../ui/screen/home/model/banner_model.dart';
 import '../../ui/screen/home/model/birtday_party_model.dart';
 import '../../ui/screen/home/model/bridal_shower_model.dart';
@@ -46,23 +48,23 @@ abstract class ApiClient {
   Future<CreateList> create(int id);
 
   Future<void> createInvitationProduct(
-    int id,
-    String name,
-    String date,
-    String time,
-    String timeZone,
-    String hostedBy,
-    String location,
-    String phone,
-    String message,
-    String typeEvents,
-    String dressCode,
-    String food,
-    String addInfo,
-    String addAdmin,
-    String addChatRoom,
-    String inviteMore,
-  );
+      int id,
+      String name,
+      String date,
+      String time,
+      String timeZone,
+      String hostedBy,
+      String location,
+      String phone,
+      String message,
+      String typeEvents,
+      String dressCode,
+      String food,
+      String addInfo,
+      String addAdmin,
+      String addChatRoom,
+      String inviteMore,
+      String draft);
 
   Future<void> createInvitationProduct2(
     String image,
@@ -95,4 +97,8 @@ abstract class ApiClient {
   Future<List<UpcomingList>> upcomingDataList(int userId);
 
   Future<List<UpcomingList>> pastDataList(int userId);
+
+  Future<List<EventOverviewList>> editOverview(int id);
+
+  Future<ViewInvitatioData> viewInvitation(int id, int userId);
 }

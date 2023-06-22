@@ -10,6 +10,7 @@ import '../../../const/app_icon.dart';
 import '../../../const/dispose_keyboard.dart';
 import '../../../main.dart';
 import '../../../widget/image_picker.dart';
+import '../dashboad/dashboad_screen.dart';
 import 'card_screen.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -40,16 +41,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   children: [
-                    Center(
-                      child: Container(
-                          height: 100,
-                          width: 200,
-                          color: Colors.transparent,
-                          child: Center(
-                              child: Image.asset(
-                            AppAssets.appNameImage,
-                            fit: BoxFit.cover,
-                          ))),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Center(
+                          child: Image.asset(
+                        AppAssets.appNameImage,
+                        fit: BoxFit.cover,
+                        height: 70,
+                      )),
                     ),
                     Container(
                       decoration: BoxDecoration(
@@ -106,7 +105,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     Get.toNamed(CardScreen.routeName,
-                                        arguments: value.id);
+                                        arguments: CategoriesModel2(
+                                            value.id, value.name));
                                   },
                                   child: Container(
                                     color: Colors.transparent,
@@ -121,7 +121,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                                             height: 65,
                                             width: 65,
                                             decoration: BoxDecoration(
-                                              color: Colors.transparent,
+                                              color: Colors.black12,
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
@@ -287,4 +287,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       ),
     );
   }
+}
+
+class CategoriesModel2 {
+  final int id;
+  final String name;
+
+  const CategoriesModel2(this.id, this.name);
 }

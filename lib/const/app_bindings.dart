@@ -5,6 +5,9 @@ import '../ui/screen/categories/controller/create_contact_controller.dart';
 import '../ui/screen/categories/controller/create_controller.dart';
 import '../ui/screen/categories/controller/create_list_controller.dart';
 import '../ui/screen/categories/controller/upload_controller.dart';
+import '../ui/screen/categories/controller/upload_image_controller.dart';
+import '../ui/screen/events/controller/edit_overview_controller.dart';
+import '../ui/screen/events/controller/view_invatation_controller.dart';
 import '../ui/screen/events/controller/upcoming_controller.dart';
 import '../ui/screen/forget/controller/forgot_controller.dart';
 import '../ui/screen/home/controller/home_controller.dart';
@@ -27,12 +30,18 @@ class AppBindings extends Bindings {
     Get.lazyPut<CreateController>(() => CreateController(), fenix: true);
     Get.lazyPut<UploadController>(() => UploadController(), fenix: true);
     Get.lazyPut<UpcomingController>(() => UpcomingController(), fenix: true);
+    Get.lazyPut<EditOverviewController>(() => EditOverviewController(),
+        fenix: true);
+    Get.lazyPut<EventsCreateController>(() => EventsCreateController(),
+        fenix: true);
     Get.lazyPut<CreateContactDataController>(
         () => CreateContactDataController(),
         fenix: true);
     Get.lazyPut<CreateContactController>(() => CreateContactController(),
         fenix: true);
     Get.lazyPut<ImagePickerController>(() => ImagePickerController(),
+        fenix: true);
+    Get.lazyPut<UploadImagesController>(() => UploadImagesController(),
         fenix: true);
   }
 }

@@ -40,11 +40,11 @@ class _SplashState extends State<Splash> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: Image.asset(
-                  AppAssets.appNameImage,
-                  height: 300,
-                ),
-              )
+                  child: Image.asset(
+                AppAssets.appNameImage,
+                fit: BoxFit.cover,
+                height: 250,
+              )),
             ],
           ),
         ),

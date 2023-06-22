@@ -25,16 +25,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Column(
               children: [
-                Center(
-                  child: Container(
-                      height: 100,
-                      width: 200,
-                      color: Colors.transparent,
-                      child: Center(
-                          child: Image.asset(
-                        AppAssets.appNameImage,
-                        fit: BoxFit.cover,
-                      ))),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Center(
+                      child: Image.asset(
+                    AppAssets.appNameImage,
+                    fit: BoxFit.cover,
+                    height: 70,
+                  )),
                 ),
                 Image.asset(AppAssets.userImage1, height: 130),
                 SizedBox(height: 20),
