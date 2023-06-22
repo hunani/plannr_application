@@ -9,7 +9,7 @@ class AppAssets {
   static const String faceboookImage = "assets/icon/faceboook.png";
   static const String mailImage = "assets/image/mail icon@2x.png";
   static const String doneImage = "assets/image/done.png";
-  static const String appNameImage = "assets/image/logo.png";
+  static const String appNameImage = "assets/image/reLogo.png";
   static const String orImage = "assets/image/or.png";
   static const String home1 = "assets/image/home_b.png";
 

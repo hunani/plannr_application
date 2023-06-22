@@ -41,16 +41,14 @@ class _CreateContactPageState extends State<CreateContactPage> {
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: [
-                      Center(
-                        child: Container(
-                            height: 100,
-                            width: 200,
-                            color: Colors.transparent,
-                            child: Center(
-                                child: Image.asset(
-                              AppAssets.appNameImage,
-                              fit: BoxFit.cover,
-                            ))),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Center(
+                            child: Image.asset(
+                          AppAssets.appNameImage,
+                          fit: BoxFit.cover,
+                          height: 70,
+                        )),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),

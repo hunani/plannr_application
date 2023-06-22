@@ -50,66 +50,82 @@ class _SelectFilterState extends State<SelectFilter> {
           // }
           return SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Column(
-                children: [
-                  Center(
-                    child: Container(
-                        height: 100,
-                        width: 200,
-                        color: Colors.transparent,
-                        child: Center(
-                            child: Image.asset(
-                          AppAssets.appNameImage,
-                          fit: BoxFit.cover,
-                        ))),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              blurRadius: 4),
-                        ]),
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Colors.black,
-                      ),
-                      textAlignVertical: TextAlignVertical.center,
-                      validator: (val) =>
-                          val!.trim().isEmpty ? "field required" : null,
-                      decoration: InputDecoration(
-                          errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColor.kIndigo)),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: AppColor.kIndigo)),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.kIndigo),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintStyle: TextStyle(color: Colors.black38),
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding:
-                              const EdgeInsets.only(top: 20, left: 15),
-                          hintText: "Enter your city",
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Image.asset(
-                              AppAssets.searchImage,
-                              height: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Center(
+                      child: Image.asset(
+                    AppAssets.appNameImage,
+                    fit: BoxFit.cover,
+                    height: 70,
+                  )),
+                ),
+                Row(
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Image.asset(AppAssets.back, height: 60)),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.4),
+                                    blurRadius: 4),
+                              ]),
+                          child: TextFormField(
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black,
                             ),
-                          )),
+                            textAlignVertical: TextAlignVertical.center,
+                            validator: (val) =>
+                                val!.trim().isEmpty ? "field required" : null,
+                            decoration: InputDecoration(
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColor.kIndigo),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                hintStyle: TextStyle(color: Colors.black38),
+                                fillColor: Colors.white,
+                                filled: true,
+                                contentPadding:
+                                    const EdgeInsets.only(top: 20, left: 15),
+                                hintText: "Enter your city",
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.all(15),
+                                  child: Image.asset(
+                                    AppAssets.searchImage,
+                                    height: 20,
+                                  ),
+                                )),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
+                  ],
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -130,142 +146,157 @@ class _SelectFilterState extends State<SelectFilter> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Row(
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
                     children: [
                       view == false
-                          ? Container(
-                              height: 30,
-                              width: 90,
-                              color: Colors.brown.shade50,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "Free",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17),
-                                    ),
-                                    Spacer(),
-                                    InkWell(
-                                        onTap: () {
-                                          view = true;
-                                          setState(() {});
-                                        },
-                                        child: Image.asset(AppAssets.remove,
-                                            height: 10)),
-                                  ],
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 15),
+                              child: Container(
+                                height: 30,
+                                width: 90,
+                                color: Colors.brown.shade50,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Free",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17),
+                                      ),
+                                      Spacer(),
+                                      InkWell(
+                                          onTap: () {
+                                            view = true;
+                                            setState(() {});
+                                          },
+                                          child: Image.asset(AppAssets.remove,
+                                              height: 10)),
+                                    ],
+                                  ),
                                 ),
                               ),
                             )
                           : Container(),
-                      SizedBox(width: 20),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          controller.fitterList!.fitter.clear();
+                          view = true;
+                          setState(() {});
+                        },
                         child: Container(
                           height: 30,
                           width: 100,
                           color: Colors.white,
-                          child: Text(
-                            "Clear All",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 17),
+                          child: Center(
+                            child: Text(
+                              "Clear All",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 17,
+                                  color: Colors.black),
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  controller.fitterList!.fitter.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 100),
-                          child: Center(
-                              child: Text(
-                            "No Data",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.w600),
-                          )),
-                        )
-                      : Column(
-                          children: controller.fitterList!.fitter
-                              .asMap()
-                              .map((index, value) => MapEntry(
-                                    index,
-                                    GestureDetector(
-                                      onTap: () {
-                                        Get.toNamed(
-                                            CreateInvitationScreen.routeName,
-                                            arguments: value.id);
-                                      },
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 20),
-                                        child: Container(
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(7),
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.black
-                                                        .withOpacity(0.5),
-                                                    blurRadius: 4)
-                                              ]),
-                                          child: Column(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 5, right: 5, top: 5),
-                                                child: Container(
-                                                  height: 220,
-                                                  child: Image.network(
-                                                      value.imagePath,
-                                                      fit: BoxFit.cover),
-                                                ),
-                                              ),
-                                              SizedBox(height: 10),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Image.asset(AppAssets.hero,
-                                                      height: 14),
-                                                  SizedBox(width: 10),
-                                                  Text(
-                                                    value.freeOrPremium == 0
-                                                        ? "Free Invitation"
-                                                        : "Premium Invitation",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: 10),
-                                              Text(
-                                                value.productTitle,
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14),
-                                              ),
-                                              SizedBox(height: 10),
-                                            ],
+                ),
+                SizedBox(height: 20),
+                // controller.fitterList!.fitter.isEmpty
+                //     ? Padding(
+                //         padding: const EdgeInsets.only(
+                //             top: 100, left: 15, right: 15),
+                //         child: Center(
+                //             child: Text(
+                //           "We dont't have Pre-Made template avilable for",
+                //           textAlign: TextAlign.center,
+                //           style: TextStyle(
+                //               fontSize: 28, fontWeight: FontWeight.w600),
+                //         )),
+                //       )
+                //     :
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    children: controller.fitterList!.fitter
+                        .asMap()
+                        .map((index, value) => MapEntry(
+                              index,
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(CreateInvitationScreen.routeName,
+                                      arguments: value.id);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(7),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              blurRadius: 4)
+                                        ]),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 5, right: 5, top: 5),
+                                          child: Container(
+                                            height: 220,
+                                            child: Image.network(
+                                                value.imagePath,
+                                                fit: BoxFit.cover),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(height: 10),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Image.asset(AppAssets.hero,
+                                                height: 14),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              value.freeOrPremium == 0
+                                                  ? "Free Invitation"
+                                                  : "Premium Invitation",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 14),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10),
+                                        Text(
+                                          value.productTitle,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14),
+                                        ),
+                                        SizedBox(height: 10),
+                                      ],
                                     ),
-                                  ))
-                              .values
-                              .toList(),
-                        ),
-                  SizedBox(height: 20),
-                ],
-              ),
+                                  ),
+                                ),
+                              ),
+                            ))
+                        .values
+                        .toList(),
+                  ),
+                ),
+                SizedBox(height: 20),
+              ],
             ),
           );
         },
@@ -344,10 +375,10 @@ class _SelectFilterState extends State<SelectFilter> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          controller.fillIndex = index;
+                                          controller.fillIndex2 = index;
                                           setState(() {});
                                         },
-                                        child: controller.fillIndex == index
+                                        child: controller.fillIndex2 == index
                                             ? Icon(
                                                 Icons.check_box_rounded,
                                                 size: 27,
@@ -395,9 +426,9 @@ class _SelectFilterState extends State<SelectFilter> {
                               index,
                               InkWell(
                                 onTap: () {
-                                  controller.selectIndex = index;
+                                  controller.selectIndex2 = index;
                                   // controller.selectIndex = value.id;
-                                  controller.id = value.id;
+                                  controller.id2 = value.id;
                                   // print("=======${controller.id}");
                                   setState(() {});
                                   // print("=");
@@ -410,7 +441,7 @@ class _SelectFilterState extends State<SelectFilter> {
                                     color: Color(
                                         int.parse("0xff${value.colorCode}")),
                                   ),
-                                  child: controller.selectIndex == index
+                                  child: controller.selectIndex2 == index
                                       ? Center(
                                           child: Icon(Icons.done,
                                               color: Colors.white, size: 12),
@@ -432,15 +463,15 @@ class _SelectFilterState extends State<SelectFilter> {
                   onTap: () async {
                     EasyLoading.show();
                     final response = await controller.fitter(
-                      controller.fillIndex == null
+                      controller.fillIndex2 == null
                           ? "0"
-                          : controller.fillIndex.toString(),
-                      controller.id == null ? "0" : controller.id.toString(),
+                          : controller.fillIndex2.toString(),
+                      controller.id2 == null ? "0" : controller.id2.toString(),
                     );
                     EasyLoading.dismiss();
                     response.when(
                       success: (data) {
-                        Get.toNamed(SelectFilter.routeName);
+                        Get.back();
                       },
                       failure: (ErrorType type, String? message) {
                         showToast(getMessageFromErrorType(type), Colors.red);
@@ -466,20 +497,27 @@ class _SelectFilterState extends State<SelectFilter> {
                   ),
                 ),
                 SizedBox(height: 20),
-                Container(
-                  height: 47,
-                  width: 240,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColor.kIndigo),
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Clear",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 22,
+                GestureDetector(
+                  onTap: () {
+                    controller.fillIndex2 = null;
+                    controller.selectIndex2 = null;
+                    Get.back();
+                  },
+                  child: Container(
+                    height: 47,
+                    width: 240,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.kIndigo),
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Clear",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 22,
+                        ),
                       ),
                     ),
                   ),

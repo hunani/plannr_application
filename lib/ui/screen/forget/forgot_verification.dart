@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -29,6 +30,7 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
     Get.delete<ForgotController>();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,16 +43,28 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Column(
                 children: [
-                  Center(
-                    child: Container(
-                        height: 100,
-                        width: 200,
-                        color: Colors.transparent,
-                        child: Center(
-                            child: Image.asset(
-                          AppAssets.appNameImage,
-                          fit: BoxFit.cover,
-                        ))),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Image.asset(AppAssets.back, height: 55)),
+                      Center(
+                          child: Image.asset(
+                        AppAssets.appNameImage,
+                        fit: BoxFit.cover,
+                        height: 70,
+                      )),
+                      GestureDetector(
+                          onTap: () {},
+                          child: Image.asset(
+                            AppAssets.back,
+                            height: 55,
+                            color: Colors.transparent,
+                          )),
+                    ],
                   ),
                   Center(
                     child: Text(
@@ -113,10 +127,18 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                       EasyLoading.dismiss();
                       response.when(
                         success: (data) {
-                          showToast("Resend OTP Send Successfully", Colors.red);
+                          Fluttertoast.showToast(
+                            msg: "OTP has been Resent to your Email",
+                            gravity: ToastGravity.CENTER,
+                          );
                         },
                         failure: (ErrorType type, String? message) {
-                          showToast(message!, Colors.red);
+                          Fluttertoast.showToast(
+                            msg: message!,
+                            gravity: ToastGravity.CENTER,
+                            textColor: Colors.red,
+                            backgroundColor: Colors.black38,
+                          );
                         },
                       );
                     },
@@ -151,11 +173,21 @@ class _ForgotVerificationScreenState extends State<ForgotVerificationScreen> {
                             Get.toNamed(ChangePassword.routeName);
                           },
                           failure: (ErrorType type, String? message) {
-                            showToast("Invalid otp", Colors.red);
+                            Fluttertoast.showToast(
+                              msg: "The OTP you have entered is incorrect",
+                              textColor: Colors.red,
+                              gravity: ToastGravity.CENTER,
+                              backgroundColor: Colors.black38,
+                            );
                           },
                         );
                       } else {
-                        showToast("Please Enter Otp", Colors.red);
+                        Fluttertoast.showToast(
+                          msg: "Please Enter Otp",
+                          textColor: Colors.red,
+                          gravity: ToastGravity.CENTER,
+                          backgroundColor: Colors.black38,
+                        );
                       }
                     },
                     child: Container(

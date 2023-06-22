@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -31,6 +32,7 @@ class _SignUpVerificationScreenState extends State<SignUpVerificationScreen> {
     Get.delete<RegisterController>();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -47,16 +49,28 @@ class _SignUpVerificationScreenState extends State<SignUpVerificationScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   children: [
-                    Center(
-                      child: Container(
-                          height: 100,
-                          width: 200,
-                          color: Colors.transparent,
-                          child: Center(
-                              child: Image.asset(
-                            AppAssets.appNameImage,
-                            fit: BoxFit.cover,
-                          ))),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Image.asset(AppAssets.back, height: 55)),
+                        Center(
+                            child: Image.asset(
+                          AppAssets.appNameImage,
+                          fit: BoxFit.cover,
+                          height: 70,
+                        )),
+                        GestureDetector(
+                            onTap: () {},
+                            child: Image.asset(
+                              AppAssets.back,
+                              height: 55,
+                              color: Colors.transparent,
+                            )),
+                      ],
                     ),
                     Center(
                       child: Text(
@@ -120,11 +134,18 @@ class _SignUpVerificationScreenState extends State<SignUpVerificationScreen> {
                         EasyLoading.dismiss();
                         response.when(
                           success: (data) {
-                            showToast(
-                                "Resend OTP Send Successfully", Colors.red);
+                            Fluttertoast.showToast(
+                              msg: "OTP has been Resent to your Email",
+                              gravity: ToastGravity.CENTER,
+                            );
                           },
                           failure: (ErrorType type, String? message) {
-                            showToast(message!, Colors.red);
+                            Fluttertoast.showToast(
+                              msg: message!,
+                              gravity: ToastGravity.CENTER,
+                              textColor: Colors.red,
+                              backgroundColor: Colors.black38,
+                            );
                           },
                         );
                       },
@@ -160,13 +181,22 @@ class _SignUpVerificationScreenState extends State<SignUpVerificationScreen> {
                               Get.toNamed(SignUpDone.routeName);
                             },
                             failure: (ErrorType type, String? message) {
-                              showToast("Invalid Otp", Colors.red);
+                              Fluttertoast.showToast(
+                                msg: "The OTP you have entered is incorrect",
+                                gravity: ToastGravity.CENTER,
+                                textColor: Colors.red,
+                                backgroundColor: Colors.black38,
+                              );
                             },
                           );
                         } else {
-                          showToast("Please Enter Otp", Colors.red);
+                          Fluttertoast.showToast(
+                            msg: "Please Enter Otp",
+                            gravity: ToastGravity.CENTER,
+                            textColor: Colors.red,
+                            backgroundColor: Colors.black38,
+                          );
                         }
-                        print("====>${otpController.text.length}");
                       },
                       child: Container(
                         height: 50,

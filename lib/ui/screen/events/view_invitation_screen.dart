@@ -2,28 +2,24 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/const/dispose_keyboard.dart';
-import 'package:plannr_app/ui/screen/categories/controller/create_controller.dart';
 import 'package:plannr_app/ui/screen/categories/upload_screen.dart';
-
 import '../../../const/app_icon.dart';
 import '../../../core/utils/base_response.dart';
 import '../../../core/utils/flitter_toast.dart';
 import '../home/model/categories_model.dart';
-import 'contact_select_screen.dart';
-import 'create_submit_details_screen.dart';
+import 'controller/view_invatation_controller.dart';
 
-class CreateInvitationScreen extends StatefulWidget {
-  static const String routeName = '/createInvitationScreen';
-  const CreateInvitationScreen({Key? key}) : super(key: key);
+class ViewInvitationScreen extends StatefulWidget {
+  static const String routeName = '/viewInvitationScreen';
+  const ViewInvitationScreen({Key? key}) : super(key: key);
 
   @override
-  State<CreateInvitationScreen> createState() => _CreateInvitationScreenState();
+  State<ViewInvitationScreen> createState() => _ViewInvitationScreenState();
 }
 
-class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
+class _ViewInvitationScreenState extends State<ViewInvitationScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController dressController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -62,17 +58,64 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
   int? yesNoIndex4;
 
   int? productId;
+  EventsCreateController eventsCreateController =
+      Get.find<EventsCreateController>();
   @override
   void initState() {
     productId = Get.arguments;
+    getData();
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   _selectDate();
-  //   super.dispose();
-  // }
+  void getData() async {
+    final response = await eventsCreateController.categoriesData();
+    response.map(
+      success: (value) {
+        print(
+            "===meet dhameliya===> ${eventsCreateController.viewInvitatioData?.eventTitle}");
+        nameController.text =
+            eventsCreateController.viewInvitatioData!.eventTitle;
+        dateController.text =
+            eventsCreateController.viewInvitatioData!.startDate.toString();
+        timeController.text =
+            eventsCreateController.viewInvitatioData!.eventTime;
+        timeController2.text =
+            eventsCreateController.viewInvitatioData!.timeZone;
+        hostedController.text =
+            eventsCreateController.viewInvitatioData!.hostedBy;
+        locationController.text =
+            eventsCreateController.viewInvitatioData!.location;
+        messgeController.text =
+            eventsCreateController.viewInvitatioData!.message;
+        soilSelect?.name =
+            eventsCreateController.viewInvitatioData!.typeOfEvent;
+        dressController.text =
+            eventsCreateController.viewInvitatioData!.dressCode;
+        foodController.text =
+            eventsCreateController.viewInvitatioData!.foodBeverages;
+        foodController.text =
+            eventsCreateController.viewInvitatioData!.foodBeverages;
+        addController.text =
+            eventsCreateController.viewInvitatioData!.additionalInformation;
+        yesNoIndex2 = eventsCreateController
+                    .viewInvitatioData!.addAdditionalAdminEventOrganizer ==
+                "No"
+            ? 1
+            : 0;
+        yesNoIndex3 =
+            eventsCreateController.viewInvitatioData!.addChatRoom == "No"
+                ? 1
+                : 0;
+        yesNoIndex4 =
+            eventsCreateController.viewInvitatioData!.inviteMoreThan2People ==
+                    "No"
+                ? 1
+                : 0;
+        setState(() {});
+      },
+      failure: (value) {},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +128,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
         child: Scaffold(
           backgroundColor: AppColor.kScreenColor,
           body: GetBuilder(
-            builder: (CreateController controller) {
+            builder: (EventsCreateController controller) {
               if (controller.isLoading) {
                 return Container();
               }
@@ -179,7 +222,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
-                                      controller.createDataList!.image,
+                                      controller.viewInvitatioData!.image,
                                       fit: BoxFit.cover)),
                             ),
                           ),
@@ -214,6 +257,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Name"
@@ -401,6 +445,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Hosted"
@@ -443,6 +488,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Location"
@@ -474,6 +520,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             keyboardType: TextInputType.number,
                             maxLength: 10,
@@ -557,6 +604,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Message"
@@ -654,6 +702,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Dress Code"
@@ -694,6 +743,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Food"
                                 : null,
+                            readOnly: true,
                             decoration: InputDecoration(
                               errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
@@ -728,6 +778,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                               fontSize: 14,
                               color: Colors.black,
                             ),
+                            readOnly: true,
                             textAlignVertical: TextAlignVertical.center,
                             validator: (val) => val!.trim().isEmpty
                                 ? "Please Enter Additional Information"
@@ -1018,9 +1069,9 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                                       EasyLoading.dismiss();
                                       response.when(
                                         success: (data) {
-                                          //showToast("Submit Data", Colors.black);
-                                          Get.toNamed(CreateSubmitDetailsScreen
-                                              .routeName);
+                                          showToast(
+                                              "update Data", Colors.black);
+                                          Get.back();
                                         },
                                         failure:
                                             (ErrorType type, String? message) {

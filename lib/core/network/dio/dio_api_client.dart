@@ -8,7 +8,9 @@ import 'package:plannr_app/ui/screen/categories/model/color_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_list_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_submit_data_model.dart';
+import 'package:plannr_app/ui/screen/events/model/edit_contact_model.dart';
 import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
+import 'package:plannr_app/ui/screen/events/model/view_invitation_model.dart';
 import 'package:plannr_app/ui/screen/home/model/banner_model.dart';
 import 'package:plannr_app/ui/screen/home/model/categories_model.dart';
 import 'package:plannr_app/ui/screen/home/model/trending_model.dart';
@@ -212,7 +214,8 @@ class DioApiClient extends ApiClient {
       String addInfo,
       String addAdmin,
       String addChatRoom,
-      String inviteMore) async {
+      String inviteMore,
+      String draft) async {
     await _dioClient.postApi(UrlPath.createSubmitApi, map: {
       "product_id": id,
       "name": name,
@@ -229,7 +232,8 @@ class DioApiClient extends ApiClient {
       "add_info": addInfo,
       "add_admin": addAdmin,
       "add_chat_room": addChatRoom,
-      "invite_more": inviteMore
+      "invite_more": inviteMore,
+      "draft": draft
     });
   }
 
@@ -330,5 +334,23 @@ class DioApiClient extends ApiClient {
         (e) => UpcomingList.fromJson(e),
       ),
     );
+  }
+
+  @override
+  Future<List<EventOverviewList>> editOverview(int id) async {
+    final response = await _dioClient
+        .postApi(UrlPath.eventOverviewApi, map: {"event_id": id});
+    return List<EventOverviewList>.from(
+      response.data.map(
+        (e) => EventOverviewList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<ViewInvitatioData> viewInvitation(int id, int userId) async {
+    final response = await _dioClient.postApi(UrlPath.viewInvitationApi,
+        map: {"event_id": id, "user_id": userId});
+    return ViewInvitatioData.fromJson(response.data);
   }
 }

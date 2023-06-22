@@ -25,4 +25,6 @@ class UrlPath {
   static const createListApi = "contact-list";
   static const eventUpcomingApi = "event-upcoming";
   static const eventPastApi = "event-past";
+  static const eventOverviewApi = "event-overview";
+  static const viewInvitationApi = "view-invitation";
 }

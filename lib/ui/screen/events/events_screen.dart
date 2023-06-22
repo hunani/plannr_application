@@ -25,16 +25,14 @@ class _EventsScreenState extends State<EventsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Center(
-              child: Container(
-                  height: 100,
-                  width: 200,
-                  color: Colors.transparent,
-                  child: Center(
-                      child: Image.asset(
-                    AppAssets.appNameImage,
-                    fit: BoxFit.cover,
-                  ))),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Center(
+                  child: Image.asset(
+                AppAssets.appNameImage,
+                fit: BoxFit.cover,
+                height: 70,
+              )),
             ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -107,11 +105,12 @@ class Upcoming extends StatelessWidget {
                   controller.upcomingDataList.length,
                   (index) => GestureDetector(
                     onTap: () {
-                      if (index == 2) {
-                        draftShareBottomSheet();
-                      } else {
-                        Get.toNamed(EventOverviewScreen.routeName);
-                      }
+                      // if (index == 2) {
+                      //   draftShareBottomSheet();
+                      // } else {
+                      Get.toNamed(EventOverviewScreen.routeName,
+                          arguments: controller.upcomingDataList[index].id);
+                      // }
                     },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20),
@@ -199,7 +198,8 @@ class Past extends StatelessWidget {
                   controller.pastDataList.length,
                   (index) => GestureDetector(
                     onTap: () {
-                      Get.toNamed(EventOverviewScreen.routeName);
+                      Get.toNamed(EventOverviewScreen.routeName,
+                          arguments: controller.pastDataList[index].id);
                     },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20),

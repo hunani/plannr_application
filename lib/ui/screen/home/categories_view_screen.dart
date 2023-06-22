@@ -5,6 +5,10 @@ import 'package:plannr_app/ui/screen/home/controller/home_controller.dart';
 
 import '../../../const/app_color.dart';
 import '../../../const/app_icon.dart';
+import '../categories/card_screen.dart';
+import '../categories/categories_screen.dart';
+import '../categories/controller/categories_controller.dart';
+import '../categories/upload_screen.dart';
 
 class CategoriesViewScreen extends StatelessWidget {
   static const String routeName = '/categoriesViewScreen';
@@ -15,22 +19,23 @@ class CategoriesViewScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColor.kScreenColor,
       body: GetBuilder(
-        builder: (HomeController controller) {
-          return SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: SafeArea(
+        builder: (CategoriesController controller) {
+          if (controller.isLoading) {
+            return Container();
+          }
+          return SafeArea(
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  Center(
-                    child: Container(
-                        height: 100,
-                        width: 200,
-                        color: Colors.transparent,
-                        child: Center(
-                            child: Image.asset(
-                          AppAssets.appNameImage,
-                          fit: BoxFit.cover,
-                        ))),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Center(
+                        child: Image.asset(
+                      AppAssets.appNameImage,
+                      fit: BoxFit.cover,
+                      height: 70,
+                    )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -57,59 +62,70 @@ class CategoriesViewScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
-                  ...List.generate(
-                    controller.categoriesDataList.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 250,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                        controller.categoriesDataList[index]
-                                            .imagePath,
-                                        fit: BoxFit.cover)),
-                              ),
-                              SizedBox(height: 7),
-                              Center(
-                                child: Text(
-                                  controller.categoriesDataList[index].name,
-                                  maxLines: 1,
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    overflow: TextOverflow.ellipsis,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
+                  SizedBox(height: 20),
+                  ...controller.categoriesDataList
+                      .asMap()
+                      .map((index, value) => MapEntry(
+                          index,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(CardScreen.routeName,
+                                        arguments: CategoriesModel2(
+                                            value.id, value.name));
+                                  },
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 10, top: 10),
+                                          child: Container(
+                                            height: 65,
+                                            width: 65,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black12,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.network(
+                                                  value.imagePath,
+                                                  fit: BoxFit.cover),
+                                              // child: Image.asset(
+                                              //     AppAssets.homeImage2,
+                                              //     fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(width: 15),
+                                        Text(
+                                          value.name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 17),
+                                        ),
+                                        Spacer(),
+                                        Icon(Icons.add, size: 30),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                                Divider(thickness: 1, color: Colors.black38),
+                              ],
+                            ),
+                          )))
+                      .values
+                      .toList(),
+                  SizedBox(height: 25),
                 ],
               ),
             ),

@@ -31,16 +31,28 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              Center(
-                child: Container(
-                    height: 100,
-                    width: 200,
-                    color: Colors.transparent,
-                    child: Center(
-                        child: Image.asset(
-                      AppAssets.appNameImage,
-                      fit: BoxFit.cover,
-                    ))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Image.asset(AppAssets.back, height: 55)),
+                  Center(
+                      child: Image.asset(
+                    AppAssets.appNameImage,
+                    fit: BoxFit.cover,
+                    height: 70,
+                  )),
+                  GestureDetector(
+                      onTap: () {},
+                      child: Image.asset(
+                        AppAssets.back,
+                        height: 55,
+                        color: Colors.transparent,
+                      )),
+                ],
               ),
               Center(
                 child: Text(

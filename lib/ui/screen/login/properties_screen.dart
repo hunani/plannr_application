@@ -28,16 +28,14 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
           physics: BouncingScrollPhysics(),
           child: Column(
             children: [
-              Center(
-                child: Container(
-                    height: 100,
-                    width: 200,
-                    color: Colors.transparent,
-                    child: Center(
-                        child: Image.asset(
-                      AppAssets.appNameImage,
-                      fit: BoxFit.cover,
-                    ))),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Center(
+                    child: Image.asset(
+                  AppAssets.appNameImage,
+                  fit: BoxFit.cover,
+                  height: 70,
+                )),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -70,7 +68,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                   view2 = false;
                   view3 = false;
                   setState(() {});
-                  paymentBottomSheet();
+                  Get.toNamed(DashboadScreen.routeName);
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
@@ -97,7 +95,13 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                view = !view;
+                                view2 = false;
+                                view3 = false;
+                                setState(() {});
+                                Get.toNamed(DashboadScreen.routeName);
+                              },
                               child: Container(
                                 height: 35,
                                 width: 35,
@@ -245,7 +249,13 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                view2 = !view2;
+                                view = false;
+                                view3 = false;
+                                setState(() {});
+                                paymentBottomSheet();
+                              },
                               child: Container(
                                 height: 35,
                                 width: 35,
@@ -419,7 +429,13 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                view3 = !view3;
+                                view = false;
+                                view2 = false;
+                                setState(() {});
+                                paymentBottomSheet();
+                              },
                               child: Container(
                                 height: 35,
                                 width: 35,

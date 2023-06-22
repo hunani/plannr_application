@@ -32,27 +32,29 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
               .map((index, value) => MapEntry(
                   index,
                   ClipRRect(
-                    child: Container(
-                        margin: EdgeInsets.only(right: 10),
-                        height: double.infinity,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child:
-                            Image.network(value.imagePath, fit: BoxFit.cover)),
-                  )))
+                      child: Container(
+                          margin: EdgeInsets.only(right: 10),
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.black26,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(value.imagePath,
+                                fit: BoxFit.cover),
+                          )))))
               .values
               .toList(),
           options: CarouselOptions(
-            height: 170,
+            height: 230,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
               });
             },
-            viewportFraction: 0.9,
+            viewportFraction: 0.99,
             initialPage: 1,
             autoPlay: true,
             clipBehavior: Clip.none,

@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -47,16 +48,14 @@ class _ForgotScreenState extends State<ForgotScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Center(
-                        child: Container(
-                            height: 100,
-                            width: 200,
-                            color: Colors.transparent,
-                            child: Center(
-                                child: Image.asset(
-                              AppAssets.appNameImage,
-                              fit: BoxFit.cover,
-                            ))),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Center(
+                            child: Image.asset(
+                          AppAssets.appNameImage,
+                          fit: BoxFit.cover,
+                          height: 70,
+                        )),
                       ),
                       Center(
                         child: Text(
@@ -81,9 +80,9 @@ class _ForgotScreenState extends State<ForgotScreen> {
                             fontWeight: FontWeight.w500, fontSize: 16),
                       ),
                       TextFormField(
-                        validator: (val) => val!.trim().isEmpty
-                            ? "Please Enter Valid Email"
-                            : null,
+                        validator: (val) => EmailValidator.validate(val!)
+                            ? null
+                            : "Please Enter Valid Email",
                         controller: controller.emailController,
                         decoration: InputDecoration(
                             hintText: "Enter your Email",
@@ -106,15 +105,6 @@ class _ForgotScreenState extends State<ForgotScreen> {
                                 showToast(message!, Colors.red);
                               },
                             );
-                          } else {
-                            showToast("field required", Colors.red);
-                            // Fluttertoast.showToast(
-                            //   msg: "field required",
-                            //   toastLength: Toast.LENGTH_SHORT,
-                            //   gravity: ToastGravity.CENTER,
-                            //   timeInSecForIosWeb: 1,
-                            //   textColor: Colors.red,
-                            // );
                           }
                         },
                         child: Container(

@@ -22,16 +22,14 @@ class TrendingNowViewScreen extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
-                  Center(
-                    child: Container(
-                        height: 100,
-                        width: 200,
-                        color: Colors.transparent,
-                        child: Center(
-                            child: Image.asset(
-                          AppAssets.appNameImage,
-                          fit: BoxFit.cover,
-                        ))),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Center(
+                        child: Image.asset(
+                      AppAssets.appNameImage,
+                      fit: BoxFit.cover,
+                      height: 70,
+                    )),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -81,7 +79,7 @@ class TrendingNowViewScreen extends StatelessWidget {
                                 height: 250,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                  color: Colors.red,
+                                  color: Colors.black12,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: ClipRRect(

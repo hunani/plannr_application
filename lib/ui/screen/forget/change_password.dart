@@ -21,6 +21,20 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
+  String? validatePassword(String value) {
+    RegExp regex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    if (value.isEmpty) {
+      return 'Please enter password';
+    } else {
+      if (!regex.hasMatch(value)) {
+        return 'Include both lower and upper case characters \nat least 8 characters long \ninclude at least one number or symbol ';
+      } else {
+        return null;
+      }
+    }
+  }
+
   bool hidePassword = true;
   bool retypePassword = true;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -44,16 +58,14 @@ class _ChangePasswordState extends State<ChangePassword> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Container(
-                              height: 100,
-                              width: 200,
-                              color: Colors.transparent,
-                              child: Center(
-                                  child: Image.asset(
-                                AppAssets.appNameImage,
-                                fit: BoxFit.cover,
-                              ))),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Center(
+                              child: Image.asset(
+                            AppAssets.appNameImage,
+                            fit: BoxFit.cover,
+                            height: 70,
+                          )),
                         ),
                         Center(
                           child: Text(
@@ -65,7 +77,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         SizedBox(height: 15),
                         Center(
                           child: Text(
-                            "We will send a mail to the email address you registered to regain your password",
+                            "Please Enter New password you want to set for your account",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 16),
@@ -78,9 +90,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               fontWeight: FontWeight.w500, fontSize: 16),
                         ),
                         TextFormField(
-                          validator: (val) => val!.trim().isEmpty
-                              ? "Please Enter password"
-                              : null,
+                          validator: (val) => validatePassword(val!),
                           controller: controller.passwordController,
                           obscureText: hidePassword,
                           decoration: InputDecoration(
@@ -117,7 +127,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : val.trim() ==
                                       controller.passwordController.text.trim()
                                   ? null
-                                  : "password not match",
+                                  : "Please Make sure that the password and confirmation password \nare identical",
                           controller: controller.confirmPasswordController,
                           obscureText: retypePassword,
                           decoration: InputDecoration(
@@ -156,6 +166,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                               response.when(
                                 success: (data) {
                                   Get.toNamed(PasswordDone.routeName);
+                                  showToast(
+                                      "Your Password is Updated successfully",
+                                      Colors.black);
                                 },
                                 failure: (ErrorType type, String? message) {
                                   showToast(message!, Colors.red);
