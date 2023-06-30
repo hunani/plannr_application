@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -8,13 +9,17 @@ import 'package:plannr_app/ui/screen/categories/model/color_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_list_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_submit_data_model.dart';
+import 'package:plannr_app/ui/screen/events/model/edit_Invitation_model.dart';
 import 'package:plannr_app/ui/screen/events/model/edit_contact_model.dart';
+import 'package:plannr_app/ui/screen/events/model/invitation_model.dart';
 import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
 import 'package:plannr_app/ui/screen/events/model/view_invitation_model.dart';
 import 'package:plannr_app/ui/screen/home/model/banner_model.dart';
 import 'package:plannr_app/ui/screen/home/model/categories_model.dart';
 import 'package:plannr_app/ui/screen/home/model/trending_model.dart';
 import 'package:plannr_app/ui/screen/login/mode/login_model.dart';
+import 'package:plannr_app/ui/screen/profile/model/profile_model.dart';
+import '../../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../../ui/screen/categories/model/fitter_model.dart';
 import '../../../ui/screen/home/model/birtday_party_model.dart';
 import '../../../ui/screen/home/model/bridal_shower_model.dart';
@@ -198,7 +203,8 @@ class DioApiClient extends ApiClient {
   }
 
   @override
-  Future<void> createInvitationProduct(
+  Future<CreateInvitationProductList> createInvitationProduct(
+      int userId,
       int id,
       String name,
       String date,
@@ -216,7 +222,8 @@ class DioApiClient extends ApiClient {
       String addChatRoom,
       String inviteMore,
       String draft) async {
-    await _dioClient.postApi(UrlPath.createSubmitApi, map: {
+    final response = await _dioClient.postApi(UrlPath.createSubmitApi, map: {
+      "user_id": userId,
       "product_id": id,
       "name": name,
       "date": date,
@@ -235,6 +242,7 @@ class DioApiClient extends ApiClient {
       "invite_more": inviteMore,
       "draft": draft
     });
+    return CreateInvitationProductList.fromJson(response.data);
   }
 
   @override
@@ -352,5 +360,56 @@ class DioApiClient extends ApiClient {
     final response = await _dioClient.postApi(UrlPath.viewInvitationApi,
         map: {"event_id": id, "user_id": userId});
     return ViewInvitatioData.fromJson(response.data);
+  }
+
+  @override
+  Future<EditInvitationData> editInvitation(int id, int userId) async {
+    final response = await _dioClient.postApi(UrlPath.editInvitationApi,
+        map: {"event_id": id, "user_id": userId});
+    return EditInvitationData.fromJson(response.data);
+  }
+
+  @override
+  Future<FitterModel> fitterClear(String id) async {
+    final response = await _dioClient
+        .postApi(UrlPath.fitterClearApi, map: {"category_id": id});
+    return FitterModel.fromJson(response.data);
+  }
+
+  @override
+  Future<void> contactListSubmit(
+      int userId, int invitationId, List<int> list) async {
+    await _dioClient.postApi(UrlPath.contactListSubmitApi, map: {
+      "user_id": userId,
+      "invitation_id": invitationId,
+      "contact_id": List<dynamic>.from(list.map((x) => x.toString())),
+    });
+  }
+
+  @override
+  Future<ProfileDataModel> profileShow(int userId) async {
+    final response = await _dioClient
+        .postApi(UrlPath.userProfileApi, map: {"user_id": userId});
+    return ProfileDataModel.fromJson(response.data);
+  }
+
+  @override
+  Future<void> profileEdit(
+      int userId, String email, String number, String image) async {
+    final param = {
+      "user_id": userId,
+      "email": email,
+      "phone_number": number,
+      "photo": File(image).getMultipartFromFile("image", "png"),
+    };
+    await _dioClient.postMultipartApi(UrlPath.editProfileApi,
+        formData: FormData.fromMap(param));
+  }
+
+  @override
+  Future<void> deleteUser(int userId) async {
+    await _dioClient.postApi(UrlPath.deleteUserApi, map: {
+      "user_id": userId,
+    });
   }
 }

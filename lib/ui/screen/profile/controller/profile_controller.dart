@@ -1,16 +1,16 @@
+import 'dart:io';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_it/get_it.dart';
+import 'package:plannr_app/ui/screen/profile/model/profile_model.dart';
 import 'package:plannr_app/widget/global.dart';
 import '../../../../core/repository/user_repository.dart';
 import '../../../../core/ui_failure/ui_result.dart';
 import '../../../../core/utils/error_util.dart';
-import '../model/create_list_model.dart';
 
-class CreateContactDataController extends GetxController {
+class ProfileController extends GetxController {
   final userRepo = GetIt.I.get<UserRepository>();
 
-  UiFailure? uiFailure;
   bool _isLoading = false;
 
   bool get isLoading => _isLoading;
@@ -20,14 +20,22 @@ class CreateContactDataController extends GetxController {
     update();
   }
 
-  List<CreateListData> createListDataList = [];
-  Future<UiResult<bool>> createListData() async {
+  File? _imagePath;
+
+  File? get imagePath => _imagePath;
+
+  set imagePath(File? value) {
+    _imagePath = value;
+    update();
+  }
+
+  ProfileDataModel? profileDataModel;
+  Future<UiResult<bool>> profileData() async {
     try {
       isLoading = true;
       EasyLoading.show();
-      final response =
-          await userRepo.createList(appController.loginModel!.userId);
-      createListDataList = response;
+      final response = await userRepo.profileShow(19);
+      profileDataModel = response;
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
@@ -38,11 +46,19 @@ class CreateContactDataController extends GetxController {
     }
   }
 
-  Future<UiResult<bool>> contactListSubmitList(
-      int invitationId, List<int> list) async {
+  Future<UiResult<bool>> editProfile(String email, String number) async {
     try {
-      await userRepo.contactListSubmit(
-          appController.loginModel!.userId, invitationId, list);
+      await userRepo.profileEdit(
+          appController.loginModel!.userId, email, number, imagePath!.path);
+      return const UiSuccess(true);
+    } catch (error, stackTrace) {
+      return ErrorUtil.getUiFailureFromException(error, stackTrace);
+    }
+  }
+
+  Future<UiResult<bool>> userDelete() async {
+    try {
+      await userRepo.deleteUser(appController.loginModel!.userId);
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
@@ -51,7 +67,7 @@ class CreateContactDataController extends GetxController {
 
   @override
   void onInit() {
-    createListData();
+    profileData();
     super.onInit();
   }
 }

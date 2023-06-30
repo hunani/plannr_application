@@ -1,13 +1,13 @@
-class CreateInvitationSubmitDataModel {
-  CreateInvitationSubmitData data;
+class InvitationModel {
+  InvitationList data;
 
-  CreateInvitationSubmitDataModel({
+  InvitationModel({
     required this.data,
   });
 
-  factory CreateInvitationSubmitDataModel.fromJson(Map<String, dynamic> json) =>
-      CreateInvitationSubmitDataModel(
-        data: CreateInvitationSubmitData.fromJson(json["data"]),
+  factory InvitationModel.fromJson(Map<String, dynamic> json) =>
+      InvitationModel(
+        data: InvitationList.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -15,15 +15,15 @@ class CreateInvitationSubmitDataModel {
       };
 }
 
-class CreateInvitationSubmitData {
+class InvitationList {
   String image;
   String eventTitle;
   String startDate;
   String eventTime;
   String timeZone;
   String hostedBy;
-  String phoneNumber;
   String location;
+  String phoneNumber;
   String message;
   String typeOfEvent;
   String dressCode;
@@ -33,15 +33,15 @@ class CreateInvitationSubmitData {
   String addChatRoom;
   String inviteMoreThan2People;
 
-  CreateInvitationSubmitData({
+  InvitationList({
     required this.image,
     required this.eventTitle,
     required this.startDate,
     required this.eventTime,
     required this.timeZone,
     required this.hostedBy,
-    required this.phoneNumber,
     required this.location,
+    required this.phoneNumber,
     required this.message,
     required this.typeOfEvent,
     required this.dressCode,
@@ -52,25 +52,24 @@ class CreateInvitationSubmitData {
     required this.inviteMoreThan2People,
   });
 
-  factory CreateInvitationSubmitData.fromJson(Map<String, dynamic> json) =>
-      CreateInvitationSubmitData(
-        image: json["image"],
-        eventTitle: json["Event Title"],
-        startDate: json["Start Date"],
-        eventTime: json["Event Time"],
-        timeZone: json["Time Zone"],
-        hostedBy: json["Hosted By"],
-        phoneNumber: json["Phone_number"],
-        location: json["Location"],
-        message: json["message"],
-        typeOfEvent: json["Type of Event"],
-        dressCode: json["Dress Code"],
-        foodBeverages: json["Food / Beverages"],
-        additionalInformation: json["Additional Information"],
+  factory InvitationList.fromJson(Map<String, dynamic> json) => InvitationList(
+        image: json["image"] ?? "",
+        eventTitle: json["Event Title"] ?? "",
+        startDate: json["Start Date"] ?? "",
+        eventTime: json["Event Time"] ?? "",
+        timeZone: json["Time Zone"] ?? "",
+        hostedBy: json["Hosted By"] ?? "",
+        location: json["Location"] ?? "",
+        phoneNumber: json["Phone_number"] ?? "",
+        message: json["message"] ?? "",
+        typeOfEvent: json["Type of Event"] ?? "",
+        dressCode: json["Dress Code"] ?? "",
+        foodBeverages: json["Food / Beverages"] ?? "",
+        additionalInformation: json["Additional Information"] ?? "",
         addAdditionalAdminEventOrganizer:
-            json["Add Additional Admin / Event Organizer"],
-        addChatRoom: json["Add Chat Room"],
-        inviteMoreThan2People: json["Invite More Than 2 People"],
+            json["Add Additional Admin / Event Organizer"] ?? '',
+        addChatRoom: json["Add Chat Room"] ?? '',
+        inviteMoreThan2People: json["Invite More Than 2 People"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,8 +79,8 @@ class CreateInvitationSubmitData {
         "Event Time": eventTime,
         "Time Zone": timeZone,
         "Hosted By": hostedBy,
-        "Phone_number": phoneNumber,
         "Location": location,
+        "Phone_number": phoneNumber,
         "message": message,
         "Type of Event": typeOfEvent,
         "Dress Code": dressCode,

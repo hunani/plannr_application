@@ -80,6 +80,19 @@ class CartController extends GetxController {
     }
   }
 
+  FitterModel? fitterClearList;
+  Future<UiResult<bool>> fitterClear(String id) async {
+    try {
+      final response = await userRepo.fitterClear(id);
+      fitterClearList = response;
+      return const UiSuccess(true);
+    } catch (error, stackTrace) {
+      return ErrorUtil.getUiFailureFromException(error, stackTrace);
+    } finally {
+      update();
+    }
+  }
+
   void get() {
     CategoriesModel2 categoriesModel2 = Get.arguments as CategoriesModel2;
     print("============> ${categoriesModel2.name}");

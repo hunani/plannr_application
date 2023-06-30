@@ -4,10 +4,13 @@ import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
 import 'package:plannr_app/ui/screen/events/events_screen.dart';
 import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
 
+import '../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_submit_data_model.dart';
 import '../../ui/screen/categories/model/fitter_model.dart';
+import '../../ui/screen/events/model/edit_Invitation_model.dart';
 import '../../ui/screen/events/model/edit_contact_model.dart';
+import '../../ui/screen/events/model/invitation_model.dart';
 import '../../ui/screen/events/model/view_invitation_model.dart';
 import '../../ui/screen/home/model/banner_model.dart';
 import '../../ui/screen/home/model/birtday_party_model.dart';
@@ -15,6 +18,7 @@ import '../../ui/screen/home/model/bridal_shower_model.dart';
 import '../../ui/screen/home/model/categories_model.dart';
 import '../../ui/screen/home/model/trending_model.dart';
 import '../../ui/screen/login/mode/login_model.dart';
+import '../../ui/screen/profile/model/profile_model.dart';
 import '../../ui/screen/sign_up/model/signup_model.dart';
 
 abstract class ApiClient {
@@ -47,7 +51,8 @@ abstract class ApiClient {
 
   Future<CreateList> create(int id);
 
-  Future<void> createInvitationProduct(
+  Future<CreateInvitationProductList> createInvitationProduct(
+      int userId,
       int id,
       String name,
       String date,
@@ -101,4 +106,17 @@ abstract class ApiClient {
   Future<List<EventOverviewList>> editOverview(int id);
 
   Future<ViewInvitatioData> viewInvitation(int id, int userId);
+
+  Future<EditInvitationData> editInvitation(int id, int userId);
+
+  Future<FitterModel> fitterClear(String id);
+
+  Future<void> contactListSubmit(int userId, int invitationId, List<int> list);
+
+  Future<ProfileDataModel> profileShow(int userId);
+
+  Future<void> profileEdit(
+      int userId, String email, String number, String image);
+
+  Future<void> deleteUser(int userId);
 }

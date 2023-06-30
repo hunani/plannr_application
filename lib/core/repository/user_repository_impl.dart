@@ -2,11 +2,14 @@ import 'package:get_it/get_it.dart';
 import 'package:plannr_app/ui/screen/login/mode/login_model.dart';
 import '../../ui/screen/categories/model/cart_model.dart';
 import '../../ui/screen/categories/model/color_model.dart';
+import '../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_model.dart';
 import '../../ui/screen/categories/model/create_submit_data_model.dart';
 import '../../ui/screen/categories/model/fitter_model.dart';
+import '../../ui/screen/events/model/edit_Invitation_model.dart';
 import '../../ui/screen/events/model/edit_contact_model.dart';
+import '../../ui/screen/events/model/invitation_model.dart';
 import '../../ui/screen/events/model/upcoming_model.dart';
 import '../../ui/screen/events/model/view_invitation_model.dart';
 import '../../ui/screen/home/model/banner_model.dart';
@@ -14,6 +17,7 @@ import '../../ui/screen/home/model/birtday_party_model.dart';
 import '../../ui/screen/home/model/bridal_shower_model.dart';
 import '../../ui/screen/home/model/categories_model.dart';
 import '../../ui/screen/home/model/trending_model.dart';
+import '../../ui/screen/profile/model/profile_model.dart';
 import '../../ui/screen/sign_up/model/signup_model.dart';
 import '../network/api_client.dart';
 import 'user_repository.dart';
@@ -95,7 +99,8 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> createInvitationProduct(
+  Future<CreateInvitationProductList> createInvitationProduct(
+      int userId,
       int id,
       String name,
       String date,
@@ -114,6 +119,7 @@ class UserRepositoryImpl extends UserRepository {
       String inviteMore,
       String draft) async {
     return await repo.createInvitationProduct(
+        userId,
         id,
         name,
         date,
@@ -210,5 +216,37 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<ViewInvitatioData> viewInvitation(int id, int userId) async {
     return await repo.viewInvitation(id, userId);
+  }
+
+  @override
+  Future<EditInvitationData> editInvitation(int id, int userId) async {
+    return await repo.editInvitation(id, userId);
+  }
+
+  @override
+  Future<FitterModel> fitterClear(String id) async {
+    return await repo.fitterClear(id);
+  }
+
+  @override
+  Future<void> contactListSubmit(
+      int userId, int invitationId, List<int> list) async {
+    return await repo.contactListSubmit(userId, invitationId, list);
+  }
+
+  @override
+  Future<ProfileDataModel> profileShow(int userId) async {
+    return await repo.profileShow(userId);
+  }
+
+  @override
+  Future<void> profileEdit(
+      int userId, String email, String number, String image) async {
+    return await repo.profileEdit(userId, email, number, image);
+  }
+
+  @override
+  Future<void> deleteUser(int userId) async {
+    return await repo.deleteUser(userId);
   }
 }

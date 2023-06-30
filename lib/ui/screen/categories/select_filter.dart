@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -137,10 +138,19 @@ class _SelectFilterState extends State<SelectFilter> {
                         ),
                       ),
                       Spacer(),
+                      // controller.fitterList!.fitter.isEmpty
+                      //     ? Text(
+                      //         controller.fitterClearList == null
+                      //             ? "0"
+                      //             : "${controller.fitterClearList!.item}",
+                      //         style: TextStyle(
+                      //             fontWeight: FontWeight.w500, fontSize: 17),
+                      //       )
+                      //     : Container(),
                       Text(
                         controller.fitterList == null
                             ? "0 items"
-                            : "${controller.cartDataList!.item} items",
+                            : "${controller.fitterList!.item} items",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 17),
                       ),
@@ -185,10 +195,26 @@ class _SelectFilterState extends State<SelectFilter> {
                             )
                           : Container(),
                       InkWell(
-                        onTap: () {
-                          controller.fitterList!.fitter.clear();
-                          view = true;
-                          setState(() {});
+                        onTap: () async {
+                          EasyLoading.show();
+                          final response =
+                              await controller.fitterClear(34.toString());
+                          EasyLoading.dismiss();
+                          response.when(
+                            success: (data) {
+                              controller.fitterList!.fitter.clear();
+                              view = true;
+                              setState(() {});
+                            },
+                            failure: (ErrorType type, String? message) {
+                              Fluttertoast.showToast(
+                                msg: message!,
+                                gravity: ToastGravity.CENTER,
+                                textColor: Colors.red,
+                                backgroundColor: Colors.black38,
+                              );
+                            },
+                          );
                         },
                         child: Container(
                           height: 30,
@@ -295,6 +321,89 @@ class _SelectFilterState extends State<SelectFilter> {
                         .toList(),
                   ),
                 ),
+                // controller.fitterList!.fitter.isEmpty
+                //     ?
+                //     : Container(),
+
+                controller.fitterClearList == null
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          children: controller.fitterClearList!.fitter
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                    index,
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(
+                                            CreateInvitationScreen.routeName,
+                                            arguments: value.id);
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 20),
+                                        child: Container(
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                    blurRadius: 4)
+                                              ]),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 5, right: 5, top: 5),
+                                                child: Container(
+                                                  height: 220,
+                                                  child: Image.network(
+                                                      value.imagePath,
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Image.asset(AppAssets.hero,
+                                                      height: 14),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    value.freeOrPremium == 0
+                                                        ? "Free Invitation"
+                                                        : "Premium Invitation",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                value.productTitle,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14),
+                                              ),
+                                              SizedBox(height: 10),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ))
+                              .values
+                              .toList(),
+                        ),
+                      ),
                 SizedBox(height: 20),
               ],
             ),
