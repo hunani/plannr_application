@@ -75,6 +75,8 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
             uploadController.createInvitationSubmit!.eventTitle;
         dateController.text =
             uploadController.createInvitationSubmit!.startDate;
+        phoneController.text =
+            uploadController.createInvitationSubmit!.phoneNumber;
         timeController.text =
             uploadController.createInvitationSubmit!.eventTime;
         timeController2.text =
@@ -1103,7 +1105,9 @@ class _CreateSubmitDetailsScreenState extends State<CreateSubmitDetailsScreen> {
                                         success: (data) {
                                           // showToast("Submit Data", Colors.black);
                                           Get.toNamed(
-                                              ContactSelectScreen.routeName);
+                                              ContactSelectScreen.routeName,
+                                              arguments: controller
+                                                  .invitationProductList!.id);
                                         },
                                         failure:
                                             (ErrorType type, String? message) {

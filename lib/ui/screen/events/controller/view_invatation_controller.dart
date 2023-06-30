@@ -8,6 +8,7 @@ import '../../../../core/utils/error_util.dart';
 import '../../../../widget/global.dart';
 import '../../categories/model/create_model.dart';
 import '../../home/model/categories_model.dart';
+import '../model/invitation_model.dart';
 
 class EventsCreateController extends GetxController {
   final userRepo = GetIt.I.get<UserRepository>();
@@ -22,15 +23,14 @@ class EventsCreateController extends GetxController {
     update();
   }
 
-  ViewInvitatioData? viewInvitatioData;
-  Future<UiResult<bool>> viewData() async {
+  ViewInvitatioData? inDataList;
+  Future<UiResult<bool>> invitationDataList(int id) async {
     try {
       isLoading = true;
-      update();
       EasyLoading.show();
-      final response = await userRepo.viewInvitation(
-          Get.arguments, appController.loginModel!.userId);
-      viewInvitatioData = response;
+      final response =
+          await userRepo.viewInvitation(id, appController.loginModel!.userId);
+      inDataList = response;
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
@@ -39,76 +39,5 @@ class EventsCreateController extends GetxController {
       EasyLoading.dismiss();
       update();
     }
-  }
-
-  List<CategoriesList> categoriesDataList = [];
-  Future<UiResult<bool>> categoriesData() async {
-    try {
-      isLoading = true;
-      EasyLoading.show();
-      final response = await userRepo.categories();
-      categoriesDataList = response;
-      return const UiSuccess(true);
-    } catch (error, stackTrace) {
-      return ErrorUtil.getUiFailureFromException(error, stackTrace);
-    } finally {
-      isLoading = false;
-      EasyLoading.dismiss();
-      update();
-    }
-  }
-
-  Future<UiResult<bool>> createInvitation(
-      int id,
-      String name,
-      String date,
-      String time,
-      String timeZone,
-      String hostedBy,
-      String location,
-      String phone,
-      String message,
-      String typeEvents,
-      String dressCode,
-      String food,
-      String addInfo,
-      String addAdmin,
-      String addChatRoom,
-      String inviteMore,
-      String draft) async {
-    try {
-      await userRepo.createInvitationProduct(
-          id,
-          name,
-          date,
-          time,
-          timeZone,
-          hostedBy,
-          location,
-          phone,
-          message,
-          typeEvents,
-          dressCode,
-          food,
-          addInfo,
-          addAdmin,
-          addChatRoom,
-          inviteMore,
-          draft);
-      return UiSuccess(true);
-    } catch (error, stackTrace) {
-      return ErrorUtil.getUiFailureFromException(error, stackTrace);
-    }
-  }
-
-  getData() async {
-    await viewData();
-    await categoriesData();
-  }
-
-  @override
-  void onInit() {
-    getData();
-    super.onInit();
   }
 }

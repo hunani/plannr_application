@@ -9,6 +9,7 @@ import '../../../core/utils/base_response.dart';
 import '../../../core/utils/flitter_toast.dart';
 import '../../../main.dart';
 import '../../../widget/image_picker.dart';
+import '../events/events_screen.dart';
 import '../home/model/categories_model.dart';
 import 'contact_select_screen.dart';
 import 'controller/create_controller.dart';
@@ -52,8 +53,7 @@ class _UploadScreenState extends State<UploadScreen> {
 
   List<String> list = ["50", "100", "150", "200"];
   List<String> list2 = ["50", "190", "120", "230"];
-  CategoriesList? soilSelect;
-  String? soilSelect2;
+  String? soilSelect;
 
   List<String> yesNoList = ["Yes", "No"];
   int? yesNoIndex;
@@ -611,9 +611,8 @@ class _UploadScreenState extends State<UploadScreen> {
                                 ),
                                 items: controller.categoriesDataList
                                     .map(
-                                      (item) =>
-                                          DropdownMenuItem<CategoriesList>(
-                                        value: item,
+                                      (item) => DropdownMenuItem<String>(
+                                        value: item.name,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -638,7 +637,6 @@ class _UploadScreenState extends State<UploadScreen> {
                                 onChanged: (value) {
                                   print("====================> ${value}");
                                   soilSelect = value;
-                                  print("=====.> ${soilSelect!.name}");
                                   setState(() {});
                                 },
                               ),
@@ -1055,7 +1053,7 @@ class _UploadScreenState extends State<UploadScreen> {
                                         locationController.text.trim(),
                                         phoneController.text.trim(),
                                         messgeController.text.trim(),
-                                        soilSelect!.name,
+                                        soilSelect!,
                                         dressController.text.trim(),
                                         foodController.text.trim(),
                                         addController.text.trim(),
@@ -1066,9 +1064,9 @@ class _UploadScreenState extends State<UploadScreen> {
                                       EasyLoading.dismiss();
                                       response.when(
                                         success: (data) {
-                                          Get.back();
                                           showToast(
                                               "Submit Data", Colors.black);
+                                          Get.toNamed(EventsScreen.routeName);
                                         },
                                         failure:
                                             (ErrorType type, String? message) {

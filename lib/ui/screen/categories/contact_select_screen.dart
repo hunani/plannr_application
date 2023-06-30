@@ -75,7 +75,8 @@ class _ContactSelectScreenState extends State<ContactSelectScreen> {
                     Get.toNamed(CreateContactPage.routeName);
                   }
                   if (index == 1) {
-                    Get.toNamed(AddGuestScreen.routeName);
+                    Get.toNamed(AddGuestScreen.routeName,
+                        arguments: Get.arguments);
                   }
                   if (index == 2) {
                     Get.toNamed(SyncContactPage.routeName);

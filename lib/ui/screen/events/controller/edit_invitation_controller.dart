@@ -1,14 +1,14 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
-import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
-import 'package:plannr_app/ui/screen/home/model/categories_model.dart';
+import 'package:plannr_app/ui/screen/events/model/edit_Invitation_model.dart';
 import 'package:plannr_app/widget/global.dart';
 import '../../../../core/repository/user_repository.dart';
 import '../../../../core/ui_failure/ui_result.dart';
 import '../../../../core/utils/error_util.dart';
+import '../../home/model/categories_model.dart';
 
-class CreateController extends GetxController {
+class EditInvitationController extends GetxController {
   final userRepo = GetIt.I.get<UserRepository>();
 
   UiFailure? uiFailure;
@@ -21,13 +21,14 @@ class CreateController extends GetxController {
     update();
   }
 
-  CreateList? createDataList;
-  Future<UiResult<bool>> createData(int id) async {
+  EditInvitationData? editInvitationDataList;
+  Future<UiResult<bool>> editInvitationData(int id, int userId) async {
     try {
       isLoading = true;
+      update();
       EasyLoading.show();
-      final response = await userRepo.create(id);
-      createDataList = response;
+      final response = await userRepo.editInvitation(id, userId);
+      editInvitationDataList = response;
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);
@@ -101,8 +102,7 @@ class CreateController extends GetxController {
 
   @override
   void onInit() {
-    createData(Get.arguments);
-    categoriesData();
+    editInvitationData(Get.arguments, appController.loginModel!.userId);
     super.onInit();
   }
 }

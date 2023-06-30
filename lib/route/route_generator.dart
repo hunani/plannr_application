@@ -22,7 +22,6 @@ import '../ui/screen/events/gues_messages_screen.dart';
 import '../ui/screen/events/menu_screen.dart';
 import '../ui/screen/events/messages_screen.dart';
 import '../ui/screen/events/preview_screen.dart';
-import '../ui/screen/events/view_invitation_screen.dart';
 import '../ui/screen/forget/change_password.dart';
 import '../ui/screen/forget/forgot_screen.dart';
 import '../ui/screen/forget/password_done.dart';
@@ -115,7 +114,4 @@ final List<GetPage<dynamic>> routes = [
   GetPage(
       name: EventsCreateScreen.routeName,
       page: () => const EventsCreateScreen()),
-  GetPage(
-      name: ViewInvitationScreen.routeName,
-      page: () => const ViewInvitationScreen()),
 ];

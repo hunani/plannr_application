@@ -11,6 +11,7 @@ import 'package:plannr_app/ui/screen/categories/upload_screen.dart';
 import '../../../const/app_icon.dart';
 import '../../../core/utils/base_response.dart';
 import '../../../core/utils/flitter_toast.dart';
+import '../events/events_screen.dart';
 import '../home/model/categories_model.dart';
 import 'contact_select_screen.dart';
 import 'create_submit_details_screen.dart';
@@ -52,8 +53,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
 
   List<String> list = ["50", "100", "150", "200"];
   List<String> list2 = ["50", "190", "120", "230"];
-  CategoriesList? soilSelect;
-  String? soilSelect2;
+  String? soilSelect;
 
   List<String> yesNoList = ["Yes", "No"];
   int? yesNoIndex;
@@ -613,9 +613,8 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                                 ),
                                 items: controller.categoriesDataList
                                     .map(
-                                      (item) =>
-                                          DropdownMenuItem<CategoriesList>(
-                                        value: item,
+                                      (item) => DropdownMenuItem<String>(
+                                        value: item.name,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -640,7 +639,6 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                                 onChanged: (value) {
                                   print("====================> ${value}");
                                   soilSelect = value;
-                                  print("=====.> ${soilSelect!.name}");
                                   setState(() {});
                                 },
                               ),
@@ -1006,7 +1004,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                                         locationController.text.trim(),
                                         phoneController.text.trim(),
                                         messgeController.text.trim(),
-                                        soilSelect!.toString(),
+                                        soilSelect!,
                                         dressController.text.trim(),
                                         foodController.text.trim(),
                                         addController.text.trim(),
@@ -1064,7 +1062,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                                               locationController.text.trim(),
                                               phoneController.text.trim(),
                                               messgeController.text.trim(),
-                                              soilSelect!.name,
+                                              soilSelect!,
                                               dressController.text.trim(),
                                               foodController.text.trim(),
                                               addController.text.trim(),
@@ -1076,6 +1074,7 @@ class _CreateInvitationScreenState extends State<CreateInvitationScreen> {
                                       response.when(
                                         success: (data) {
                                           showToast("Save Draft", Colors.black);
+                                          Get.toNamed(EventsScreen.routeName);
                                         },
                                         failure:
                                             (ErrorType type, String? message) {

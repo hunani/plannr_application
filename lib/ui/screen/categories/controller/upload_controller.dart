@@ -10,6 +10,7 @@ import 'package:plannr_app/widget/global.dart';
 import '../../../../core/repository/user_repository.dart';
 import '../../../../core/ui_failure/ui_result.dart';
 import '../../../../core/utils/error_util.dart';
+import '../model/create_Invitation_product_model.dart';
 import '../model/create_model.dart';
 
 class UploadController extends GetxController {
@@ -84,6 +85,7 @@ class UploadController extends GetxController {
     }
   }
 
+  CreateInvitationProductList? invitationProductList;
   Future<UiResult<bool>> createInvitation(
       int id,
       String name,
@@ -103,7 +105,8 @@ class UploadController extends GetxController {
       String inviteMore,
       String draft) async {
     try {
-      await userRepo.createInvitationProduct(
+      final response = await userRepo.createInvitationProduct(
+          appController.loginModel!.userId,
           id,
           name,
           date,
@@ -121,6 +124,7 @@ class UploadController extends GetxController {
           addChatRoom,
           inviteMore,
           draft);
+      invitationProductList = response;
       return UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);

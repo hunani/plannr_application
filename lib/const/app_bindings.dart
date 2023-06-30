@@ -6,12 +6,14 @@ import '../ui/screen/categories/controller/create_controller.dart';
 import '../ui/screen/categories/controller/create_list_controller.dart';
 import '../ui/screen/categories/controller/upload_controller.dart';
 import '../ui/screen/categories/controller/upload_image_controller.dart';
+import '../ui/screen/events/controller/edit_invitation_controller.dart';
 import '../ui/screen/events/controller/edit_overview_controller.dart';
 import '../ui/screen/events/controller/view_invatation_controller.dart';
 import '../ui/screen/events/controller/upcoming_controller.dart';
 import '../ui/screen/forget/controller/forgot_controller.dart';
 import '../ui/screen/home/controller/home_controller.dart';
 import '../ui/screen/login/controller/login_controller.dart';
+import '../ui/screen/profile/controller/profile_controller.dart';
 import '../ui/screen/sign_up/controller/register_controller.dart';
 import '../widget/app_controller.dart';
 import '../widget/image_picker.dart';
@@ -43,5 +45,8 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<UploadImagesController>(() => UploadImagesController(),
         fenix: true);
+    Get.lazyPut<EditInvitationController>(() => EditInvitationController(),
+        fenix: true);
+    Get.lazyPut<ProfileController>(() => ProfileController(), fenix: true);
   }
 }

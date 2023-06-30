@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/ui/screen/events/preview_screen.dart';
-import 'package:plannr_app/ui/screen/events/view_invitation_screen.dart';
 import 'package:plannr_app/ui/screen/events/widget/bottom_sheet.dart';
-
 import '../../../const/app_icon.dart';
+import '../categories/add_guest_screen.dart';
 import '../dashboad/dashboad_screen.dart';
 import 'controller/edit_overview_controller.dart';
 import 'create_invitation_screen.dart';
+import 'messages_screen.dart';
 
 class EventOverviewScreen extends StatefulWidget {
   static const String routeName = '/eventOverviewScreen';
@@ -85,9 +84,7 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
                     ),
                     SizedBox(height: 20),
                     GestureDetector(
-                      onTap: () {
-                        Get.toNamed(PreviewScreen.routeName);
-                      },
+                      onTap: () {},
                       child: Container(
                         margin: EdgeInsets.only(bottom: 20),
                         padding: EdgeInsets.all(10),
@@ -231,107 +228,107 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
                                       );
                                     });
                               }
-                              if (selectIndex == 5) {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        actions: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 30),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 10),
-                                                Center(
-                                                  child: Text(
-                                                    "Are you sure you would like to cancel?",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 20),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 20),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    GestureDetector(
-                                                      child: Center(
-                                                        child: Container(
-                                                          height: 35,
-                                                          width: 70,
-                                                          decoration: BoxDecoration(
-                                                              color: AppColor
-                                                                  .kIndigo,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Center(
-                                                              child: Text(
-                                                            "Confirm",
-                                                            style: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                color: Colors
-                                                                    .white),
-                                                          )),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 20),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Center(
-                                                        child: Container(
-                                                          height: 35,
-                                                          width: 70,
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              border: Border.all(
-                                                                  color: AppColor
-                                                                      .kIndigo),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          child: Center(
-                                                              child: Text(
-                                                            "Cancel",
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                          )),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 10),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              }
+                              // if (selectIndex == 5) {
+                              //   showDialog(
+                              //       context: context,
+                              //       builder: (BuildContext context) {
+                              //         return AlertDialog(
+                              //           shape: RoundedRectangleBorder(
+                              //             borderRadius:
+                              //                 BorderRadius.circular(20),
+                              //           ),
+                              //           actions: [
+                              //             Padding(
+                              //               padding: const EdgeInsets.symmetric(
+                              //                   horizontal: 30),
+                              //               child: Column(
+                              //                 crossAxisAlignment:
+                              //                     CrossAxisAlignment.start,
+                              //                 children: [
+                              //                   SizedBox(height: 10),
+                              //                   Center(
+                              //                     child: Text(
+                              //                       "Are you sure you would like to cancel?",
+                              //                       textAlign: TextAlign.center,
+                              //                       style: TextStyle(
+                              //                           fontWeight:
+                              //                               FontWeight.w500,
+                              //                           fontSize: 20),
+                              //                     ),
+                              //                   ),
+                              //                   SizedBox(height: 20),
+                              //                   Row(
+                              //                     mainAxisAlignment:
+                              //                         MainAxisAlignment.center,
+                              //                     children: [
+                              //                       GestureDetector(
+                              //                         child: Center(
+                              //                           child: Container(
+                              //                             height: 35,
+                              //                             width: 70,
+                              //                             decoration: BoxDecoration(
+                              //                                 color: AppColor
+                              //                                     .kIndigo,
+                              //                                 borderRadius:
+                              //                                     BorderRadius
+                              //                                         .circular(
+                              //                                             10)),
+                              //                             child: Center(
+                              //                                 child: Text(
+                              //                               "Confirm",
+                              //                               style: TextStyle(
+                              //                                   fontSize: 14,
+                              //                                   fontWeight:
+                              //                                       FontWeight
+                              //                                           .w500,
+                              //                                   color: Colors
+                              //                                       .white),
+                              //                             )),
+                              //                           ),
+                              //                         ),
+                              //                       ),
+                              //                       SizedBox(width: 20),
+                              //                       GestureDetector(
+                              //                         onTap: () {
+                              //                           Get.back();
+                              //                         },
+                              //                         child: Center(
+                              //                           child: Container(
+                              //                             height: 35,
+                              //                             width: 70,
+                              //                             decoration: BoxDecoration(
+                              //                                 color:
+                              //                                     Colors.white,
+                              //                                 border: Border.all(
+                              //                                     color: AppColor
+                              //                                         .kIndigo),
+                              //                                 borderRadius:
+                              //                                     BorderRadius
+                              //                                         .circular(
+                              //                                             10)),
+                              //                             child: Center(
+                              //                                 child: Text(
+                              //                               "Cancel",
+                              //                               style: TextStyle(
+                              //                                 fontSize: 16,
+                              //                                 fontWeight:
+                              //                                     FontWeight
+                              //                                         .w500,
+                              //                               ),
+                              //                             )),
+                              //                           ),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                   SizedBox(height: 10),
+                              //                 ],
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         );
+                              //       });
+                              // }
 
                               if (selectIndex == 0) {
                                 Get.toNamed(EventsCreateScreen.routeName,
@@ -339,7 +336,16 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
                                         controller.eventOverviewDataList[0].id);
                               }
                               if (selectIndex == 1) {
-                                Get.toNamed(ViewInvitationScreen.routeName,
+                                Get.toNamed(PreviewScreen.routeName,
+                                    arguments:
+                                        controller.eventOverviewDataList[0].id);
+                              }
+                              if (selectIndex == 5) {
+                                Get.toNamed(MessagesScreen.routeName);
+                              }
+
+                              if (selectIndex == 4) {
+                                Get.toNamed(AddGuestScreen.routeName,
                                     arguments:
                                         controller.eventOverviewDataList[0].id);
                               }
