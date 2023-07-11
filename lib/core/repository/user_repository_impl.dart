@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:plannr_app/ui/screen/login/mode/login_model.dart';
 import '../../ui/screen/categories/model/cart_model.dart';
 import '../../ui/screen/categories/model/color_model.dart';
+import '../../ui/screen/categories/model/contact_model.dart';
 import '../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_model.dart';
@@ -17,7 +18,11 @@ import '../../ui/screen/home/model/birtday_party_model.dart';
 import '../../ui/screen/home/model/bridal_shower_model.dart';
 import '../../ui/screen/home/model/categories_model.dart';
 import '../../ui/screen/home/model/trending_model.dart';
+import '../../ui/screen/login/mode/upgrade_now_model.dart';
+import '../../ui/screen/profile/model/contact_us_model.dart';
+import '../../ui/screen/profile/model/faq_model.dart';
 import '../../ui/screen/profile/model/profile_model.dart';
+import '../../ui/screen/profile/model/terms_of_service_model.dart';
 import '../../ui/screen/sign_up/model/signup_model.dart';
 import '../network/api_client.dart';
 import 'user_repository.dart';
@@ -248,5 +253,41 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<void> deleteUser(int userId) async {
     return await repo.deleteUser(userId);
+  }
+
+  @override
+  Future<List<FaqList>> faqData() async {
+    return await repo.faqData();
+  }
+
+  @override
+  Future<void> contactSubmit(
+      int userId, List<ContactsListNameAndNumber> list) async {
+    return await repo.contactSubmit(userId, list);
+  }
+
+  @override
+  Future<List<SubscriptionList>> subscriptionData() async {
+    return await repo.subscriptionData();
+  }
+
+  @override
+  Future<void> cancelEvent(int userId, int eventId, String cancel) async {
+    return await repo.cancelEvent(userId, eventId, cancel);
+  }
+
+  @override
+  Future<List<TermsOfServiceData>> termsOfService() async {
+    return await repo.termsOfService();
+  }
+
+  @override
+  Future<List<TermsOfServiceData>> privacyPolicy() async {
+    return await repo.privacyPolicy();
+  }
+
+  @override
+  Future<List<ContactUsData>> contactUs() async {
+    return await repo.contactUs();
   }
 }

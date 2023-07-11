@@ -206,27 +206,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               onTap: () async {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
-                                  EasyLoading.show();
-                                  final response = await controller.editProfile(
-                                      emailAddressController.text.trim(),
-                                      phoneNumberController.text.trim());
-                                  EasyLoading.dismiss();
-                                  response.when(
-                                    success: (data) {
-                                      Get.back();
-                                      showToast(
-                                          "User Profile Update Successfully",
-                                          Colors.black);
-                                    },
-                                    failure: (ErrorType type, String? message) {
-                                      Fluttertoast.showToast(
-                                        msg: message!,
-                                        gravity: ToastGravity.CENTER,
-                                        textColor: Colors.red,
-                                        backgroundColor: Colors.black38,
-                                      );
-                                    },
-                                  );
+                                  if (controller.imagePath != null) {
+                                    EasyLoading.show();
+                                    final response =
+                                        await controller.editProfile(
+                                            emailAddressController.text.trim(),
+                                            phoneNumberController.text.trim());
+                                    EasyLoading.dismiss();
+                                    response.when(
+                                      success: (data) {
+                                        Get.back();
+                                        showToast(
+                                            "User Profile Update Successfully",
+                                            Colors.black);
+                                      },
+                                      failure:
+                                          (ErrorType type, String? message) {
+                                        Fluttertoast.showToast(
+                                          msg: message!,
+                                          gravity: ToastGravity.CENTER,
+                                          textColor: Colors.red,
+                                          backgroundColor: Colors.black38,
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    EasyLoading.dismiss();
+                                    showToast("please upload Your profile",
+                                        Colors.black);
+                                  }
                                 }
                               },
                               child: Container(

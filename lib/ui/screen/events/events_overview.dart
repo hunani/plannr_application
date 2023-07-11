@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:plannr_app/const/app_color.dart';
+import 'package:plannr_app/core/utils/flitter_toast.dart';
 import 'package:plannr_app/ui/screen/events/preview_screen.dart';
 import 'package:plannr_app/ui/screen/events/widget/bottom_sheet.dart';
+import 'package:plannr_app/widget/global.dart';
 import '../../../const/app_icon.dart';
+import '../../../core/utils/base_response.dart';
 import '../categories/add_guest_screen.dart';
 import '../dashboad/dashboad_screen.dart';
 import 'controller/edit_overview_controller.dart';
@@ -150,9 +155,45 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
                         itemCount: list.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               selectIndex = index;
                               setState(() {});
+
+                              if (selectIndex == 0) {
+                                Get.toNamed(EventsCreateScreen.routeName,
+                                    arguments:
+                                        controller.eventOverviewDataList[0].id);
+                              }
+                              if (selectIndex == 1) {
+                                Get.toNamed(PreviewScreen.routeName,
+                                    arguments:
+                                        controller.eventOverviewDataList[0].id);
+                              }
+                              if (selectIndex == 2) {
+                                print("========> ${Get.arguments}");
+                                int id = Get.arguments;
+
+                                EasyLoading.show();
+                                final response =
+                                    await controller.cancelEventData(
+                                        appController.loginModel!.userId,
+                                        id,
+                                        "cancel");
+                                EasyLoading.dismiss();
+                                response.when(
+                                  success: (data) {
+                                    showToast("Event Cancel", Colors.black);
+                                  },
+                                  failure: (ErrorType type, String? message) {
+                                    Fluttertoast.showToast(
+                                      msg: message!,
+                                      gravity: ToastGravity.CENTER,
+                                      textColor: Colors.red,
+                                      backgroundColor: Colors.black38,
+                                    );
+                                  },
+                                );
+                              }
                               if (selectIndex == 3) {
                                 showDialog(
                                     context: context,
@@ -228,126 +269,13 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
                                       );
                                     });
                               }
-                              // if (selectIndex == 5) {
-                              //   showDialog(
-                              //       context: context,
-                              //       builder: (BuildContext context) {
-                              //         return AlertDialog(
-                              //           shape: RoundedRectangleBorder(
-                              //             borderRadius:
-                              //                 BorderRadius.circular(20),
-                              //           ),
-                              //           actions: [
-                              //             Padding(
-                              //               padding: const EdgeInsets.symmetric(
-                              //                   horizontal: 30),
-                              //               child: Column(
-                              //                 crossAxisAlignment:
-                              //                     CrossAxisAlignment.start,
-                              //                 children: [
-                              //                   SizedBox(height: 10),
-                              //                   Center(
-                              //                     child: Text(
-                              //                       "Are you sure you would like to cancel?",
-                              //                       textAlign: TextAlign.center,
-                              //                       style: TextStyle(
-                              //                           fontWeight:
-                              //                               FontWeight.w500,
-                              //                           fontSize: 20),
-                              //                     ),
-                              //                   ),
-                              //                   SizedBox(height: 20),
-                              //                   Row(
-                              //                     mainAxisAlignment:
-                              //                         MainAxisAlignment.center,
-                              //                     children: [
-                              //                       GestureDetector(
-                              //                         child: Center(
-                              //                           child: Container(
-                              //                             height: 35,
-                              //                             width: 70,
-                              //                             decoration: BoxDecoration(
-                              //                                 color: AppColor
-                              //                                     .kIndigo,
-                              //                                 borderRadius:
-                              //                                     BorderRadius
-                              //                                         .circular(
-                              //                                             10)),
-                              //                             child: Center(
-                              //                                 child: Text(
-                              //                               "Confirm",
-                              //                               style: TextStyle(
-                              //                                   fontSize: 14,
-                              //                                   fontWeight:
-                              //                                       FontWeight
-                              //                                           .w500,
-                              //                                   color: Colors
-                              //                                       .white),
-                              //                             )),
-                              //                           ),
-                              //                         ),
-                              //                       ),
-                              //                       SizedBox(width: 20),
-                              //                       GestureDetector(
-                              //                         onTap: () {
-                              //                           Get.back();
-                              //                         },
-                              //                         child: Center(
-                              //                           child: Container(
-                              //                             height: 35,
-                              //                             width: 70,
-                              //                             decoration: BoxDecoration(
-                              //                                 color:
-                              //                                     Colors.white,
-                              //                                 border: Border.all(
-                              //                                     color: AppColor
-                              //                                         .kIndigo),
-                              //                                 borderRadius:
-                              //                                     BorderRadius
-                              //                                         .circular(
-                              //                                             10)),
-                              //                             child: Center(
-                              //                                 child: Text(
-                              //                               "Cancel",
-                              //                               style: TextStyle(
-                              //                                 fontSize: 16,
-                              //                                 fontWeight:
-                              //                                     FontWeight
-                              //                                         .w500,
-                              //                               ),
-                              //                             )),
-                              //                           ),
-                              //                         ),
-                              //                       ),
-                              //                     ],
-                              //                   ),
-                              //                   SizedBox(height: 10),
-                              //                 ],
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         );
-                              //       });
-                              // }
-
-                              if (selectIndex == 0) {
-                                Get.toNamed(EventsCreateScreen.routeName,
-                                    arguments:
-                                        controller.eventOverviewDataList[0].id);
-                              }
-                              if (selectIndex == 1) {
-                                Get.toNamed(PreviewScreen.routeName,
+                              if (selectIndex == 4) {
+                                Get.toNamed(AddGuestScreen.routeName,
                                     arguments:
                                         controller.eventOverviewDataList[0].id);
                               }
                               if (selectIndex == 5) {
                                 Get.toNamed(MessagesScreen.routeName);
-                              }
-
-                              if (selectIndex == 4) {
-                                Get.toNamed(AddGuestScreen.routeName,
-                                    arguments:
-                                        controller.eventOverviewDataList[0].id);
                               }
                             },
                             child: Container(

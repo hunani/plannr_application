@@ -6,23 +6,27 @@ import 'package:get_it/get_it.dart';
 import 'package:plannr_app/core/network/dio/dio_extension.dart';
 import 'package:plannr_app/ui/screen/categories/model/cart_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/color_model.dart';
+import 'package:plannr_app/ui/screen/categories/model/contact_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_list_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_submit_data_model.dart';
 import 'package:plannr_app/ui/screen/events/model/edit_Invitation_model.dart';
 import 'package:plannr_app/ui/screen/events/model/edit_contact_model.dart';
-import 'package:plannr_app/ui/screen/events/model/invitation_model.dart';
 import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
 import 'package:plannr_app/ui/screen/events/model/view_invitation_model.dart';
 import 'package:plannr_app/ui/screen/home/model/banner_model.dart';
 import 'package:plannr_app/ui/screen/home/model/categories_model.dart';
 import 'package:plannr_app/ui/screen/home/model/trending_model.dart';
 import 'package:plannr_app/ui/screen/login/mode/login_model.dart';
+import 'package:plannr_app/ui/screen/login/mode/upgrade_now_model.dart';
+import 'package:plannr_app/ui/screen/profile/model/faq_model.dart';
 import 'package:plannr_app/ui/screen/profile/model/profile_model.dart';
+import 'package:plannr_app/ui/screen/profile/model/terms_of_service_model.dart';
 import '../../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../../ui/screen/categories/model/fitter_model.dart';
 import '../../../ui/screen/home/model/birtday_party_model.dart';
 import '../../../ui/screen/home/model/bridal_shower_model.dart';
+import '../../../ui/screen/profile/model/contact_us_model.dart';
 import '../../../widget/app_prefs.dart';
 import '../../../widget/global.dart';
 import '../../utils/base_url.dart';
@@ -372,7 +376,7 @@ class DioApiClient extends ApiClient {
   @override
   Future<FitterModel> fitterClear(String id) async {
     final response = await _dioClient
-        .postApi(UrlPath.fitterClearApi, map: {"category_id": id});
+        .post(UrlPath.fitterClearApi, data: {"category_id": id});
     return FitterModel.fromJson(response.data);
   }
 
@@ -411,5 +415,73 @@ class DioApiClient extends ApiClient {
     await _dioClient.postApi(UrlPath.deleteUserApi, map: {
       "user_id": userId,
     });
+  }
+
+  @override
+  Future<List<FaqList>> faqData() async {
+    final response = await _dioClient.getApi(UrlPath.faqApi);
+    return List<FaqList>.from(
+      response.data.map(
+        (e) => FaqList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<void> contactSubmit(
+      int userId, List<ContactsListNameAndNumber> list) async {
+    ContactsModel contactsModel = ContactsModel(kittyId: userId, lists: list);
+    log("==log=====>${contactsModel.toJson()}");
+    await _dioClient.postApi(UrlPath.contactSyncApi,
+        map: contactsModel.toJson());
+  }
+
+  @override
+  Future<List<SubscriptionList>> subscriptionData() async {
+    final response = await _dioClient.getApi(UrlPath.subscriptionApi);
+    return List<SubscriptionList>.from(
+      response.data.map(
+        (e) => SubscriptionList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<void> cancelEvent(int userId, int eventId, String cancel) async {
+    await _dioClient.postApi(UrlPath.cancelEventApi, map: {
+      "user_id": userId,
+      "event_id": eventId,
+      "draft": cancel,
+    });
+  }
+
+  @override
+  Future<List<TermsOfServiceData>> termsOfService() async {
+    final response = await _dioClient.getApi(UrlPath.tremOfServesApi);
+    return List<TermsOfServiceData>.from(
+      response.data.map(
+        (e) => TermsOfServiceData.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<TermsOfServiceData>> privacyPolicy() async {
+    final response = await _dioClient.getApi(UrlPath.privacyPolicyApi);
+    return List<TermsOfServiceData>.from(
+      response.data.map(
+        (e) => TermsOfServiceData.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<ContactUsData>> contactUs() async {
+    final response = await _dioClient.getApi(UrlPath.privacyPolicyApi);
+    return List<ContactUsData>.from(
+      response.data.map(
+        (e) => ContactUsData.fromJson(e),
+      ),
+    );
   }
 }
