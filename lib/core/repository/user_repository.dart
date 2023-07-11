@@ -2,6 +2,7 @@ import 'package:plannr_app/ui/screen/login/mode/login_model.dart';
 
 import '../../ui/screen/categories/model/cart_model.dart';
 import '../../ui/screen/categories/model/color_model.dart';
+import '../../ui/screen/categories/model/contact_model.dart';
 import '../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_model.dart';
@@ -17,7 +18,11 @@ import '../../ui/screen/home/model/birtday_party_model.dart';
 import '../../ui/screen/home/model/bridal_shower_model.dart';
 import '../../ui/screen/home/model/categories_model.dart';
 import '../../ui/screen/home/model/trending_model.dart';
+import '../../ui/screen/login/mode/upgrade_now_model.dart';
+import '../../ui/screen/profile/model/contact_us_model.dart';
+import '../../ui/screen/profile/model/faq_model.dart';
 import '../../ui/screen/profile/model/profile_model.dart';
+import '../../ui/screen/profile/model/terms_of_service_model.dart';
 import '../../ui/screen/sign_up/model/signup_model.dart';
 
 abstract class UserRepository {
@@ -118,4 +123,18 @@ abstract class UserRepository {
       int userId, String email, String number, String image);
 
   Future<void> deleteUser(int userId);
+
+  Future<List<FaqList>> faqData();
+
+  Future<void> contactSubmit(int userId, List<ContactsListNameAndNumber> list);
+
+  Future<List<SubscriptionList>> subscriptionData();
+
+  Future<void> cancelEvent(int userId, int eventId, String cancel);
+
+  Future<List<TermsOfServiceData>> termsOfService();
+
+  Future<List<TermsOfServiceData>> privacyPolicy();
+
+  Future<List<ContactUsData>> contactUs();
 }

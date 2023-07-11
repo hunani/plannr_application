@@ -6,6 +6,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:plannr_app/route/route_generator.dart';
 import 'package:plannr_app/ui/screen/categories/contact_select_screen.dart';
 import 'package:plannr_app/ui/screen/categories/create_contact_page.dart';
+import 'package:plannr_app/ui/screen/login/properties_screen.dart';
 import 'package:plannr_app/widget/app_controller.dart';
 import 'package:plannr_app/widget/app_prefs.dart';
 import 'package:plannr_app/widget/global.dart';

@@ -200,6 +200,8 @@ class Past extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(EventOverviewScreen.routeName,
                           arguments: controller.pastDataList[index].id);
+                      print(
+                          "====id======>${controller.pastDataList[index].id}");
                     },
                     child: Container(
                       margin: EdgeInsets.only(bottom: 20),

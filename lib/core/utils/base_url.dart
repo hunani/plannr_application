@@ -33,4 +33,10 @@ class UrlPath {
   static const userProfileApi = "user-profile-view";
   static const editProfileApi = "user-profile";
   static const deleteUserApi = "user-profile-delete";
+  static const faqApi = "faq";
+  static const contactSyncApi = "contact-sync";
+  static const subscriptionApi = "subscription";
+  static const cancelEventApi = "cancel-event";
+  static const tremOfServesApi = "trem-of-serves";
+  static const privacyPolicyApi = "privacy-policy";
 }
