@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plannr_app/const/app_icon.dart';
-import 'package:plannr_app/ui/screen/categories/categories_screen.dart';
-import 'package:plannr_app/ui/screen/events/events_screen.dart';
+import 'package:plannr_app/ui/screen/categories/screen/categories_screen.dart';
+import 'package:plannr_app/ui/screen/events/events_page.dart';
 import 'package:plannr_app/ui/screen/home/home_screen.dart';
 import 'package:plannr_app/ui/screen/profile/profile_screen.dart';
 

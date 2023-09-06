@@ -25,6 +25,8 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController emailAddressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -132,6 +134,74 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             ),
                             SizedBox(height: 30),
                             TextFormField(
+                              controller: firstNameController,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                              validator: (val) => val!.trim().isEmpty
+                                  ? "Please Enter first Name"
+                                  : null,
+                              decoration: InputDecoration(
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColor.kIndigo),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                hintStyle: TextStyle(color: Colors.black38),
+                                fillColor: Colors.white,
+                                filled: true,
+                                contentPadding:
+                                    const EdgeInsets.only(top: 20, left: 15),
+                                hintText: "First Name",
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            TextFormField(
+                              controller: lastNameController,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black,
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                              validator: (val) => val!.trim().isEmpty
+                                  ? "Please Enter Last Name"
+                                  : null,
+                              decoration: InputDecoration(
+                                errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                focusedErrorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide:
+                                        BorderSide(color: AppColor.kIndigo)),
+                                border: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColor.kIndigo),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                hintStyle: TextStyle(color: Colors.black38),
+                                fillColor: Colors.white,
+                                filled: true,
+                                contentPadding:
+                                    const EdgeInsets.only(top: 20, left: 15),
+                                hintText: "Last Name",
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            TextFormField(
                               controller: emailAddressController,
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
@@ -201,7 +271,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 hintText: "Phone Number",
                               ),
                             ),
-                            SizedBox(height: 30),
+                            SizedBox(height: 50),
                             GestureDetector(
                               onTap: () async {
                                 if (formKey.currentState!.validate()) {
@@ -210,8 +280,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     EasyLoading.show();
                                     final response =
                                         await controller.editProfile(
-                                            emailAddressController.text.trim(),
-                                            phoneNumberController.text.trim());
+                                      firstNameController.text.trim(),
+                                      lastNameController.text.trim(),
+                                      emailAddressController.text.trim(),
+                                      phoneNumberController.text.trim(),
+                                    );
                                     EasyLoading.dismiss();
                                     response.when(
                                       success: (data) {

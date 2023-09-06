@@ -100,7 +100,7 @@ class HomeController extends GetxController {
   void onInit() {
     categoriesData();
     bannerData();
-    birtdayPartyData();
+    // birtdayPartyData();
     trendingBanner();
     super.onInit();
   }

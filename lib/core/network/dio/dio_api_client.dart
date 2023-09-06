@@ -10,8 +10,12 @@ import 'package:plannr_app/ui/screen/categories/model/contact_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_list_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_submit_data_model.dart';
+import 'package:plannr_app/ui/screen/categories/model/invitation_send_list_model.dart';
 import 'package:plannr_app/ui/screen/events/model/edit_Invitation_model.dart';
 import 'package:plannr_app/ui/screen/events/model/edit_contact_model.dart';
+import 'package:plannr_app/ui/screen/events/model/guest_list_yes_no_model.dart';
+import 'package:plannr_app/ui/screen/events/model/guest_ny_rsvp_model.dart';
+import 'package:plannr_app/ui/screen/events/model/see_all_participants_model.dart';
 import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
 import 'package:plannr_app/ui/screen/events/model/view_invitation_model.dart';
 import 'package:plannr_app/ui/screen/home/model/banner_model.dart';
@@ -22,8 +26,12 @@ import 'package:plannr_app/ui/screen/login/mode/upgrade_now_model.dart';
 import 'package:plannr_app/ui/screen/profile/model/faq_model.dart';
 import 'package:plannr_app/ui/screen/profile/model/profile_model.dart';
 import 'package:plannr_app/ui/screen/profile/model/terms_of_service_model.dart';
+import '../../../ui/screen/categories/model/additional_features_screen.dart';
 import '../../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../../ui/screen/categories/model/fitter_model.dart';
+import '../../../ui/screen/events/model/add_guests_model.dart';
+import '../../../ui/screen/events/model/past_model.dart';
+import '../../../ui/screen/events/model/rsvp_count_model.dart';
 import '../../../ui/screen/home/model/birtday_party_model.dart';
 import '../../../ui/screen/home/model/bridal_shower_model.dart';
 import '../../../ui/screen/profile/model/contact_us_model.dart';
@@ -110,7 +118,7 @@ class DioApiClient extends ApiClient {
       "password": password,
       "c_password": rePassword
     };
-    final response = await _dioClient.postApi(UrlPath.registerApi, map: param);
+    await _dioClient.postApi(UrlPath.registerApi, map: param);
   }
 
   @override
@@ -207,7 +215,7 @@ class DioApiClient extends ApiClient {
   }
 
   @override
-  Future<CreateInvitationProductList> createInvitationProduct(
+  Future<void> createInvitationProduct(
       int userId,
       int id,
       String name,
@@ -246,7 +254,6 @@ class DioApiClient extends ApiClient {
       "invite_more": inviteMore,
       "draft": draft
     });
-    return CreateInvitationProductList.fromJson(response.data);
   }
 
   @override
@@ -316,12 +323,15 @@ class DioApiClient extends ApiClient {
   }
 
   @override
-  Future<List<CreateListData>> createList(int userId) async {
-    final response = await _dioClient
-        .postApi(UrlPath.createListApi, map: {"user_id": userId});
-    return List<CreateListData>.from(
+  Future<List<CreateDataList>> createList(int userId) async {
+    final param = {
+      "user_id": userId,
+    };
+    final response =
+        await _dioClient.postApi(UrlPath.createListApi, map: param);
+    return List<CreateDataList>.from(
       response.data.map(
-        (e) => CreateListData.fromJson(e),
+        (e) => CreateDataList.fromJson(e),
       ),
     );
   }
@@ -338,12 +348,12 @@ class DioApiClient extends ApiClient {
   }
 
   @override
-  Future<List<UpcomingList>> pastDataList(int userId) async {
+  Future<List<PastList>> pastDataList(int userId) async {
     final response = await _dioClient
         .postApi(UrlPath.eventPastApi, map: {"user_id": userId});
-    return List<UpcomingList>.from(
+    return List<PastList>.from(
       response.data.map(
-        (e) => UpcomingList.fromJson(e),
+        (e) => PastList.fromJson(e),
       ),
     );
   }
@@ -398,10 +408,12 @@ class DioApiClient extends ApiClient {
   }
 
   @override
-  Future<void> profileEdit(
-      int userId, String email, String number, String image) async {
+  Future<void> profileEdit(int userId, String firstName, String lastName,
+      String email, String number, String image) async {
     final param = {
       "user_id": userId,
+      "first_name": firstName,
+      "last_name": lastName,
       "email": email,
       "phone_number": number,
       "photo": File(image).getMultipartFromFile("image", "png"),
@@ -430,10 +442,10 @@ class DioApiClient extends ApiClient {
   @override
   Future<void> contactSubmit(
       int userId, List<ContactsListNameAndNumber> list) async {
-    ContactsModel contactsModel = ContactsModel(kittyId: userId, lists: list);
-    log("==log=====>${contactsModel.toJson()}");
-    await _dioClient.postApi(UrlPath.contactSyncApi,
-        map: contactsModel.toJson());
+    ContactsModel contactsModel = ContactsModel(userId: userId, lists: list);
+    await _dioClient.postMultipartApi(UrlPath.contactSyncApi,
+        formData: FormData.fromMap(contactsModel.toJson()));
+    print("===========>${contactsModel.toJson()}");
   }
 
   @override
@@ -481,6 +493,95 @@ class DioApiClient extends ApiClient {
     return List<ContactUsData>.from(
       response.data.map(
         (e) => ContactUsData.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<GuestByRsvpList>> guestByRsvp(int invitationId) async {
+    final response = await _dioClient
+        .postApi(UrlPath.guestByRSVPApi, map: {"invitation_id": invitationId});
+    return List<GuestByRsvpList>.from(
+      response.data.map(
+        (e) => GuestByRsvpList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<InvitationSendList>> invitationSend(
+      int userId, int invitationId) async {
+    final response = await _dioClient.postApi(UrlPath.invitationSendListUSerApi,
+        map: {"user_id": userId, "invitation_id": invitationId});
+    return List<InvitationSendList>.from(
+      response.data.map(
+        (e) => InvitationSendList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<RsvpCountList>> rsvpCount(int invitationId) async {
+    final response = await _dioClient
+        .postApi(UrlPath.rsvpCountApi, map: {"invitation_id": invitationId});
+    return List<RsvpCountList>.from(
+      response.data.map(
+        (e) => RsvpCountList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<SeeAllParticipantsList>> seeAllParticipants(
+      int invitationId, String guest) async {
+    final response = await _dioClient.postApi(UrlPath.seeAllParticipantsApi,
+        map: {"invitation_id": invitationId, "guest": guest});
+    return List<SeeAllParticipantsList>.from(
+      response.data.map(
+        (e) => SeeAllParticipantsList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<AdditionalFeaturesData>> additionalFeatures() async {
+    final response = await _dioClient.getApi(UrlPath.additionalsApi);
+    return List<AdditionalFeaturesData>.from(
+      response.data.map(
+        (e) => AdditionalFeaturesData.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<void> draftDelete(int eventId, int userId) async {
+    await _dioClient.postApi(UrlPath.draftDelete,
+        map: {"event_id": eventId, "user_id": userId});
+  }
+
+  @override
+  Future<void> draftContinue(int eventId) async {
+    await _dioClient.postApi(UrlPath.continueDraft, map: {"event_id": eventId});
+  }
+
+  Future<List<AddGustsList>> addMoreGuests(int eventId, int userId) async {
+    final response = await _dioClient.post(UrlPath.addGustsApi,
+        data: {"invitation_id": eventId, "user_id": userId});
+    return List<AddGustsList>.from(
+      response.data.map(
+        (e) => AddGustsList.fromJson(e),
+      ),
+    );
+  }
+
+  @override
+  Future<List<GuestListYesNoList>> guestListYesNo(
+      int eventId, int userId) async {
+    final response = await _dioClient.post(UrlPath.guestListYeNoApi,
+        data: {"invitation_id": eventId, "user_id": userId});
+    return List<GuestListYesNoList>.from(
+      response.data.map(
+        (e) => GuestListYesNoList.fromJson(e),
       ),
     );
   }

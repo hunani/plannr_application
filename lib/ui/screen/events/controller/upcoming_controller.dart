@@ -5,6 +5,7 @@ import 'package:plannr_app/widget/global.dart';
 import '../../../../core/repository/user_repository.dart';
 import '../../../../core/ui_failure/ui_result.dart';
 import '../../../../core/utils/error_util.dart';
+import '../model/past_model.dart';
 import '../model/upcoming_model.dart';
 
 class UpcomingController extends GetxController {
@@ -40,7 +41,7 @@ class UpcomingController extends GetxController {
     }
   }
 
-  List<UpcomingList> pastDataList = [];
+  List<PastList> pastDataList = [];
   Future<UiResult<bool>> pastData() async {
     try {
       isLoading = true;
@@ -56,6 +57,17 @@ class UpcomingController extends GetxController {
     } finally {
       isLoading = false;
       EasyLoading.dismiss();
+      update();
+    }
+  }
+
+  Future<UiResult<bool>> draftDelete(int eventId) async {
+    try {
+      await userRepo.draftDelete(eventId, appController.loginModel!.userId);
+      return const UiSuccess(true);
+    } catch (error, stackTrace) {
+      return ErrorUtil.getUiFailureFromException(error, stackTrace);
+    } finally {
       update();
     }
   }

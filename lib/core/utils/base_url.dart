@@ -4,7 +4,7 @@ class BaseUrl {
 
 class UrlPath {
   static const login = "login";
-  static const registerApi = "register";
+  static const registerApi = "new-api-for-register";
   static const otpApi = "otp-verification";
   static const forgetApi = "forget-password";
   static const resetPasswordApi = "reset-password";
@@ -39,4 +39,13 @@ class UrlPath {
   static const cancelEventApi = "cancel-event";
   static const tremOfServesApi = "trem-of-serves";
   static const privacyPolicyApi = "privacy-policy";
+  static const guestByRSVPApi = "guest-list-count";
+  static const invitationSendListUSerApi = "invitation-send-List-user";
+  static const rsvpCountApi = "rsvp-count";
+  static const seeAllParticipantsApi = "guest-list";
+  static const additionalsApi = "additional-features";
+  static const draftDelete = "delete-event";
+  static const continueDraft = "update-invitation-draft";
+  static const addGustsApi = "add-gusts";
+  static const guestListYeNoApi = "guest-list-ye-no";
 }

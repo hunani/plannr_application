@@ -38,7 +38,7 @@ class PaymentBottomSheet3 extends StatelessWidget {
         SizedBox(height: 100),
         GestureDetector(
           onTap: () {
-            Get.toNamed(DashboadScreen.routeName);
+            Get.offAllNamed(DashboadScreen.routeName);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -1,14 +1,19 @@
 import 'package:get/get.dart';
+import '../ui/screen/categories/controller/additional_fetures_controller.dart';
 import '../ui/screen/categories/controller/cart_controller.dart';
 import '../ui/screen/categories/controller/categories_controller.dart';
+import '../ui/screen/categories/controller/contact_list_controller.dart';
 import '../ui/screen/categories/controller/contact_sync_controller.dart';
 import '../ui/screen/categories/controller/create_contact_controller.dart';
 import '../ui/screen/categories/controller/create_controller.dart';
-import '../ui/screen/categories/controller/create_list_controller.dart';
 import '../ui/screen/categories/controller/upload_controller.dart';
 import '../ui/screen/categories/controller/upload_image_controller.dart';
+import '../ui/screen/events/controller/add_guests_controller.dart';
 import '../ui/screen/events/controller/edit_invitation_controller.dart';
 import '../ui/screen/events/controller/edit_overview_controller.dart';
+import '../ui/screen/events/controller/gues_List_controller.dart';
+import '../ui/screen/events/controller/guest_by_Rsvp_controller.dart';
+import '../ui/screen/events/controller/see_all_participants_controller.dart';
 import '../ui/screen/events/controller/view_invatation_controller.dart';
 import '../ui/screen/events/controller/upcoming_controller.dart';
 import '../ui/screen/forget/controller/forgot_controller.dart';
@@ -17,6 +22,7 @@ import '../ui/screen/login/controller/login_controller.dart';
 import '../ui/screen/login/controller/subscription_controller.dart';
 import '../ui/screen/profile/controller/contact_us_controller.dart';
 import '../ui/screen/profile/controller/faq_controller.dart';
+import '../ui/screen/profile/controller/profile_contact_controller.dart';
 import '../ui/screen/profile/controller/profile_controller.dart';
 import '../ui/screen/profile/controller/terms_of_service_controller.dart';
 import '../ui/screen/sign_up/controller/register_controller.dart';
@@ -41,9 +47,9 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<EventsCreateController>(() => EventsCreateController(),
         fenix: true);
-    Get.lazyPut<CreateContactDataController>(
-        () => CreateContactDataController(),
-        fenix: true);
+    // Get.lazyPut<CreateContactDataController>(
+    //     () => CreateContactDataController(),
+    //     fenix: true);
     Get.lazyPut<CreateContactController>(() => CreateContactController(),
         fenix: true);
     Get.lazyPut<ImagePickerController>(() => ImagePickerController(),
@@ -61,5 +67,19 @@ class AppBindings extends Bindings {
     Get.lazyPut<TermsOfServiceController>(() => TermsOfServiceController(),
         fenix: true);
     Get.lazyPut<ContactUsController>(() => ContactUsController(), fenix: true);
+    Get.lazyPut<GuestListController>(() => GuestListController(), fenix: true);
+    Get.lazyPut<ProfileContactController>(() => ProfileContactController(),
+        fenix: true);
+    Get.lazyPut<ContactListController>(() => ContactListController(),
+        fenix: true);
+    Get.lazyPut<GuestByRsvpController>(() => GuestByRsvpController(),
+        fenix: true);
+    Get.lazyPut<SellAllParticipantsController>(
+        () => SellAllParticipantsController(),
+        fenix: true);
+    Get.lazyPut<AdditionalFeaturesController>(
+        () => AdditionalFeaturesController(),
+        fenix: true);
+    Get.lazyPut<AddGuestsController>(() => AddGuestsController(), fenix: true);
   }
 }

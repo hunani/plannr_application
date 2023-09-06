@@ -21,6 +21,7 @@ class UpcomingList {
   String phone;
   String date;
   String time;
+  String draft;
   String hostedBy;
   String image;
 
@@ -30,6 +31,7 @@ class UpcomingList {
     required this.phone,
     required this.date,
     required this.time,
+    required this.draft,
     required this.hostedBy,
     required this.image,
   });
@@ -40,6 +42,7 @@ class UpcomingList {
         phone: json["Phone"],
         date: json["Date"],
         time: json["Time"],
+        draft: json["Draft"],
         hostedBy: json["Hosted_By"],
         image: json["Image"],
       );
@@ -50,6 +53,7 @@ class UpcomingList {
         "Phone": phone,
         "Date": date,
         "Time": time,
+        "Draft": draft,
         "Hosted_By": hostedBy,
         "Image": image,
       };

@@ -5,10 +5,10 @@ import 'package:plannr_app/ui/screen/home/controller/home_controller.dart';
 
 import '../../../const/app_color.dart';
 import '../../../const/app_icon.dart';
-import '../categories/card_screen.dart';
-import '../categories/categories_screen.dart';
+import '../categories/screen/view_categories_screen.dart';
+import '../categories/screen/categories_screen.dart';
 import '../categories/controller/categories_controller.dart';
-import '../categories/upload_screen.dart';
+import '../categories/screen/upload_screen.dart';
 
 class CategoriesViewScreen extends StatelessWidget {
   static const String routeName = '/categoriesViewScreen';
@@ -75,7 +75,8 @@ class CategoriesViewScreen extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      Get.toNamed(CardScreen.routeName,
+                                      Get.toNamed(
+                                          ViewCategoriesScreen.routeName,
                                           arguments: CategoriesModel2(
                                               value.id, value.name));
                                     },

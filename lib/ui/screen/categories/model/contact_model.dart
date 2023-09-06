@@ -1,16 +1,16 @@
 import 'package:contacts_service/contacts_service.dart';
 
 class ContactsModel {
-  int kittyId;
+  int userId;
   List<ContactsListNameAndNumber> lists;
 
   ContactsModel({
-    required this.kittyId,
+    required this.userId,
     required this.lists,
   });
 
   Map<String, dynamic> toJson() => {
-        "user_id": kittyId,
+        "user_id": userId,
         "contact_list": List<dynamic>.from(lists.map((x) => x.toJson())),
       };
 }

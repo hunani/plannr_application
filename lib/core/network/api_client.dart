@@ -1,18 +1,26 @@
 import 'package:plannr_app/ui/screen/categories/model/cart_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/color_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/create_model.dart';
-import 'package:plannr_app/ui/screen/events/events_screen.dart';
+import 'package:plannr_app/ui/screen/events/events_page.dart';
+import 'package:plannr_app/ui/screen/events/model/add_guests_model.dart';
 import 'package:plannr_app/ui/screen/events/model/upcoming_model.dart';
 import 'package:plannr_app/ui/screen/profile/model/terms_of_service_model.dart';
 
+import '../../ui/screen/categories/model/additional_features_screen.dart';
 import '../../ui/screen/categories/model/contact_model.dart';
 import '../../ui/screen/categories/model/create_Invitation_product_model.dart';
 import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_submit_data_model.dart';
 import '../../ui/screen/categories/model/fitter_model.dart';
+import '../../ui/screen/categories/model/invitation_send_list_model.dart';
 import '../../ui/screen/events/model/edit_Invitation_model.dart';
 import '../../ui/screen/events/model/edit_contact_model.dart';
+import '../../ui/screen/events/model/guest_list_yes_no_model.dart';
+import '../../ui/screen/events/model/guest_ny_rsvp_model.dart';
 import '../../ui/screen/events/model/invitation_model.dart';
+import '../../ui/screen/events/model/past_model.dart';
+import '../../ui/screen/events/model/rsvp_count_model.dart';
+import '../../ui/screen/events/model/see_all_participants_model.dart';
 import '../../ui/screen/events/model/view_invitation_model.dart';
 import '../../ui/screen/home/model/banner_model.dart';
 import '../../ui/screen/home/model/birtday_party_model.dart';
@@ -56,7 +64,7 @@ abstract class ApiClient {
 
   Future<CreateList> create(int id);
 
-  Future<CreateInvitationProductList> createInvitationProduct(
+  Future<void> createInvitationProduct(
       int userId,
       int id,
       String name,
@@ -102,11 +110,11 @@ abstract class ApiClient {
   Future<void> createContact(
       int userId, String name, String email, String number);
 
-  Future<List<CreateListData>> createList(int userId);
+  Future<List<CreateDataList>> createList(int userId);
 
   Future<List<UpcomingList>> upcomingDataList(int userId);
 
-  Future<List<UpcomingList>> pastDataList(int userId);
+  Future<List<PastList>> pastDataList(int userId);
 
   Future<List<EventOverviewList>> editOverview(int id);
 
@@ -120,8 +128,8 @@ abstract class ApiClient {
 
   Future<ProfileDataModel> profileShow(int userId);
 
-  Future<void> profileEdit(
-      int userId, String email, String number, String image);
+  Future<void> profileEdit(int userId, String firstName, String lastName,
+      String email, String number, String image);
 
   Future<void> deleteUser(int userId);
 
@@ -138,4 +146,23 @@ abstract class ApiClient {
   Future<List<TermsOfServiceData>> privacyPolicy();
 
   Future<List<ContactUsData>> contactUs();
+
+  Future<List<GuestByRsvpList>> guestByRsvp(int invitationId);
+
+  Future<List<InvitationSendList>> invitationSend(int userId, int invitationId);
+
+  Future<List<RsvpCountList>> rsvpCount(int invitationId);
+
+  Future<List<SeeAllParticipantsList>> seeAllParticipants(
+      int invitationId, String guest);
+
+  Future<List<AdditionalFeaturesData>> additionalFeatures();
+
+  Future<void> draftDelete(int eventId, int userId);
+
+  Future<void> draftContinue(int eventId);
+
+  Future<List<AddGustsList>> addMoreGuests(int eventId, int userId);
+
+  Future<List<GuestListYesNoList>> guestListYesNo(int eventId, int userId);
 }

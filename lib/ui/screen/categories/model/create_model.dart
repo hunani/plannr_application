@@ -24,8 +24,8 @@ class CreateList {
   });
 
   factory CreateList.fromJson(Map<String, dynamic> json) => CreateList(
-        id: json["id"],
-        image: json["image"],
+        id: json["id"] ?? 0,
+        image: json["image"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

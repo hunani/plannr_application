@@ -37,6 +37,7 @@ class ContactSyncController extends GetxController {
       List<ContactsListNameAndNumber> list) async {
     try {
       await userRepo.contactSubmit(appController.loginModel!.userId, list);
+      print("list =========> ${list.length}");
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);

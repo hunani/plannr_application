@@ -46,19 +46,19 @@ class _SyncContactPageState extends State<SyncContactPage> {
     //print("====00==----==> ${contacts.length}");
     for (int i = 0; i < contacts.length; i++) {
       contacts2.add(ContactsListNameAndNumber(
-          name: contacts[i].givenName ?? "*",
+          name: contacts[i].givenName ?? "null",
           number: contacts[i].phones == null
-              ? "0"
+              ? "null"
               : contacts[i].phones == null
-                  ? "0"
+                  ? "null"
                   : contacts[i].phones!.isEmpty
-                      ? "0"
-                      : contacts[i].phones![0].value ?? "0",
+                      ? "null"
+                      : contacts[i].phones![0].value ?? "null",
           email: contacts[i].emails == null
               ? "0"
               : contacts[i].emails!.isEmpty
-                  ? "0"
-                  : contacts[i].emails![0].value ?? "0"));
+                  ? "null"
+                  : contacts[i].emails![0].value ?? "null"));
     }
     print("======----==> ${contacts2.length}");
     setState(() {

@@ -39,28 +39,21 @@ class _FaqScreenState extends State<FaqScreen> {
                 physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Center(
-                          child: Image.asset(
-                        AppAssets.appNameImage,
-                        fit: BoxFit.cover,
-                        height: 70,
-                      )),
-                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
                             onTap: () {
                               Get.back();
                             },
                             child: Image.asset(AppAssets.back, height: 55)),
-                        Text(
-                          "Frequently Asked Questions",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 20),
-                        ),
+                        Spacer(),
+                        Center(
+                            child: Image.asset(
+                          AppAssets.appNameImage,
+                          fit: BoxFit.cover,
+                          height: 70,
+                        )),
+                        Spacer(),
                         GestureDetector(
                             onTap: () {},
                             child: Image.asset(
@@ -69,6 +62,14 @@ class _FaqScreenState extends State<FaqScreen> {
                               color: Colors.transparent,
                             )),
                       ],
+                    ),
+                    SizedBox(height: 15),
+                    Center(
+                      child: Text(
+                        "Frequently Asked Questions",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, fontSize: 22),
+                      ),
                     ),
                     SizedBox(height: 20),
                     ...List.generate(
@@ -112,7 +113,7 @@ class _FaqScreenState extends State<FaqScreen> {
                                           ),
                                           Spacer(),
                                           controller.faqDataList[index].view ==
-                                                  "true"
+                                                  "false"
                                               ? Icon(
                                                   Icons.keyboard_arrow_down,
                                                   size: 20,
@@ -128,7 +129,7 @@ class _FaqScreenState extends State<FaqScreen> {
                                     ),
                                   ),
                                 ),
-                                controller.faqDataList[index].view == "true"
+                                controller.faqDataList[index].view == "false"
                                     ? Padding(
                                         padding: const EdgeInsets.only(top: 15),
                                         child: Container(),

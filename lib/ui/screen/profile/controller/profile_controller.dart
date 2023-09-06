@@ -34,7 +34,8 @@ class ProfileController extends GetxController {
     try {
       isLoading = true;
       EasyLoading.show();
-      final response = await userRepo.profileShow(19);
+      final response =
+          await userRepo.profileShow(appController.loginModel!.userId);
       profileDataModel = response;
       return const UiSuccess(true);
     } catch (error, stackTrace) {
@@ -46,10 +47,11 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<UiResult<bool>> editProfile(String email, String number) async {
+  Future<UiResult<bool>> editProfile(
+      String firstName, String lastName, String email, String number) async {
     try {
-      await userRepo.profileEdit(
-          appController.loginModel!.userId, email, number, imagePath!.path);
+      await userRepo.profileEdit(appController.loginModel!.userId, firstName,
+          lastName, email, number, imagePath!.path);
       return const UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);

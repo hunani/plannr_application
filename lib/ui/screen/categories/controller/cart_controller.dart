@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get_it/get_it.dart';
-import 'package:plannr_app/ui/screen/categories/categories_screen.dart';
+import 'package:plannr_app/ui/screen/categories/screen/categories_screen.dart';
 import 'package:plannr_app/ui/screen/categories/model/cart_model.dart';
 import 'package:plannr_app/ui/screen/categories/model/color_model.dart';
 import 'package:plannr_app/ui/screen/home/model/categories_model.dart';

@@ -2,12 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:plannr_app/const/app_color.dart';
+import 'package:plannr_app/ui/screen/events/see_all_participants_screen.dart';
 
 import '../../../const/app_icon.dart';
+import 'gues_messages_screen.dart';
 
-class MessagesScreen extends StatelessWidget {
+class MessagesScreen extends StatefulWidget {
   static const String routeName = '/messagesScreen';
   const MessagesScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MessagesScreen> createState() => _MessagesScreenState();
+}
+
+class _MessagesScreenState extends State<MessagesScreen> {
+  int? invitationId;
+  String? guests;
+  @override
+  void initState() {
+    SellAllModel sellAllModel = Get.arguments as SellAllModel;
+    invitationId = sellAllModel.invitationId;
+    guests = sellAllModel.guests;
+    print("invitationId ============> $invitationId");
+    print("guests ============> $guests");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +69,19 @@ class MessagesScreen extends StatelessWidget {
                     ),
                     itemBuilder: (context) => <PopupMenuItem<String>>[
                       PopupMenuItem(
-                          child: Column(
-                        children: [
-                          Text("See All Participants"),
-                        ],
+                          child: GestureDetector(
+                        onTap: () {
+                          Get.toNamed(
+                            SeeAllParticipantsScreen.routeName,
+                            arguments: SellAllModel(
+                                invitationId: invitationId!, guests: guests!),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Text("See All Participants"),
+                          ],
+                        ),
                       )),
                     ],
                   ),

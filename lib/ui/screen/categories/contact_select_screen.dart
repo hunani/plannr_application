@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/ui/screen/categories/sync_contact_page.dart';
-
 import '../../../const/app_icon.dart';
 import 'add_guest_screen.dart';
 import 'create_contact_page.dart';
@@ -75,8 +73,8 @@ class _ContactSelectScreenState extends State<ContactSelectScreen> {
                     Get.toNamed(CreateContactPage.routeName);
                   }
                   if (index == 1) {
-                    Get.toNamed(AddGuestScreen.routeName,
-                        arguments: Get.arguments);
+                    // Get.toNamed(AddGuestScreen.routeName,
+                    //     arguments: Get.arguments);
                   }
                   if (index == 2) {
                     Get.toNamed(SyncContactPage.routeName);

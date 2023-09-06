@@ -85,7 +85,6 @@ class UploadController extends GetxController {
     }
   }
 
-  CreateInvitationProductList? invitationProductList;
   Future<UiResult<bool>> createInvitation(
       int id,
       String name,
@@ -105,7 +104,7 @@ class UploadController extends GetxController {
       String inviteMore,
       String draft) async {
     try {
-      final response = await userRepo.createInvitationProduct(
+      await userRepo.createInvitationProduct(
           appController.loginModel!.userId,
           id,
           name,
@@ -124,7 +123,7 @@ class UploadController extends GetxController {
           addChatRoom,
           inviteMore,
           draft);
-      invitationProductList = response;
+
       return UiSuccess(true);
     } catch (error, stackTrace) {
       return ErrorUtil.getUiFailureFromException(error, stackTrace);

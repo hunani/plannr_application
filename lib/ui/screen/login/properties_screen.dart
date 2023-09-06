@@ -76,7 +76,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                           viewIndex = index;
                           setState(() {});
                           if (viewIndex == 0) {
-                            Get.toNamed(DashboadScreen.routeName);
+                            Get.offAllNamed(DashboadScreen.routeName);
                           } else {
                             paymentBottomSheet();
                             print("=========--->");
@@ -114,7 +114,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                       onTap: () {
                                         viewIndex = index;
                                         if (viewIndex == 0) {
-                                          Get.toNamed(DashboadScreen.routeName);
+                                          Get.offAllNamed(DashboadScreen.routeName);
                                         } else {
                                           paymentBottomSheet();
                                           print("=========--->");

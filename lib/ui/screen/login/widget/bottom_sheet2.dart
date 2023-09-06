@@ -68,6 +68,13 @@ class _PaymentBottomSheet2State extends State<PaymentBottomSheet2> {
                   "Planner - Yearly",
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                 ),
+                Spacer(),
+                InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Image.asset(AppAssets.remove, height: 18)),
+                SizedBox(width: 10),
               ],
             ),
             SizedBox(height: 20),

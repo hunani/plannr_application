@@ -6,7 +6,7 @@ import '../../../../const/app_icon.dart';
 void bottomSheet() async {
   Get.bottomSheet(
     const ContactShareBottomSheet(),
-    backgroundColor: Color(0xffE0E2EF),
+    backgroundColor: Colors.white,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
@@ -26,6 +26,19 @@ class ContactShareBottomSheet extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: 30),
+        Row(
+          children: [
+            Spacer(),
+            InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: Image.asset(AppAssets.remove, height: 18)),
+            SizedBox(width: 20),
+          ],
+        ),
+        SizedBox(height: 5),
+        Divider(thickness: 1.5),
         Text(
           "https://planner.co/hash/5fbALBPV/1/share",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),

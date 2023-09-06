@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "901226442668",
+    "project_id": "plannrapp-a0811",
+    "storage_bucket": "plannrapp-a0811.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901226442668:android:364a6fa029f230ed299409",
+        "android_client_info": {
+          "package_name": "com.example.plannr_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901226442668-l5f3kujv1t4l8jeb4u7clthfp6boqi1t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdDDbOO3n513QkrHoXJGVg7C6sVdWxt4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901226442668-l5f3kujv1t4l8jeb4u7clthfp6boqi1t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

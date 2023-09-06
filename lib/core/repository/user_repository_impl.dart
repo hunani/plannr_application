@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:plannr_app/ui/screen/login/mode/login_model.dart';
+import '../../ui/screen/categories/model/additional_features_screen.dart';
 import '../../ui/screen/categories/model/cart_model.dart';
 import '../../ui/screen/categories/model/color_model.dart';
 import '../../ui/screen/categories/model/contact_model.dart';
@@ -8,9 +9,16 @@ import '../../ui/screen/categories/model/create_list_model.dart';
 import '../../ui/screen/categories/model/create_model.dart';
 import '../../ui/screen/categories/model/create_submit_data_model.dart';
 import '../../ui/screen/categories/model/fitter_model.dart';
+import '../../ui/screen/categories/model/invitation_send_list_model.dart';
+import '../../ui/screen/events/model/add_guests_model.dart';
 import '../../ui/screen/events/model/edit_Invitation_model.dart';
 import '../../ui/screen/events/model/edit_contact_model.dart';
+import '../../ui/screen/events/model/guest_list_yes_no_model.dart';
+import '../../ui/screen/events/model/guest_ny_rsvp_model.dart';
 import '../../ui/screen/events/model/invitation_model.dart';
+import '../../ui/screen/events/model/past_model.dart';
+import '../../ui/screen/events/model/rsvp_count_model.dart';
+import '../../ui/screen/events/model/see_all_participants_model.dart';
 import '../../ui/screen/events/model/upcoming_model.dart';
 import '../../ui/screen/events/model/view_invitation_model.dart';
 import '../../ui/screen/home/model/banner_model.dart';
@@ -104,7 +112,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<CreateInvitationProductList> createInvitationProduct(
+  Future<void> createInvitationProduct(
       int userId,
       int id,
       String name,
@@ -199,7 +207,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<List<CreateListData>> createList(int userId) async {
+  Future<List<CreateDataList>> createList(int userId) async {
     return await repo.createList(userId);
   }
 
@@ -209,7 +217,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<List<UpcomingList>> pastDataList(int userId) async {
+  Future<List<PastList>> pastDataList(int userId) async {
     return await repo.pastDataList(userId);
   }
 
@@ -245,9 +253,10 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> profileEdit(
-      int userId, String email, String number, String image) async {
-    return await repo.profileEdit(userId, email, number, image);
+  Future<void> profileEdit(int userId, String firstName, String lastName,
+      String email, String number, String image) async {
+    return await repo.profileEdit(
+        userId, firstName, lastName, email, number, image);
   }
 
   @override
@@ -289,5 +298,53 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<List<ContactUsData>> contactUs() async {
     return await repo.contactUs();
+  }
+
+  @override
+  Future<List<GuestByRsvpList>> guestByRsvp(int invitationId) async {
+    return await repo.guestByRsvp(invitationId);
+  }
+
+  @override
+  Future<List<InvitationSendList>> invitationSend(
+      int userId, int invitationId) async {
+    return await repo.invitationSend(userId, invitationId);
+  }
+
+  @override
+  Future<List<RsvpCountList>> rsvpCount(int invitationId) async {
+    return await repo.rsvpCount(invitationId);
+  }
+
+  @override
+  Future<List<SeeAllParticipantsList>> seeAllParticipants(
+      int invitationId, String guest) async {
+    return await repo.seeAllParticipants(invitationId, guest);
+  }
+
+  @override
+  Future<List<AdditionalFeaturesData>> additionalFeatures() async {
+    return await repo.additionalFeatures();
+  }
+
+  @override
+  Future<void> draftDelete(int eventId, int userId) async {
+    return await repo.draftDelete(eventId, userId);
+  }
+
+  @override
+  Future<void> draftContinue(int eventId) async {
+    return await repo.draftContinue(eventId);
+  }
+
+  @override
+  Future<List<AddGustsList>> addMoreGuests(int eventId, int userId) async {
+    return await repo.addMoreGuests(eventId, userId);
+  }
+
+  @override
+  Future<List<GuestListYesNoList>> guestListYesNo(
+      int eventId, int userId) async {
+    return await repo.guestListYesNo(eventId, userId);
   }
 }

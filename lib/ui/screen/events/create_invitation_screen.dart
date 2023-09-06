@@ -5,15 +5,17 @@ import 'package:get/get.dart';
 import 'package:plannr_app/const/app_color.dart';
 import 'package:plannr_app/const/dispose_keyboard.dart';
 import 'package:plannr_app/ui/screen/categories/controller/create_controller.dart';
-import 'package:plannr_app/ui/screen/categories/upload_screen.dart';
+import 'package:plannr_app/ui/screen/categories/screen/upload_screen.dart';
 
 import '../../../const/app_icon.dart';
 import '../../../core/utils/base_response.dart';
 import '../../../core/utils/flitter_toast.dart';
+import '../categories/screen/additional_features_screen.dart';
+import '../categories/screen/contacts_select_screen.dart';
 import '../home/model/categories_model.dart';
 import 'controller/edit_invitation_controller.dart';
 import 'controller/view_invatation_controller.dart';
-import 'events_screen.dart';
+import 'events_page.dart';
 
 class EventsCreateScreen extends StatefulWidget {
   static const String routeName = '/eventsCreateScreen';
@@ -45,7 +47,7 @@ class _EventsCreateScreenState extends State<EventsCreateScreen> {
         lastDate: DateTime(2030));
     if (picked != null) {
       DateTime d = picked;
-      dateController.text = "${d.day}-${d.month}-${d.year}";
+      dateController.text = "${d.year}-${d.month}-${d.day}";
       setState(() {});
     }
   }
@@ -67,8 +69,6 @@ class _EventsCreateScreenState extends State<EventsCreateScreen> {
     final response = await eventsCreateController.categoriesData();
     response.map(
       success: (value) {
-        print(
-            "===meet dhameliya===> ${eventsCreateController.editInvitationDataList?.name}");
         nameController.text =
             eventsCreateController.editInvitationDataList!.name;
         dateController.text =
@@ -176,22 +176,41 @@ class _EventsCreateScreenState extends State<EventsCreateScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                height: 400,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    color: Colors.black12,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(
-                                        controller.editInvitationDataList!
-                                            .customImage,
-                                        fit: BoxFit.cover)),
-                              ),
-                            ),
+                            controller.editInvitationDataList!.customImage == ""
+                                ? GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 400,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black12,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Center(
+                                          child: Text(
+                                        "Image Null",
+                                        style: TextStyle(fontSize: 20),
+                                      )),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 400,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          color: Colors.black12,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                              controller.editInvitationDataList!
+                                                  .customImage,
+                                              fit: BoxFit.cover)),
+                                    ),
+                                  ),
                             SizedBox(height: 20),
                             GestureDetector(
                               onTap: () {
@@ -1037,9 +1056,23 @@ class _EventsCreateScreenState extends State<EventsCreateScreen> {
                                         EasyLoading.dismiss();
                                         response.when(
                                           success: (data) {
-                                            showToast(
-                                                "update Data", Colors.black);
-                                            Get.back();
+                                            if (yesNoIndex3 == 0 ||
+                                                yesNoIndex4 == 0) {
+                                              showToast(
+                                                  "Submit Data", Colors.black);
+                                              Get.toNamed(
+                                                  AdditionalFeaturesScreen
+                                                      .routeName,
+                                                  arguments: Get.arguments);
+                                            } else {
+                                              showToast(
+                                                  "Submit Data", Colors.black);
+                                              Get.toNamed(
+                                                  ContactsSelectScreen
+                                                      .routeName,
+                                                  arguments: Get.arguments);
+                                            }
+                                            setState(() {});
                                           },
                                           failure: (ErrorType type,
                                               String? message) {

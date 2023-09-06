@@ -25,9 +25,13 @@ class AppAssets {
   static const String homeImage2 = "assets/image/home2.png";
   static const String homeImage3 = "assets/image/home3.png";
   static const String homeImage4 = "assets/image/upload design.png";
+  static const String homeImage5 = "assets/image/Baby Shower - done 1.png";
+  static const String homeImage6 = "assets/icon/send.png";
+  static const String homeImage7 = "assets/image/cont_list.png";
 
   /// Events Screen
   static const String eventsImage1 = "assets/image/events1.png";
+  static const String draft = "assets/image/draft.png";
 
   /// EventsOverview Screen
   static const String send = "assets/icon/send_box.png";
@@ -87,4 +91,5 @@ class AppAssets {
   static const String googlePay = "assets/image/google.png";
   static const String apply = "assets/image/payA.png";
   static const String upload3 = "assets/image/upload3.png";
+  static const String profile = "assets/image/Profile Picture.png";
 }
